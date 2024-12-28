@@ -26,7 +26,7 @@
       "./files/circuits/credentialAtomicQuerySigV2/circuit_final.zkey",
       "./files/circuits/credentialAtomicQuerySigV2/verification_key.json"
     ],
-    "shasum": "8z+x2k7IWORaxqEwcU2DDZZDy0IhYelIz+P/nqeRBso="
+    "shasum": "CJh1jRfCNOwG/ze3cGV4olqblCYVvA0HhK3+V1OLsuI="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},
@@ -40,5 +40,6 @@
     "snap_manageState": {},
     "endowment:webassembly": {}
   },
+  "platformVersion": "6.9.0",
   "manifestVersion": "0.1"
 }

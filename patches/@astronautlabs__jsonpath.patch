@@ -1,0 +1,425 @@
+diff --git a/dist/assert.js b/dist/assert.js
+deleted file mode 100644
+index 946a2b1c4affc6718161bcdaa4c5ad1053df0b91..0000000000000000000000000000000000000000
+diff --git a/dist.esm/assert.js b/dist/assert_1.js
+similarity index 67%
+rename from dist.esm/assert.js
+rename to dist/assert_1.js
+index ca8d7c47fa3f2f3472ff2af25bfdd07bb9c6a889..491a2c893d8eae17da36a7c5c5431118cc46f1d4 100644
+--- a/dist.esm/assert.js
++++ b/dist/assert_1.js
+@@ -1,4 +1,7 @@
+-var assert = /** @class */ (function () {
++"use strict";
++
++exports.assert_1 = void 0;
++var assert_1 = /** @class */ (function () {
+     function assert() {
+     }
+     assert.ok = function (predicate, message) {
+@@ -11,5 +14,5 @@ var assert = /** @class */ (function () {
+     };
+     return assert;
+ }());
+-export { assert };
++exports.assert_1 = assert_1;
+ //# sourceMappingURL=assert.js.map
+diff --git a/dist/esprima.js b/dist/esprima.js
+index 4e0adb50fb8f085fd60f6802f81f1b29e2c41892..75847d9a92ab266d797c9c89dd1aae29fe82d721 100644
+--- a/dist/esprima.js
++++ b/dist/esprima.js
+@@ -31,7 +31,7 @@
+   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+-Object.defineProperty(exports, "__esModule", { value: true });
++
+ exports.version = exports.parse = exports.tokenize = exports.Syntax = void 0;
+ /*jslint bitwise:true plusplus:true */
+ /*global esprima:true, define:true, exports:true, window: true,
+diff --git a/dist/grammar.js b/dist/grammar.js
+index 41797e63e4af2703ae6688673e9d08a9f6f63cb8..0e64786e5964c2da82c8dffc6030682f3d7aeed3 100644
+--- a/dist/grammar.js
++++ b/dist/grammar.js
+@@ -22,7 +22,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
+     __setModuleDefault(result, mod);
+     return result;
+ };
+-Object.defineProperty(exports, "__esModule", { value: true });
++
+ exports.GRAMMAR = void 0;
+ var tokens_1 = require("./tokens");
+ var fs = __importStar(require("fs"));
+diff --git a/dist/handlers.js b/dist/handlers.js
+index 1bdba4bfda77dcf87e099429db1f973160bde834..d3d2e7da8ae6f68ce8ff84d81d5a0e5c44d87fe0 100644
+--- a/dist/handlers.js
++++ b/dist/handlers.js
+@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
+ var __importDefault = (this && this.__importDefault) || function (mod) {
+     return (mod && mod.__esModule) ? mod : { "default": mod };
+ };
+-Object.defineProperty(exports, "__esModule", { value: true });
++
+ exports.Handlers = void 0;
+ var aesprim = __importStar(require("./esprima"));
+ var slice_1 = require("./slice");
+diff --git a/dist/index.js b/dist/index.js
+index e416bf91bb14f69b586323ca79e4ce88940d206a..b9735f709b47bd8a7a4d829f37e88913920d3b57 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -13,6 +13,6 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
+ var __exportStar = (this && this.__exportStar) || function(m, exports) {
+     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+ };
+-Object.defineProperty(exports, "__esModule", { value: true });
++
+ __exportStar(require("./jsonpath"), exports);
+ //# sourceMappingURL=index.js.map
+diff --git a/dist/jsonpath.js b/dist/jsonpath.js
+index c412e76d670b3d7b8002fef17378a29fe5139e62..855ed83961842524568ed4ea25e369ccf01a384c 100644
+--- a/dist/jsonpath.js
++++ b/dist/jsonpath.js
+@@ -1,10 +1,10 @@
+ "use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
++
+ exports.JSONPath = void 0;
+ var handlers_1 = require("./handlers");
+-var tokens_1 = require("./tokens");
+-var parser_1 = require("./parser");
+-var assert_1 = require("./assert");
++// var tokens_1 = require("./tokens");
++// var parser_1 = require("./parser");
++var assert_1 = require("./assert_1");
+ var JSONPath = /** @class */ (function () {
+     function JSONPath() {
+     }
+@@ -19,7 +19,7 @@ var JSONPath = /** @class */ (function () {
+         var key = node.path.pop(); /* jshint unused:false */
+         return this.value(obj, node.path);
+     };
+-    JSONPath.apply = function (obj, string, fn) {
++    JSONPath.apply_1 = function (obj, string, fn) {
+         assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
+         assert_1.assert.ok(string, "we need a path");
+         assert_1.assert.equal(typeof fn, "function", "fn needs to be function");
+diff --git a/dist/parser.js b/dist/parser.js
+index 5be61f375bcb1d0ede33869057f9b859424e1033..784ebc42b560ced4e1de886ac30f99f58839cb54 100644
+--- a/dist/parser.js
++++ b/dist/parser.js
+@@ -22,7 +22,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
+     __setModuleDefault(result, mod);
+     return result;
+ };
+-Object.defineProperty(exports, "__esModule", { value: true });
++
+ exports.Parser = void 0;
+ var gparser = __importStar(require("../generated/parser"));
+ /**
+diff --git a/dist/slice.js b/dist/slice.js
+index fe3896bac49d2a1301dbe9a867e442edcb7d70f6..07bd18f9d5284f7b23bac25f561d6d380c04a85e 100644
+--- a/dist/slice.js
++++ b/dist/slice.js
+@@ -1,5 +1,5 @@
+ "use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
++
+ exports.slice = void 0;
+ /**
+  * @internal
+diff --git a/dist/tokens.js b/dist/tokens.js
+index e9a3d6b8ceb7d73adc511bd9230256dede307cc5..9c047519ab4d7e708f758f298c6665d60f661b19 100644
+--- a/dist/tokens.js
++++ b/dist/tokens.js
+@@ -1,5 +1,5 @@
+ "use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
++
+ exports.TOKENS = void 0;
+ /**
+  * Defines the token types of JSONPath by regular expression.
+diff --git a/dist.esm/assert.d.ts b/dist.esm/assert.d.ts
+deleted file mode 100644
+index d9f845d04c8db3773559d1c83ac01ad0bbea0f39..0000000000000000000000000000000000000000
+diff --git a/dist.esm/assert.js.map b/dist.esm/assert.js.map
+deleted file mode 100644
+index d51b9a6ef6e3affc86b39fd352395e0e4cb57da8..0000000000000000000000000000000000000000
+diff --git a/dist.esm/esprima.d.ts b/dist.esm/esprima.d.ts
+deleted file mode 100644
+index 51096db61699b4d8b01d16b986db7d6f4bf7022d..0000000000000000000000000000000000000000
+diff --git a/dist.esm/esprima.js b/dist.esm/esprima.js
+deleted file mode 100644
+index 3ea39950f34c61b42bfc6304c237188c2a0bccb2..0000000000000000000000000000000000000000
+diff --git a/dist.esm/esprima.js.map b/dist.esm/esprima.js.map
+deleted file mode 100644
+index c15e7139fa1fb6f11e8e6c03e2ad90599d6d9bd3..0000000000000000000000000000000000000000
+diff --git a/dist.esm/grammar.d.ts b/dist.esm/grammar.d.ts
+deleted file mode 100644
+index d3e331b9e1fb597441345e4d51b8d71960340b68..0000000000000000000000000000000000000000
+diff --git a/dist.esm/grammar.js b/dist.esm/grammar.js
+deleted file mode 100644
+index 1e51d53c0189221d30ba086128e55cf44ba05444..0000000000000000000000000000000000000000
+diff --git a/dist.esm/grammar.js.map b/dist.esm/grammar.js.map
+deleted file mode 100644
+index 07c04162e518ec960d82a254272b8279150d05c2..0000000000000000000000000000000000000000
+diff --git a/dist.esm/handlers.d.ts b/dist.esm/handlers.d.ts
+deleted file mode 100644
+index 954ecc55a0213f408bd2630c116b1356cae2af8b..0000000000000000000000000000000000000000
+diff --git a/dist.esm/handlers.js b/dist.esm/handlers.js
+deleted file mode 100644
+index e4e52ce58a711c00f4d9080271688d3d594f7122..0000000000000000000000000000000000000000
+diff --git a/dist.esm/handlers.js.map b/dist.esm/handlers.js.map
+deleted file mode 100644
+index 9c609af7b0477ceead3467f52cb23ff604c560cc..0000000000000000000000000000000000000000
+diff --git a/dist.esm/index.d.ts b/dist.esm/index.d.ts
+deleted file mode 100644
+index a3ebeb41249e24a7fa54814be018021b560d6b5d..0000000000000000000000000000000000000000
+diff --git a/dist.esm/index.js b/dist.esm/index.js
+deleted file mode 100644
+index 1046945cc281b4c5469adaf25d41664521ba1e24..0000000000000000000000000000000000000000
+diff --git a/dist.esm/index.js.map b/dist.esm/index.js.map
+deleted file mode 100644
+index cccb902e883d95edab147d2104ccc3935dc62b7c..0000000000000000000000000000000000000000
+diff --git a/dist.esm/jsonpath.d.ts b/dist.esm/jsonpath.d.ts
+deleted file mode 100644
+index 85949460b2f5501f8112d48d19868cdfa92f308d..0000000000000000000000000000000000000000
+diff --git a/dist.esm/jsonpath.js b/dist.esm/jsonpath.js
+deleted file mode 100644
+index 85d8a517243f0f3f48e7b08f746778e3526ce3c3..0000000000000000000000000000000000000000
+diff --git a/dist.esm/jsonpath.js.map b/dist.esm/jsonpath.js.map
+deleted file mode 100644
+index 415407a245e0aa29fadb261ca844fb48f9efad82..0000000000000000000000000000000000000000
+diff --git a/dist.esm/lessons.test.d.ts b/dist.esm/lessons.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/lessons.test.js b/dist.esm/lessons.test.js
+deleted file mode 100644
+index 2a9fe1f5b592793d65378ae946591e342870da94..0000000000000000000000000000000000000000
+diff --git a/dist.esm/lessons.test.js.map b/dist.esm/lessons.test.js.map
+deleted file mode 100644
+index 8cf5fa788d5eb41a052eb1a4960058337494c8bd..0000000000000000000000000000000000000000
+diff --git a/dist.esm/parse.test.d.ts b/dist.esm/parse.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/parse.test.js b/dist.esm/parse.test.js
+deleted file mode 100644
+index 1d6df5b748b54e243f0a6ef907c16ab92c311e8c..0000000000000000000000000000000000000000
+diff --git a/dist.esm/parse.test.js.map b/dist.esm/parse.test.js.map
+deleted file mode 100644
+index 2c77eb04d32d7697f0510bb6ebde177e7a47fc28..0000000000000000000000000000000000000000
+diff --git a/dist.esm/parser.d.ts b/dist.esm/parser.d.ts
+deleted file mode 100644
+index 019070ca2fe15c46583213b12c5f386139f99954..0000000000000000000000000000000000000000
+diff --git a/dist.esm/parser.js b/dist.esm/parser.js
+deleted file mode 100644
+index a97ae8a529a0861331a502dc2fc6f2a648c9f3a1..0000000000000000000000000000000000000000
+diff --git a/dist.esm/parser.js.map b/dist.esm/parser.js.map
+deleted file mode 100644
+index f8d55d25b6bc06b607b13f244e0ec1da55a7a0e3..0000000000000000000000000000000000000000
+diff --git a/dist.esm/query.test.d.ts b/dist.esm/query.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/query.test.js b/dist.esm/query.test.js
+deleted file mode 100644
+index da07b16503daa94d16338ab558294232ffb30c29..0000000000000000000000000000000000000000
+diff --git a/dist.esm/query.test.js.map b/dist.esm/query.test.js.map
+deleted file mode 100644
+index 358c875554b8f2e1be158b1c497cc86c0172521c..0000000000000000000000000000000000000000
+diff --git a/dist.esm/slice.d.ts b/dist.esm/slice.d.ts
+deleted file mode 100644
+index 84166baeb633c76e081ba049095e43b929343383..0000000000000000000000000000000000000000
+diff --git a/dist.esm/slice.js b/dist.esm/slice.js
+deleted file mode 100644
+index 63a0e9b5263dc52588eda4f4e161637c4b2887a9..0000000000000000000000000000000000000000
+diff --git a/dist.esm/slice.js.map b/dist.esm/slice.js.map
+deleted file mode 100644
+index 17699c7b52ef5663cbdbc43803db777cd47d38e1..0000000000000000000000000000000000000000
+diff --git a/dist.esm/slice.test.d.ts b/dist.esm/slice.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/slice.test.js b/dist.esm/slice.test.js
+deleted file mode 100644
+index 453adeba7ae1276effbb093207ddea1d82129452..0000000000000000000000000000000000000000
+diff --git a/dist.esm/slice.test.js.map b/dist.esm/slice.test.js.map
+deleted file mode 100644
+index 5ffe5304dbbd2b6f3cfd86e47e72019477c2905f..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/assert.d.ts b/dist.esm/src/assert.d.ts
+deleted file mode 100644
+index d9f845d04c8db3773559d1c83ac01ad0bbea0f39..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/assert.js b/dist.esm/src/assert.js
+deleted file mode 100644
+index ca8d7c47fa3f2f3472ff2af25bfdd07bb9c6a889..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/assert.js.map b/dist.esm/src/assert.js.map
+deleted file mode 100644
+index a4c6ecd617e93d1b9bb2abe4d66a68f2630fda88..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/grammar.d.ts b/dist.esm/src/grammar.d.ts
+deleted file mode 100644
+index d3e331b9e1fb597441345e4d51b8d71960340b68..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/grammar.js b/dist.esm/src/grammar.js
+deleted file mode 100644
+index 1e51d53c0189221d30ba086128e55cf44ba05444..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/grammar.js.map b/dist.esm/src/grammar.js.map
+deleted file mode 100644
+index f1a402e1fbfb89e7b954c64b106798ed7a4f5755..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/handlers.d.ts b/dist.esm/src/handlers.d.ts
+deleted file mode 100644
+index 954ecc55a0213f408bd2630c116b1356cae2af8b..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/handlers.js b/dist.esm/src/handlers.js
+deleted file mode 100644
+index 28e0161823f95462360e680f7d3b3ff42a913f98..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/handlers.js.map b/dist.esm/src/handlers.js.map
+deleted file mode 100644
+index b5a4a80315b55c027d77c153e8f6ffd160bdf017..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/index.d.ts b/dist.esm/src/index.d.ts
+deleted file mode 100644
+index a3ebeb41249e24a7fa54814be018021b560d6b5d..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/index.js b/dist.esm/src/index.js
+deleted file mode 100644
+index 1046945cc281b4c5469adaf25d41664521ba1e24..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/index.js.map b/dist.esm/src/index.js.map
+deleted file mode 100644
+index 030d79500bf070444fba511c876c243c0c721737..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/jsonpath.d.ts b/dist.esm/src/jsonpath.d.ts
+deleted file mode 100644
+index 85949460b2f5501f8112d48d19868cdfa92f308d..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/jsonpath.js b/dist.esm/src/jsonpath.js
+deleted file mode 100644
+index 85d8a517243f0f3f48e7b08f746778e3526ce3c3..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/jsonpath.js.map b/dist.esm/src/jsonpath.js.map
+deleted file mode 100644
+index edf3d04b710354bea2a8aaee7dea88b8dcedddb8..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/lessons.test.d.ts b/dist.esm/src/lessons.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/lessons.test.js b/dist.esm/src/lessons.test.js
+deleted file mode 100644
+index 2a9fe1f5b592793d65378ae946591e342870da94..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/lessons.test.js.map b/dist.esm/src/lessons.test.js.map
+deleted file mode 100644
+index 40bd6bbf5ed28f78f5673b723f89dc0f1ff24da2..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/parse.test.d.ts b/dist.esm/src/parse.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/parse.test.js b/dist.esm/src/parse.test.js
+deleted file mode 100644
+index 1d6df5b748b54e243f0a6ef907c16ab92c311e8c..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/parse.test.js.map b/dist.esm/src/parse.test.js.map
+deleted file mode 100644
+index 10765b1b198ebf0098af2673e49ff1f61ab54213..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/parser.d.ts b/dist.esm/src/parser.d.ts
+deleted file mode 100644
+index 019070ca2fe15c46583213b12c5f386139f99954..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/parser.js b/dist.esm/src/parser.js
+deleted file mode 100644
+index a97ae8a529a0861331a502dc2fc6f2a648c9f3a1..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/parser.js.map b/dist.esm/src/parser.js.map
+deleted file mode 100644
+index 6a483a5713d60e6a76a1cadd36f593aa1e4060e5..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/query.test.d.ts b/dist.esm/src/query.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/query.test.js b/dist.esm/src/query.test.js
+deleted file mode 100644
+index da07b16503daa94d16338ab558294232ffb30c29..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/query.test.js.map b/dist.esm/src/query.test.js.map
+deleted file mode 100644
+index 4227f4a773283b25b01babe1f08821e9655edc86..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/slice.d.ts b/dist.esm/src/slice.d.ts
+deleted file mode 100644
+index 84166baeb633c76e081ba049095e43b929343383..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/slice.js b/dist.esm/src/slice.js
+deleted file mode 100644
+index 63a0e9b5263dc52588eda4f4e161637c4b2887a9..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/slice.js.map b/dist.esm/src/slice.js.map
+deleted file mode 100644
+index 153b83bd0138d9492595ce35bceddf9ab0edea27..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/slice.test.d.ts b/dist.esm/src/slice.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/slice.test.js b/dist.esm/src/slice.test.js
+deleted file mode 100644
+index 453adeba7ae1276effbb093207ddea1d82129452..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/slice.test.js.map b/dist.esm/src/slice.test.js.map
+deleted file mode 100644
+index da40e3e46397f7cf93ce7f3d0a565f20635f3628..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/stringify.test.d.ts b/dist.esm/src/stringify.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/stringify.test.js b/dist.esm/src/stringify.test.js
+deleted file mode 100644
+index ac3643923a5b12ed49bb7ee2bce312ce6420787c..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/stringify.test.js.map b/dist.esm/src/stringify.test.js.map
+deleted file mode 100644
+index a862c4e493f2d0b19da088c6aa9add05b38a082a..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/sugar.test.d.ts b/dist.esm/src/sugar.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/sugar.test.js b/dist.esm/src/sugar.test.js
+deleted file mode 100644
+index f5ad9c9723017f64e0a50cd0e6852ccf5abf1205..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/sugar.test.js.map b/dist.esm/src/sugar.test.js.map
+deleted file mode 100644
+index ca661b374c2005e5710bc8e4a1b2534e82c20e5a..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/test.d.ts b/dist.esm/src/test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/test.js b/dist.esm/src/test.js
+deleted file mode 100644
+index ce7c55bfd733fd20753a157f50ca68831bbbd103..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/test.js.map b/dist.esm/src/test.js.map
+deleted file mode 100644
+index b42893df530ceb65a41a9b9a76c5c2e17183c050..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/tokens.d.ts b/dist.esm/src/tokens.d.ts
+deleted file mode 100644
+index 4f093f08101bf2fa6fdcf23fa7eb6283a905f44e..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/tokens.js b/dist.esm/src/tokens.js
+deleted file mode 100644
+index 9ad627ff9b3c6ed8d9d4078735069dc960355e78..0000000000000000000000000000000000000000
+diff --git a/dist.esm/src/tokens.js.map b/dist.esm/src/tokens.js.map
+deleted file mode 100644
+index 549927a54e52a405ff52ba978a04dc612c0fa2dd..0000000000000000000000000000000000000000
+diff --git a/dist.esm/stringify.test.d.ts b/dist.esm/stringify.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/stringify.test.js b/dist.esm/stringify.test.js
+deleted file mode 100644
+index ac3643923a5b12ed49bb7ee2bce312ce6420787c..0000000000000000000000000000000000000000
+diff --git a/dist.esm/stringify.test.js.map b/dist.esm/stringify.test.js.map
+deleted file mode 100644
+index ac8a14e401ff5f0adc1787734917afd7c05fd35d..0000000000000000000000000000000000000000
+diff --git a/dist.esm/sugar.test.d.ts b/dist.esm/sugar.test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/sugar.test.js b/dist.esm/sugar.test.js
+deleted file mode 100644
+index f5ad9c9723017f64e0a50cd0e6852ccf5abf1205..0000000000000000000000000000000000000000
+diff --git a/dist.esm/sugar.test.js.map b/dist.esm/sugar.test.js.map
+deleted file mode 100644
+index 64b2ab90f92c0f771e9f448b2944e0ac383a6c03..0000000000000000000000000000000000000000
+diff --git a/dist.esm/test.d.ts b/dist.esm/test.d.ts
+deleted file mode 100644
+index 509db1866f4b5fbb3046d4c04b51ccb638e79c80..0000000000000000000000000000000000000000
+diff --git a/dist.esm/test.js b/dist.esm/test.js
+deleted file mode 100644
+index ce7c55bfd733fd20753a157f50ca68831bbbd103..0000000000000000000000000000000000000000
+diff --git a/dist.esm/test.js.map b/dist.esm/test.js.map
+deleted file mode 100644
+index c6ce70bb1a28df4186862becc212c09110f0b741..0000000000000000000000000000000000000000
+diff --git a/dist.esm/tokens.d.ts b/dist.esm/tokens.d.ts
+deleted file mode 100644
+index 4f093f08101bf2fa6fdcf23fa7eb6283a905f44e..0000000000000000000000000000000000000000
+diff --git a/dist.esm/tokens.js b/dist.esm/tokens.js
+deleted file mode 100644
+index 9ad627ff9b3c6ed8d9d4078735069dc960355e78..0000000000000000000000000000000000000000
+diff --git a/dist.esm/tokens.js.map b/dist.esm/tokens.js.map
+deleted file mode 100644
+index d547ae8b0de0e63bc21cbd5f5aaef5ee308614c8..0000000000000000000000000000000000000000
+diff --git a/dist.esm/upstream/aesprim.d.ts b/dist.esm/upstream/aesprim.d.ts
+deleted file mode 100644
+index 51096db61699b4d8b01d16b986db7d6f4bf7022d..0000000000000000000000000000000000000000
+diff --git a/dist.esm/upstream/aesprim.js b/dist.esm/upstream/aesprim.js
+deleted file mode 100644
+index c370b9cedfd18a9b130c484157c6213809131947..0000000000000000000000000000000000000000
+diff --git a/dist.esm/upstream/aesprim.js.map b/dist.esm/upstream/aesprim.js.map
+deleted file mode 100644
+index 4f3339206763c112aecee4aa2211bd990e4fdc76..0000000000000000000000000000000000000000

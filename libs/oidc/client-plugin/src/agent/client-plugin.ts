@@ -17,7 +17,7 @@ import {
   uint8ArrayToHex,
 } from '@blockchain-lab-um/utils';
 import { PEX } from '@sphereon/pex';
-import type { IVerifiableCredential } from '@sphereon/ssi-types';
+import type { OriginalVerifiableCredential } from '@sphereon/ssi-types';
 import type { IAgentPlugin } from '@veramo/core';
 import { bytesToBase64url } from '@veramo/utils';
 import { fetch } from 'cross-fetch';
@@ -75,7 +75,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
     codeVerifier: null,
   };
 
-  // FIXME: Set proxy to masca.io
   public proxyUrl = 'https://masca.io/api/proxy/oidc';
 
   readonly methods: IOIDCClientPlugin = {
@@ -593,7 +592,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
 
   public async selectCredentials(
     args: SelectCredentialsArgs
-  ): Promise<Result<IVerifiableCredential[]>> {
+  ): Promise<Result<OriginalVerifiableCredential[]>> {
     const { credentials } = args;
 
     if (!credentials) {
@@ -607,7 +606,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Presentation definition not found');
     }
 
-    const map = new Map<string, IVerifiableCredential>();
+    const map = new Map<string, OriginalVerifiableCredential>();
 
     const errors: string[] = [];
 
@@ -619,9 +618,18 @@ export class OIDCClientPlugin implements IAgentPlugin {
         input_descriptors: [inputDescriptor],
       };
 
-      const { verifiableCredential } = pex.selectFrom(
-        presentationDefinitionSplit,
-        credentials
+      const {
+        verifiableCredential,
+        errors: selectErrors,
+        warnings,
+        areRequiredCredentialsPresent,
+      } = pex.selectFrom(presentationDefinitionSplit, credentials);
+
+      // TODO: Delete debug logging
+      console.log(`Select errors: ${JSON.stringify(selectErrors)}`);
+      console.log(`Warnings: ${JSON.stringify(warnings)}`);
+      console.log(
+        `Required credentials present: ${areRequiredCredentialsPresent}`
       );
 
       if (!verifiableCredential || verifiableCredential.length === 0) {

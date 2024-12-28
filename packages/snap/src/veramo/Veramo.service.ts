@@ -83,6 +83,7 @@ import {
 } from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
+import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import { type DIDResolutionResult, Resolver } from 'did-resolver';
 import {
   type ProviderConfiguration,
@@ -824,7 +825,6 @@ class VeramoService {
         throw new Error('presentation_definition is required');
       }
 
-      // if(!credentials) {
       const store = ['snap'] as AvailableCredentialStores[];
 
       const queryResults = await VeramoService.queryCredentials({
@@ -842,13 +842,21 @@ class VeramoService {
         throw new Error(selectCredentialsResult.error);
       }
 
-      const decodedCredentials = selectCredentialsResult.data.map(
-        (credential) => decodeCredentialToObject(credential)
-      );
+      // NOTE: We filter out `JwtDecodedVerifiableCredential` | `SdJwtDecodedVerifiableCredential` types
+      const decodedCredentials = selectCredentialsResult.data
+        .map((credential) =>
+          typeof credential === 'string'
+            ? (decodeCredentialToObject(credential) as IVerifiableCredential)
+            : credential
+        )
+        .filter(
+          (credential) =>
+            (credential as IVerifiableCredential).proof !== undefined
+        ) as IVerifiableCredential[];
 
       const createPresentationSubmissionResult =
         await VeramoService.instance.createPresentationSubmission({
-          credentials: decodedCredentials as any,
+          credentials: decodedCredentials,
         });
 
       if (isError(createPresentationSubmissionResult)) {
@@ -861,8 +869,11 @@ class VeramoService {
         await VeramoService.instance.createVerifiablePresentation({
           presentation: {
             holder: did,
-            verifiableCredential: decodedCredentials.map(
-              (credential) => credential.proof.jwt
+            // NOTE: We make an assumption that the first proof is the one we want and that it is a JWT proof
+            verifiableCredential: decodedCredentials.map((credential) =>
+              Array.isArray(credential.proof)
+                ? (credential.proof[0].jwt as string)
+                : (credential.proof.jwt as string)
             ),
           },
           proofFormat: 'jwt',

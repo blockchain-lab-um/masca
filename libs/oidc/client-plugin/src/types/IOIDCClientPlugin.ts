@@ -8,7 +8,7 @@ import type {
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import type { Result } from '@blockchain-lab-um/utils';
-import type { IVerifiableCredential } from '@sphereon/ssi-types';
+import type { OriginalVerifiableCredential } from '@sphereon/ssi-types';
 import type { IAgentContext, IPluginMethodMap, IResolver } from '@veramo/core';
 
 import type {
@@ -45,7 +45,7 @@ export interface IOIDCClientPlugin extends IPluginMethodMap {
   ): Promise<Result<AuthorizationRequest>>;
   selectCredentials(
     args: SelectCredentialsArgs
-  ): Promise<Result<IVerifiableCredential[]>>;
+  ): Promise<Result<OriginalVerifiableCredential[]>>;
   createPresentationSubmission(
     args: CreatePresentationSubmissionArgs
   ): Promise<Result<PresentationSubmission>>;
