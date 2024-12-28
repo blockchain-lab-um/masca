@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@astronautlabs/jsonpath':
-    hash: kdyglwujckp2fuayiigfbzgkz4
+    hash: 7tqhac4nd4eo2oclutqyg5v5xq
     path: patches/@astronautlabs__jsonpath.patch
   '@ceramicnetwork/common@2.30.0':
     hash: uqwtqun5atcy5jjekxssfbohei
@@ -17568,7 +17568,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@astronautlabs/jsonpath@1.1.2(patch_hash=kdyglwujckp2fuayiigfbzgkz4)':
+  '@astronautlabs/jsonpath@1.1.2(patch_hash=7tqhac4nd4eo2oclutqyg5v5xq)':
     dependencies:
       static-eval: 2.0.2
 
@@ -27519,7 +27519,7 @@ snapshots:
 
   '@sphereon/pex@3.3.3':
     dependencies:
-      '@astronautlabs/jsonpath': 1.1.2(patch_hash=kdyglwujckp2fuayiigfbzgkz4)
+      '@astronautlabs/jsonpath': 1.1.2(patch_hash=7tqhac4nd4eo2oclutqyg5v5xq)
       '@sd-jwt/decode': 0.6.1
       '@sd-jwt/present': 0.6.1
       '@sd-jwt/types': 0.6.1

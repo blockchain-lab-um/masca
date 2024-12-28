@@ -1,29 +1,30 @@
 diff --git a/dist/assert.js b/dist/assert.js
 deleted file mode 100644
 index 946a2b1c4affc6718161bcdaa4c5ad1053df0b91..0000000000000000000000000000000000000000
-diff --git a/dist.esm/assert.js b/dist/assert_1.js
-similarity index 67%
-rename from dist.esm/assert.js
-rename to dist/assert_1.js
-index ca8d7c47fa3f2f3472ff2af25bfdd07bb9c6a889..491a2c893d8eae17da36a7c5c5431118cc46f1d4 100644
---- a/dist.esm/assert.js
+diff --git a/dist/assert_1.js b/dist/assert_1.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..76fcde03970e5b733150d85ec22b99007a8c2438
+--- /dev/null
 +++ b/dist/assert_1.js
-@@ -1,4 +1,7 @@
--var assert = /** @class */ (function () {
+@@ -0,0 +1,18 @@
 +"use strict";
 +
 +exports.assert_1 = void 0;
 +var assert_1 = /** @class */ (function () {
-     function assert() {
-     }
-     assert.ok = function (predicate, message) {
-@@ -11,5 +14,5 @@ var assert = /** @class */ (function () {
-     };
-     return assert;
- }());
--export { assert };
++    function assert_1() {
++    }
++    assert_1.ok = function (predicate, message) {
++        if (!predicate)
++            throw new Error(message);
++    };
++    assert_1.equal = function (value, expected, message) {
++        if (value !== expected)
++            throw new Error(message);
++    };
++    return assert_1;
++}());
 +exports.assert_1 = assert_1;
- //# sourceMappingURL=assert.js.map
++
 diff --git a/dist/esprima.js b/dist/esprima.js
 index 4e0adb50fb8f085fd60f6802f81f1b29e2c41892..75847d9a92ab266d797c9c89dd1aae29fe82d721 100644
 --- a/dist/esprima.js
@@ -76,46 +77,134 @@ index e416bf91bb14f69b586323ca79e4ce88940d206a..b9735f709b47bd8a7a4d829f37e88913
  __exportStar(require("./jsonpath"), exports);
  //# sourceMappingURL=index.js.map
 diff --git a/dist/jsonpath.js b/dist/jsonpath.js
-index c412e76d670b3d7b8002fef17378a29fe5139e62..855ed83961842524568ed4ea25e369ccf01a384c 100644
+index c412e76d670b3d7b8002fef17378a29fe5139e62..44035343d6190d6c3ba0e2bee3abeaef5bbc5dd1 100644
 --- a/dist/jsonpath.js
 +++ b/dist/jsonpath.js
-@@ -1,10 +1,10 @@
+@@ -1,28 +1,28 @@
  "use strict";
 -Object.defineProperty(exports, "__esModule", { value: true });
 +
  exports.JSONPath = void 0;
  var handlers_1 = require("./handlers");
--var tokens_1 = require("./tokens");
--var parser_1 = require("./parser");
+ var tokens_1 = require("./tokens");
+ var parser_1 = require("./parser");
 -var assert_1 = require("./assert");
-+// var tokens_1 = require("./tokens");
-+// var parser_1 = require("./parser");
 +var assert_1 = require("./assert_1");
  var JSONPath = /** @class */ (function () {
      function JSONPath() {
      }
-@@ -19,7 +19,7 @@ var JSONPath = /** @class */ (function () {
+     JSONPath.parse = function (string) {
+-        assert_1.assert.ok(typeof string === 'string', "we need a path");
++        assert_1.assert_1.ok(typeof string === 'string', "we need a path");
+         return new parser_1.Parser().parse(string);
+     };
+     JSONPath.parent = function (obj, string) {
+-        assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
+-        assert_1.assert.ok(string, "we need a path");
++        assert_1.assert_1.ok(obj instanceof Object, "obj needs to be an object");
++        assert_1.assert_1.ok(string, "we need a path");
+         var node = this.nodes(obj, string)[0];
          var key = node.path.pop(); /* jshint unused:false */
          return this.value(obj, node.path);
      };
 -    JSONPath.apply = function (obj, string, fn) {
+-        assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
+-        assert_1.assert.ok(string, "we need a path");
+-        assert_1.assert.equal(typeof fn, "function", "fn needs to be function");
 +    JSONPath.apply_1 = function (obj, string, fn) {
-         assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
-         assert_1.assert.ok(string, "we need a path");
-         assert_1.assert.equal(typeof fn, "function", "fn needs to be function");
++        assert_1.assert_1.ok(obj instanceof Object, "obj needs to be an object");
++        assert_1.assert_1.ok(string, "we need a path");
++        assert_1.assert_1.equal(typeof fn, "function", "fn needs to be function");
+         var nodes = this.nodes(obj, string).sort(function (a, b) {
+             // sort nodes so we apply from the bottom up
+             return b.path.length - a.path.length;
+@@ -36,8 +36,8 @@ var JSONPath = /** @class */ (function () {
+         return nodes;
+     };
+     JSONPath.value = function (obj, path, value) {
+-        assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
+-        assert_1.assert.ok(path, "we need a path");
++        assert_1.assert_1.ok(obj instanceof Object, "obj needs to be an object");
++        assert_1.assert_1.ok(path, "we need a path");
+         if (value !== undefined) {
+             var node = this.nodes(obj, path).shift();
+             if (!node)
+@@ -50,8 +50,8 @@ var JSONPath = /** @class */ (function () {
+     };
+     JSONPath._vivify = function (obj, string, value) {
+         var self = this;
+-        assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
+-        assert_1.assert.ok(string, "we need a path");
++        assert_1.assert_1.ok(obj instanceof Object, "obj needs to be an object");
++        assert_1.assert_1.ok(string, "we need a path");
+         var path = new parser_1.Parser().parse(string)
+             .map(function (component) { return component.expression.value; });
+         var setValue = function (path, value) {
+@@ -67,22 +67,22 @@ var JSONPath = /** @class */ (function () {
+         return this.query(obj, string)[0];
+     };
+     JSONPath.query = function (obj, string, count) {
+-        assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
+-        assert_1.assert.ok(typeof string === 'string', "we need a path");
++        assert_1.assert_1.ok(obj instanceof Object, "obj needs to be an object");
++        assert_1.assert_1.ok(typeof string === 'string', "we need a path");
+         var results = this.nodes(obj, string, count)
+             .map(function (r) { return r.value; });
+         return results;
+     };
+     JSONPath.paths = function (obj, string, count) {
+-        assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
+-        assert_1.assert.ok(string, "we need a path");
++        assert_1.assert_1.ok(obj instanceof Object, "obj needs to be an object");
++        assert_1.assert_1.ok(string, "we need a path");
+         var results = this.nodes(obj, string, count)
+             .map(function (r) { return r.path; });
+         return results;
+     };
+     JSONPath.nodes = function (obj, string, count) {
+-        assert_1.assert.ok(obj instanceof Object, "obj needs to be an object");
+-        assert_1.assert.ok(string, "we need a path");
++        assert_1.assert_1.ok(obj instanceof Object, "obj needs to be an object");
++        assert_1.assert_1.ok(string, "we need a path");
+         if (count === 0)
+             return [];
+         var path = new parser_1.Parser().parse(string);
+@@ -116,7 +116,7 @@ var JSONPath = /** @class */ (function () {
+         return count ? matches.slice(0, count) : matches;
+     };
+     JSONPath.stringify = function (path) {
+-        assert_1.assert.ok(path, "we need a path");
++        assert_1.assert_1.ok(path, "we need a path");
+         var string = '$';
+         var templates = {
+             'descendant-member': '..{{value}}',
+@@ -144,7 +144,7 @@ var JSONPath = /** @class */ (function () {
+         return string;
+     };
+     JSONPath._normalize = function (path) {
+-        assert_1.assert.ok(path, "we need a path");
++        assert_1.assert_1.ok(path, "we need a path");
+         if (typeof path == "string") {
+             return new parser_1.Parser().parse(path);
+         }
 diff --git a/dist/parser.js b/dist/parser.js
-index 5be61f375bcb1d0ede33869057f9b859424e1033..784ebc42b560ced4e1de886ac30f99f58839cb54 100644
+index 5be61f375bcb1d0ede33869057f9b859424e1033..1918d4e6ff56e5966cdf26c566fca0cdcdbd99f0 100644
 --- a/dist/parser.js
 +++ b/dist/parser.js
-@@ -22,7 +22,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
+@@ -22,7 +22,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
      __setModuleDefault(result, mod);
      return result;
  };
 -Object.defineProperty(exports, "__esModule", { value: true });
-+
  exports.Parser = void 0;
  var gparser = __importStar(require("../generated/parser"));
  /**
+@@ -42,3 +41,5 @@ function Parser() {
+ }
+ exports.Parser = Parser;
+ //# sourceMappingURL=parser.js.map
++
++
 diff --git a/dist/slice.js b/dist/slice.js
 index fe3896bac49d2a1301dbe9a867e442edcb7d70f6..07bd18f9d5284f7b23bac25f561d6d380c04a85e 100644
 --- a/dist/slice.js
@@ -141,6 +230,9 @@ index e9a3d6b8ceb7d73adc511bd9230256dede307cc5..9c047519ab4d7e708f758f298c6665d6
 diff --git a/dist.esm/assert.d.ts b/dist.esm/assert.d.ts
 deleted file mode 100644
 index d9f845d04c8db3773559d1c83ac01ad0bbea0f39..0000000000000000000000000000000000000000
+diff --git a/dist.esm/assert.js b/dist.esm/assert.js
+deleted file mode 100644
+index ca8d7c47fa3f2f3472ff2af25bfdd07bb9c6a889..0000000000000000000000000000000000000000
 diff --git a/dist.esm/assert.js.map b/dist.esm/assert.js.map
 deleted file mode 100644
 index d51b9a6ef6e3affc86b39fd352395e0e4cb57da8..0000000000000000000000000000000000000000
@@ -423,3 +515,17 @@ index c370b9cedfd18a9b130c484157c6213809131947..00000000000000000000000000000000
 diff --git a/dist.esm/upstream/aesprim.js.map b/dist.esm/upstream/aesprim.js.map
 deleted file mode 100644
 index 4f3339206763c112aecee4aa2211bd990e4fdc76..0000000000000000000000000000000000000000
+diff --git a/generated/parser.js b/generated/parser.js
+index bf791e7eb5826bde485b7eebee9391ceb5d03320..3a1fe3f3f69a7b30b9f5b49ddca21c3ec0db8e79 100644
+--- a/generated/parser.js
++++ b/generated/parser.js
+@@ -715,9 +715,6 @@ return new Parser;
+ })();
+ 
+ 
+-if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
+ exports.parser = parser;
+ exports.Parser = parser.Parser;
+ exports.parse = function () { return parser.parse.apply(parser, arguments); };
+-
+-}
