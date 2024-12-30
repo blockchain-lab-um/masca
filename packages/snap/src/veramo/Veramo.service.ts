@@ -833,6 +833,7 @@ class VeramoService {
 
       const queriedCredentials: any = queryResults.map((result) => result.data);
 
+      // NOTE: We filter out `JwtDecodedVerifiableCredential` | `SdJwtDecodedVerifiableCredential` types
       const selectCredentialsResult =
         await VeramoService.instance.selectCredentials({
           credentials: queriedCredentials,
@@ -842,21 +843,9 @@ class VeramoService {
         throw new Error(selectCredentialsResult.error);
       }
 
-      // NOTE: We filter out `JwtDecodedVerifiableCredential` | `SdJwtDecodedVerifiableCredential` types
-      const decodedCredentials = selectCredentialsResult.data
-        .map((credential) =>
-          typeof credential === 'string'
-            ? (decodeCredentialToObject(credential) as IVerifiableCredential)
-            : credential
-        )
-        .filter(
-          (credential) =>
-            (credential as IVerifiableCredential).proof !== undefined
-        ) as IVerifiableCredential[];
-
       const createPresentationSubmissionResult =
         await VeramoService.instance.createPresentationSubmission({
-          credentials: decodedCredentials,
+          credentials: selectCredentialsResult.data,
         });
 
       if (isError(createPresentationSubmissionResult)) {
@@ -870,11 +859,8 @@ class VeramoService {
           presentation: {
             holder: did,
             // NOTE: We make an assumption that the first proof is the one we want and that it is a JWT proof
-            verifiableCredential: decodedCredentials.map((credential) =>
-              Array.isArray(credential.proof)
-                ? (credential.proof[0].jwt as string)
-                : (credential.proof.jwt as string)
-            ),
+            verifiableCredential:
+              selectCredentialsResult.data as W3CVerifiableCredential[],
           },
           proofFormat: 'jwt',
         });
@@ -885,7 +871,8 @@ class VeramoService {
         '@context': context,
         holder,
         type,
-        verifiableCredential: decodedCredentials,
+        verifiableCredential:
+          selectCredentialsResult.data as W3CVerifiableCredential[],
       };
 
       const createVpTokenResult = await VeramoService.instance.createVpToken({
