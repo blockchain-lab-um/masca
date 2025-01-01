@@ -521,9 +521,9 @@ export class OIDCClientPlugin implements IAgentPlugin {
         return ResultObject.error('Nonce is required');
       }
 
-      if (authorizationRequest.scope !== 'openid') {
-        return ResultObject.error('Only openid scope is supported');
-      }
+      // if (authorizationRequest.scope !== 'openid') {
+      //   return ResultObject.error('Only openid scope is supported');
+      // }
 
       if (!authorizationRequest.client_id) {
         return ResultObject.error('Client id is required');
