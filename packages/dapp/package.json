@@ -55,7 +55,6 @@
     "@vercel/speed-insights": "^1.0.10",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "crypto-js": "^4.2.0",
     "date-fns": "^3.6.0",
     "did-jwt-vc": "^3.2.13",
     "did-resolver": "4.1.0",

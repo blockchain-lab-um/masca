@@ -140,22 +140,22 @@ export const ShareCredentialModal = () => {
         presentationFrame: selectedSdJwtDisclosures,
       });
 
-      if (selectedProofFormat === 'sd-jwt') {
-        if (createPresentationResult.success) {
-          const presentationsArray: string[] = [];
+      if (
+        selectedProofFormat === 'sd-jwt' &&
+        createPresentationResult.success
+      ) {
+        let presentationsArray: string[] = [];
 
-          if ('presentations' in createPresentationResult.data) {
-            createPresentationResult.data.presentations.map(
-              (presentation: { presentation: string }) => {
-                presentationsArray.push(presentation.presentation);
-              }
-            );
-          }
-
-          createPresentationResult = await api.decodeSdJwtPresentation({
-            presentation: presentationsArray,
-          });
+        if ('presentations' in createPresentationResult.data) {
+          presentationsArray = createPresentationResult.data.presentations.map(
+            (presentation: { presentation: string }) =>
+              presentation.presentation
+          );
         }
+
+        createPresentationResult = await api.decodeSdJwtPresentation({
+          presentation: presentationsArray,
+        });
       }
     } catch (e: any) {
       console.log(e);
