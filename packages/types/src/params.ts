@@ -35,6 +35,14 @@ export interface DeleteCredentialsOptions {
   store?: AvailableCredentialStores | AvailableCredentialStores[];
 }
 
+export interface Disclosure {
+  key: string;
+  salt: string;
+  value: string;
+  digest: string;
+  encoded: string;
+}
+
 export interface SdJwtCredential extends SdJwtPayload {
   iss: string;
   iat?: number;
@@ -50,7 +58,7 @@ export interface SdJwtCredential extends SdJwtPayload {
   id?: string;
   signature?: string;
   encoded?: string;
-  disclosures?: string[];
+  disclosures?: Disclosure[];
 
   proof?: { type: string };
 }

@@ -1,4 +1,5 @@
 import {
+  type QueryCredentialsRequestResult,
   type Result,
   ResultObject,
   type SdJwtCredential,
@@ -24,6 +25,7 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from 'react-share';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   useMascaStore,
@@ -34,6 +36,7 @@ import {
 import { selectProofFormat } from '@/utils/selectProofFormat';
 import { convertTypes } from '@/utils/string';
 import Button from '../Button';
+import SelectedVcShareTableRow from './SelectedVcShareTableRow';
 
 export const ShareCredentialModal = () => {
   const t = useTranslations('ShareCredentialModal');
@@ -58,11 +61,20 @@ export const ShareCredentialModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState<string>('');
 
+  const [selectedCredentials, setSelectedCredentials] =
+    useState<QueryCredentialsRequestResult[]>();
+  const [selectedSdJwtDisclosures, setSelectedSdJwtDisclosures] = useState<
+    string[]
+  >([]);
+
   const types = useMemo(
     () =>
       credentials.map((credential) => ({
-        key: credential.id,
-        value: convertTypes(credential.type).split(',')[0],
+        data: credential,
+        metadata: {
+          id: credential.id || uuidv4(),
+          type: convertTypes(credential.type).split(',')[0],
+        },
       })),
     [credentials]
   );
@@ -95,7 +107,10 @@ export const ShareCredentialModal = () => {
     return true;
   }, [credentials]);
 
-  const stringifiedTypes = useMemo(() => JSON.stringify(types), [types]);
+  const stringifiedTypes = useMemo(
+    () => JSON.stringify(types.map((type) => type.metadata.type)),
+    [types]
+  );
 
   // Functions
   const handleShareCredential = async () => {
@@ -108,20 +123,21 @@ export const ShareCredentialModal = () => {
       VerifiablePresentation | SdJwtCredential[]
     >;
 
-    let vcs: any = credentials;
-
-    if (selectedProofFormat === 'sd-jwt') {
+    const isSdJwt = selectedProofFormat === 'sd-jwt' && didMethod === 'did:jwk';
+    let vcs: { id: string; encodedVc: string }[] = [];
+    if (isSdJwt) {
       // Preprocess credentials for creating SD-JWT presentation
       vcs = credentials.map((credential, index) => ({
-        id: types[index].key,
+        id: types[index].metadata.id,
         encodedVc: credential.encoded,
       }));
     }
 
     try {
       createPresentationResult = await api.createPresentation({
-        vcs: vcs,
+        vcs: isSdJwt ? vcs : credentials,
         proofFormat: selectedProofFormat,
+        presentationFrame: selectedSdJwtDisclosures,
       });
 
       if (selectedProofFormat === 'sd-jwt') {
@@ -217,9 +233,33 @@ export const ShareCredentialModal = () => {
     }
   };
 
+  const handleDisclosureCheck = (id: string, key: string, checked: boolean) => {
+    const disclosureString = `${id}/${key}`;
+    if (checked) {
+      setSelectedSdJwtDisclosures([
+        ...selectedSdJwtDisclosures,
+        disclosureString,
+      ]);
+    } else {
+      setSelectedSdJwtDisclosures(
+        selectedSdJwtDisclosures.filter((d) => d !== disclosureString)
+      );
+    }
+  };
+
   useEffect(() => {
     setShareLink(null);
   }, [stringifiedTypes]);
+
+  useEffect(() => {
+    if (isOpen) {
+      const initialSelectedCredentials = types.map((type) => ({
+        data: type.data,
+        metadata: type.metadata,
+      }));
+      setSelectedCredentials(initialSelectedCredentials);
+    }
+  }, [isOpen, types]);
 
   return (
     <Modal
@@ -270,15 +310,24 @@ export const ShareCredentialModal = () => {
                             placeholder={t('placeholder')}
                           />
                         </div>
-                        <div className="mt-6 flex flex-col space-y-2">
-                          <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
+                        <div className="mt-4">
+                          <div className="font-ubuntu dark:text-navy-blue-100 dark:border-navy-blue-600 border-b border-gray-400 p-4 pb-5 text-xl font-medium text-gray-800">
                             {t('selected')}
-                          </h3>
-                          <div className="flex flex-col space-y-2">
-                            {types.map((type) => (
-                              <div key={type.value}>{type.value}</div>
-                            ))}
                           </div>
+                          <table className="w-full text-center text-sm">
+                            <tbody className="text-md break-all text-gray-800">
+                              {selectedCredentials?.map((vc) => (
+                                <SelectedVcShareTableRow
+                                  selectedSdJwtDisclosures={
+                                    selectedSdJwtDisclosures
+                                  }
+                                  handleDisclosureCheck={handleDisclosureCheck}
+                                  key={vc.metadata.id}
+                                  vc={vc}
+                                />
+                              ))}
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>

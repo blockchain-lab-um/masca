@@ -45,7 +45,9 @@ export default async function Page({
 
   const { presentation } = data;
 
-  const isSdJwtPresentation = Object.keys(presentation[0]).includes('_sd_alg');
+  const isSdJwtPresentation =
+    Array.isArray(presentation) &&
+    Object.keys(presentation[0]).includes('_sd_alg');
 
   // TODO: Implement sd-jwt verification
   const verificationResult = isSdJwtPresentation

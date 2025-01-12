@@ -18,6 +18,7 @@ import {
   type SdJwtCredential,
   type SaveCredentialRequestResult,
   type VerifyDataRequestParams,
+  type Disclosure,
 } from '@blockchain-lab-um/masca-types';
 import {
   type IOIDCClientPlugin,
@@ -614,12 +615,21 @@ class VeramoService {
   ): Promise<SdJwtCredential[]> {
     const credentials: SdJwtCredential[] = [];
 
+    const mapDisclosures = (disclosures: any[] = []) =>
+      disclosures.map((disclosure) => ({
+        key: disclosure.key ?? '',
+        salt: disclosure.salt,
+        value: disclosure.value as string,
+        digest: disclosure._digest ?? '',
+        encoded: disclosure.encode(),
+      }));
+
     params.presentation.map(async (vp) => {
       const res = await VeramoService.instance.decodeSdJwt(vp);
 
       const payload = res.jwt?.payload;
       const signature = res.jwt?.signature ?? '';
-      const disclosures = res.disclosures ?? [];
+      const disclosures = mapDisclosures(res.disclosures);
 
       const vc = VeramoService.createSdJwtCredentialFromPayload(
         payload,
@@ -642,7 +652,7 @@ class VeramoService {
   private static createSdJwtCredentialFromPayload(
     vc: any,
     signature: string,
-    disclosures: unknown[] // TODO: fix this type and append it to vc
+    disclosures: Disclosure[]
   ): SdJwtCredential {
     const sdJwtVc: SdJwtCredential = {
       iss: typeof vc.iss === 'string' ? vc.iss : '',
@@ -672,6 +682,13 @@ class VeramoService {
       _sd_alg: typeof vc._sd_alg === 'string' ? vc._sd_alg : '',
       id: typeof vc.id === 'string' ? vc.id : '',
       signature: typeof signature === 'string' ? signature : '',
+      disclosures: disclosures.map((disclosure) => ({
+        key: disclosure.key,
+        salt: disclosure.salt,
+        value: disclosure.value,
+        digest: disclosure.digest,
+        encoded: disclosure.encoded,
+      })),
     };
 
     return sdJwtVc;

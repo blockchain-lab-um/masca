@@ -82,6 +82,52 @@ type SdJwtProps = {
   selectJsonData: (data: any) => void;
 };
 
+const DisclosureDetails = ({
+  data,
+  viewJsonText,
+  selectJsonData,
+}: {
+  data: Record<string, any>;
+  viewJsonText: string;
+  selectJsonData: React.Dispatch<React.SetStateAction<any>>;
+}) => (
+  <>
+    {Object.entries(data).map(([key, value]: [string, any]) => {
+      if (value === null || value === '') return null;
+
+      const isObject = typeof value === 'object';
+
+      return (
+        <Fragment key={key}>
+          <div
+            className={clsx(
+              'flex w-full overflow-clip',
+              isObject ? 'items-center' : 'flex-col items-start space-y-0.5'
+            )}
+          >
+            <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
+              {value.key}:
+            </h2>
+            <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
+              {isObject ? (
+                <button
+                  type="button"
+                  className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  onClick={() => selectJsonData(value)}
+                >
+                  {viewJsonText}
+                </button>
+              ) : (
+                value
+              )}
+            </div>
+          </div>
+        </Fragment>
+      );
+    })}
+  </>
+);
+
 export const SdJwt = ({
   credential,
   title,
@@ -90,15 +136,29 @@ export const SdJwt = ({
 }: SdJwtProps) => {
   return (
     <div className="flex flex-col space-y-8 px-6 md:flex-row md:space-x-16 md:space-y-0">
-      <div className="flex w-full flex-col items-start space-y-2 md:max-w-[50%]">
-        <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-          {title.subject}
-        </h1>
-        <CredentialSubject
-          data={credential.credentialSubject || {}}
-          viewJsonText={viewJsonText}
-          selectJsonData={selectJsonData}
-        />
+      <div className="flex w-full flex-col items-start space-y-8 md:max-w-[50%]">
+        <div className="flex flex-col items-start space-y-2">
+          <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
+            {title.subject}
+          </h1>
+          <CredentialSubject
+            data={credential.credentialSubject || {}}
+            viewJsonText={viewJsonText}
+            selectJsonData={selectJsonData}
+          />
+        </div>
+        {credential.disclosures && credential.disclosures.length > 0 && (
+          <div className="flex flex-col items-start space-y-2">
+            <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
+              {title.disclosures}
+            </h1>
+            <DisclosureDetails
+              data={credential.disclosures || {}}
+              viewJsonText={viewJsonText}
+              selectJsonData={selectJsonData}
+            />
+          </div>
+        )}
       </div>
       <div className="flex flex-1">
         <div className="flex flex-col space-y-8">
@@ -121,23 +181,6 @@ export const SdJwt = ({
               date={new Date((credential.iat ?? 0) * 1000).toLocaleDateString()}
             />
           </div>
-          {credential.disclosures && credential.disclosures.length > 0 && (
-            <div className="flex flex-col items-start space-y-2">
-              <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                {title.disclosures}
-              </h1>
-              <ul className="list-disc pl-5">
-                {credential.disclosures.map((disclosure) => (
-                  <li
-                    key={disclosure.id || disclosure}
-                    className="text-gray-700"
-                  >
-                    {disclosure}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       </div>
     </div>

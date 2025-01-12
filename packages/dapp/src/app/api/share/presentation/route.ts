@@ -59,9 +59,9 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const isSdJwtPresentation = Object.keys(presentation[0]).includes(
-      '_sd_alg'
-    );
+    const isSdJwtPresentation =
+      Array.isArray(presentation) &&
+      Object.keys(presentation[0]).includes('_sd_alg');
 
     await VerificationService.init();
 

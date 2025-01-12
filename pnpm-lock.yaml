@@ -510,6 +510,9 @@ importers:
       '@types/jsdom':
         specifier: ^21.1.6
         version: 21.1.6
+      '@types/uuid':
+        specifier: ^9.0.8
+        version: 9.0.8
       '@veramo/core':
         specifier: 6.0.0
         version: 6.0.0
@@ -4844,6 +4847,7 @@ packages:
   '@metamask/snaps-cli@6.5.0':
     resolution: {integrity: sha512-y19H9pereDYPRcyT005zp3oiO33K8EeKbzBvwweB2JYiNfQRq8tU4zdJ7IwKHvPj/XTqMr766QkfqtiQlJr/6w==}
     engines: {node: ^18.16 || >=20}
+    deprecated: Deprecated due to missing dependency
     hasBin: true
 
   '@metamask/snaps-registry@3.2.1':
@@ -8118,6 +8122,7 @@ packages:
 
   acorn-import-assertions@1.9.0:
     resolution: {integrity: sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==}
+    deprecated: package has been renamed to acorn-import-attributes
     peerDependencies:
       acorn: ^8
 
@@ -21041,6 +21046,8 @@ snapshots:
       - debug
       - domexception
       - encoding
+      - expo
+      - react-native
       - utf-8-validate
       - web-streams-polyfill
 
@@ -21062,6 +21069,8 @@ snapshots:
       - debug
       - domexception
       - encoding
+      - expo
+      - react-native
       - utf-8-validate
       - web-streams-polyfill
 
@@ -21621,6 +21630,20 @@ snapshots:
       - msrcrypto
       - react-native-securerandom
 
+  '@digitalcredentials/jsonld-signatures@9.4.0':
+    dependencies:
+      '@digitalbazaar/security-context': 1.0.1
+      '@digitalcredentials/jsonld': 6.0.0(web-streams-polyfill@4.0.0)
+      fast-text-encoding: 1.0.6
+      isomorphic-webcrypto: 2.3.8(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))
+      serialize-error: 8.1.0
+    transitivePeerDependencies:
+      - domexception
+      - expo
+      - react-native
+      - web-streams-polyfill
+    optional: true
+
   '@digitalcredentials/jsonld-signatures@9.4.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)':
     dependencies:
       '@digitalbazaar/security-context': 1.0.1
@@ -21697,6 +21720,18 @@ snapshots:
       - react-native
       - web-streams-polyfill
     optional: true
+
+  '@digitalcredentials/jsonld@6.0.0(web-streams-polyfill@4.0.0)':
+    dependencies:
+      '@digitalcredentials/http-client': 1.2.2(web-streams-polyfill@4.0.0)
+      '@digitalcredentials/rdf-canonize': 1.0.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))
+      canonicalize: 1.0.8
+      lru-cache: 6.0.0
+    transitivePeerDependencies:
+      - domexception
+      - expo
+      - react-native
+      - web-streams-polyfill
 
   '@digitalcredentials/keypair@1.0.5': {}
 
@@ -28134,7 +28169,7 @@ snapshots:
       '@transmute/ld-key-pair': 0.7.0-unstable.81
       '@transmute/x25519-key-pair': 0.7.0-unstable.81
 
-  '@transmute/ed25519-signature-2018@0.7.0-unstable.81(web-streams-polyfill@4.0.0)':
+  '@transmute/ed25519-signature-2018@0.7.0-unstable.81':
     dependencies:
       '@transmute/credentials-context': 0.7.0-unstable.81
       '@transmute/ed25519-key-pair': 0.7.0-unstable.2
@@ -28143,7 +28178,37 @@ snapshots:
       '@transmute/security-context': 0.7.0-unstable.81
     transitivePeerDependencies:
       - domexception
+      - expo
+      - react-native
       - web-streams-polyfill
+    optional: true
+
+  '@transmute/ed25519-signature-2018@0.7.0-unstable.81(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)':
+    dependencies:
+      '@transmute/credentials-context': 0.7.0-unstable.81
+      '@transmute/ed25519-key-pair': 0.7.0-unstable.2
+      '@transmute/jose-ld': 0.7.0-unstable.81
+      '@transmute/jsonld': 0.0.4(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
+      '@transmute/security-context': 0.7.0-unstable.81
+    transitivePeerDependencies:
+      - domexception
+      - expo
+      - react-native
+      - web-streams-polyfill
+
+  '@transmute/ed25519-signature-2018@0.7.0-unstable.81(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))':
+    dependencies:
+      '@transmute/credentials-context': 0.7.0-unstable.81
+      '@transmute/ed25519-key-pair': 0.7.0-unstable.2
+      '@transmute/jose-ld': 0.7.0-unstable.81
+      '@transmute/jsonld': 0.0.4(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
+      '@transmute/security-context': 0.7.0-unstable.81
+    transitivePeerDependencies:
+      - domexception
+      - expo
+      - react-native
+      - web-streams-polyfill
+    optional: true
 
   '@transmute/jose-ld@0.7.0-unstable.81':
     dependencies:
@@ -28153,6 +28218,35 @@ snapshots:
       base64url: 3.0.1
       jose: 4.15.4
       web-streams-polyfill: 3.2.1
+
+  '@transmute/json-web-signature@0.7.0-unstable.81(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)':
+    dependencies:
+      '@transmute/ed25519-key-pair': 0.7.0-unstable.81
+      '@transmute/jose-ld': 0.7.0-unstable.81
+      '@transmute/jsonld': 0.0.4(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
+      '@transmute/secp256k1-key-pair': 0.7.0-unstable.81
+      '@transmute/security-context': 0.7.0-unstable.81
+      '@transmute/web-crypto-key-pair': 0.7.0-unstable.81
+    transitivePeerDependencies:
+      - domexception
+      - expo
+      - react-native
+      - web-streams-polyfill
+
+  '@transmute/json-web-signature@0.7.0-unstable.81(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))':
+    dependencies:
+      '@transmute/ed25519-key-pair': 0.7.0-unstable.81
+      '@transmute/jose-ld': 0.7.0-unstable.81
+      '@transmute/jsonld': 0.0.4(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
+      '@transmute/secp256k1-key-pair': 0.7.0-unstable.81
+      '@transmute/security-context': 0.7.0-unstable.81
+      '@transmute/web-crypto-key-pair': 0.7.0-unstable.81
+    transitivePeerDependencies:
+      - domexception
+      - expo
+      - react-native
+      - web-streams-polyfill
+    optional: true
 
   '@transmute/json-web-signature@0.7.0-unstable.81(web-streams-polyfill@4.0.0)':
     dependencies:
@@ -28164,6 +28258,8 @@ snapshots:
       '@transmute/web-crypto-key-pair': 0.7.0-unstable.81
     transitivePeerDependencies:
       - domexception
+      - expo
+      - react-native
       - web-streams-polyfill
 
   '@transmute/jsonld-schema@0.7.0-unstable.81(web-streams-polyfill@4.0.0)':
@@ -28173,14 +28269,39 @@ snapshots:
       genson-js: 0.0.5
     transitivePeerDependencies:
       - domexception
+      - expo
+      - react-native
       - web-streams-polyfill
+
+  '@transmute/jsonld@0.0.4(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)':
+    dependencies:
+      json-pointer: 0.6.2
+      jsonld: '@digitalcredentials/jsonld@6.0.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)'
+    transitivePeerDependencies:
+      - domexception
+      - expo
+      - react-native
+      - web-streams-polyfill
+
+  '@transmute/jsonld@0.0.4(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))':
+    dependencies:
+      json-pointer: 0.6.2
+      jsonld: '@digitalcredentials/jsonld@6.0.0(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))'
+    transitivePeerDependencies:
+      - domexception
+      - expo
+      - react-native
+      - web-streams-polyfill
+    optional: true
 
   '@transmute/jsonld@0.0.4(web-streams-polyfill@4.0.0)':
     dependencies:
       json-pointer: 0.6.2
-      jsonld: 5.2.0(web-streams-polyfill@4.0.0)
+      jsonld: '@digitalcredentials/jsonld@6.0.0(web-streams-polyfill@4.0.0)'
     transitivePeerDependencies:
       - domexception
+      - expo
+      - react-native
       - web-streams-polyfill
 
   '@transmute/ld-key-pair@0.6.1-unstable.37': {}
@@ -28217,6 +28338,8 @@ snapshots:
     transitivePeerDependencies:
       - domexception
       - encoding
+      - expo
+      - react-native
       - web-streams-polyfill
 
   '@transmute/web-crypto-key-pair@0.7.0-unstable.81':
@@ -28656,7 +28779,7 @@ snapshots:
     dependencies:
       '@bitauth/libauth': 1.19.1
       '@digitalcredentials/jsonld': 5.2.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
-      '@digitalcredentials/jsonld-signatures': 9.4.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
+      '@digitalcredentials/jsonld-signatures': 9.4.0
       '@ethersproject/transactions': 5.7.0
       '@trust/keyto': 1.0.1
       base64url: 3.0.1
@@ -28768,8 +28891,8 @@ snapshots:
       '@digitalcredentials/jsonld-signatures': 10.0.1(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@digitalcredentials/vc': 7.0.0(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@transmute/credentials-context': 0.7.0-unstable.81
-      '@transmute/ed25519-signature-2018': 0.7.0-unstable.81(web-streams-polyfill@4.0.0)
-      '@transmute/json-web-signature': 0.7.0-unstable.81(web-streams-polyfill@4.0.0)
+      '@transmute/ed25519-signature-2018': 0.7.0-unstable.81(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
+      '@transmute/json-web-signature': 0.7.0-unstable.81(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
       '@veramo/core-types': 6.0.0
       '@veramo/utils': 6.0.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)
@@ -28797,8 +28920,8 @@ snapshots:
       '@digitalcredentials/jsonld-signatures': 10.0.1(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@digitalcredentials/vc': 7.0.0(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@transmute/credentials-context': 0.7.0-unstable.81
-      '@transmute/ed25519-signature-2018': 0.7.0-unstable.81(web-streams-polyfill@4.0.0)
-      '@transmute/json-web-signature': 0.7.0-unstable.81(web-streams-polyfill@4.0.0)
+      '@transmute/ed25519-signature-2018': 0.7.0-unstable.81(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
+      '@transmute/json-web-signature': 0.7.0-unstable.81(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
       '@veramo/core-types': 6.0.0
       '@veramo/utils': 6.0.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)
@@ -28823,11 +28946,11 @@ snapshots:
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
-      '@digitalcredentials/jsonld': 6.0.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
+      '@digitalcredentials/jsonld': 6.0.0(web-streams-polyfill@4.0.0)
       '@digitalcredentials/jsonld-signatures': 10.0.1(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@digitalcredentials/vc': 7.0.0(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@transmute/credentials-context': 0.7.0-unstable.81
-      '@transmute/ed25519-signature-2018': 0.7.0-unstable.81(web-streams-polyfill@4.0.0)
+      '@transmute/ed25519-signature-2018': 0.7.0-unstable.81
       '@transmute/json-web-signature': 0.7.0-unstable.81(web-streams-polyfill@4.0.0)
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b
       '@veramo/core-types': 6.0.0
@@ -34647,7 +34770,7 @@ snapshots:
       - react-native
     optional: true
 
-  isows@1.0.3(ws@8.13.0(bufferutil@4.0.8)):
+  isows@1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)):
     dependencies:
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
 
@@ -40721,7 +40844,7 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 0.9.8(typescript@5.4.5)(zod@3.23.8)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     optionalDependencies:
       typescript: 5.4.5
@@ -40738,7 +40861,7 @@ snapshots:
       '@scure/bip32': 1.3.2
       '@scure/bip39': 1.2.1
       abitype: 1.0.0(typescript@5.4.5)(zod@3.23.8)
-      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8))
+      isows: 1.0.3(ws@8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3))
       ws: 8.13.0(bufferutil@4.0.8)(utf-8-validate@6.0.3)
     optionalDependencies:
       typescript: 5.4.5

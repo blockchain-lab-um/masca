@@ -310,7 +310,7 @@
     "view-json": "View JSON",
     "credential-valid": "Credential is valid",
     "credential-invalid": "Credential is invalid",
-    "disclosures": "Disclosures"
+    "disclosures": "DISCLOSURES"
   },
   "Error": {
     "title": "Something went wrong",
