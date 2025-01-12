@@ -485,6 +485,7 @@
     "title": "Modify Credential"
   },
   "OIDCAuthView": {
+    "start": "Start OIDC Authorization Request",
     "error": "Failed to finish OIDC Authorization Request!",
     "finished": "Authorization Request finished",
     "new-scan": "Scan New Code",

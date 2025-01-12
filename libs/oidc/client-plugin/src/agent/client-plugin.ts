@@ -565,20 +565,13 @@ export class OIDCClientPlugin implements IAgentPlugin {
           authorizationRequest.presentation_definition = presentationDefinition;
           this.current.presentationDefinition = presentationDefinition;
         } else {
-          this.current.presentationDefinition = JSON.parse(
-            authorizationRequest.presentation_definition as unknown as string
-          ) as unknown as PresentationDefinition;
+          this.current.presentationDefinition =
+            typeof authorizationRequest.presentation_definition === 'string'
+              ? (JSON.parse(
+                  authorizationRequest.presentation_definition as unknown as string
+                ) as unknown as PresentationDefinition)
+              : (authorizationRequest.presentation_definition as unknown as PresentationDefinition);
         }
-
-        // This is only if we combine the specs with SIOPv2
-        // if (
-        //   authorizationRequest.id_token_type &&
-        //   authorizationRequest.id_token_type !== 'subject_signed'
-        // ) {
-        //   return ResultObject.error(
-        //     'Only subject_signed id token type is supported'
-        //   );
-        // }
       }
 
       this.current.authorizationRequest = authorizationRequest;
