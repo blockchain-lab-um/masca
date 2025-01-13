@@ -70,7 +70,7 @@ export default async function Page({
             total={presentation.length ?? 1}
           />
         )}
-        {view === 'Normal' && verificationResult && (
+        {view === 'Normal' && !isSdJwtPresentation && verificationResult && (
           <FormattedView
             credential={credentials[Number.parseInt(page, 10) - 1]}
             presentation={presentation}
