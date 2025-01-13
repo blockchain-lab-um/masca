@@ -194,11 +194,11 @@ class UIService {
 
   static async createCredentialDialog(params: {
     save: boolean | undefined;
-    storeString: string;
+    store: string | string[];
     minimalUnsignedCredential: any;
     did: string;
   }) {
-    const { save, storeString, minimalUnsignedCredential, did } = params;
+    const { save, store, minimalUnsignedCredential, did } = params;
 
     const uiPanelContent = (
       <Box>
@@ -213,7 +213,10 @@ class UIService {
           credential below?
         </Text>
         <Divider />
-        <Text>{storeString}</Text>
+        <Text>
+          Data store(s):{' '}
+          <Bold>{typeof store === 'string' ? store : store.join(', ')}</Bold>
+        </Text>
         <Text>Credential:</Text>
         <Copyable value={JSON.stringify(minimalUnsignedCredential, null, 2)} />
       </Box>

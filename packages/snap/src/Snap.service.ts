@@ -174,13 +174,6 @@ class SnapService {
       return unsignedVc;
     }
 
-    let storeString = '';
-    if (save === true) {
-      storeString = `Data store(s): **${
-        typeof store === 'string' ? store : store.join(', ')
-      }**`;
-    }
-
     if (proofFormat === 'sd-jwt') {
       // Hide the type value from the credential subject
       const disclosureFrame = {
@@ -199,7 +192,7 @@ class SnapService {
       if (
         await UIService.createCredentialDialog({
           save,
-          storeString,
+          store,
           minimalUnsignedCredential: vc,
           did,
         })
@@ -228,7 +221,7 @@ class SnapService {
     if (
       await UIService.createCredentialDialog({
         save,
-        storeString,
+        store,
         minimalUnsignedCredential: vc,
         did,
       })
