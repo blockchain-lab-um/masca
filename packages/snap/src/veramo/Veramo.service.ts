@@ -768,9 +768,14 @@ class VeramoService {
     const { sendOIDCAuthorizationResponseArgs } =
       handleAuthorizationRequestResult;
 
-    await VeramoService.sendAuthorizationResponse(
-      sendOIDCAuthorizationResponseArgs
-    );
+    const authorizationResponseResult =
+      await VeramoService.instance.sendOIDCAuthorizationResponse(
+        sendOIDCAuthorizationResponseArgs
+      );
+
+    if (isError(authorizationResponseResult)) {
+      throw new Error(authorizationResponseResult.error);
+    }
   }
 
   // FIXME: This is a temporary solution (we need to refactor this)
