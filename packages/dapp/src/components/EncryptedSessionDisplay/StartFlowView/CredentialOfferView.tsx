@@ -118,7 +118,7 @@ export const CredentialOfferView = ({
           {t('switch-to')}
           {request.type === 'polygonCredentialOffer'
             ? 'did:polygonid or did:iden3'
-            : 'did:key:jwk_jcs-pub'}{' '}
+            : 'did:key (EBSI)'}{' '}
           {t('to-continue')}
         </div>
       )}
