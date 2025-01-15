@@ -24,7 +24,6 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
-
   "scripts": {
     "build": "pnpm nx run-many --target=build",
     "build:docker": "./scripts/build-docker.sh",
@@ -80,7 +79,9 @@
       "did-jwt@6.11.6": "patches/did-jwt@6.11.6.patch",
       "@iden3/js-jsonld-merklization@1.2.0": "patches/@iden3__js-jsonld-merklization@1.2.0.patch",
       "did-jwt@8.0.4": "patches/did-jwt@8.0.4.patch",
-      "@metamask/snaps-sdk": "patches/@metamask__snaps-sdk.patch"
+      "@metamask/snaps-sdk": "patches/@metamask__snaps-sdk.patch",
+      "@astronautlabs/jsonpath": "patches/@astronautlabs__jsonpath.patch",
+      "escodegen": "patches/escodegen.patch"
     },
     "allowNonAppliedPatches": false
   }
