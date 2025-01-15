@@ -855,6 +855,9 @@ importers:
       '@sd-jwt/crypto-nodejs':
         specifier: ^0.7.2
         version: 0.7.2
+      '@sd-jwt/sd-jwt-vc':
+        specifier: ^0.8.0
+        version: 0.8.0
       '@sd-jwt/types':
         specifier: ^0.7.2
         version: 0.7.2
@@ -10128,6 +10131,7 @@ packages:
 
   eciesjs@0.3.18:
     resolution: {integrity: sha512-RQhegEtLSyIiGJmFTZfvCTHER/fymipXFVx6OwSRYD6hOuy+6Kjpk0dGvIfP9kxn/smBpxQy71uxpGO406ITCw==}
+    deprecated: Please upgrade to v0.4+
 
   ed25519-signature-2018-context@1.1.0:
     resolution: {integrity: sha512-ppDWYMNwwp9bploq0fS4l048vHIq41nWsAbPq6H4mNVx9G/GxW3fwg4Ln0mqctP13MoEpREK7Biz8TbVVdYXqA==}
@@ -26869,7 +26873,7 @@ snapshots:
       chalk: 4.1.2
       execa: 5.1.1
       metro: 0.80.12(bufferutil@4.0.8)
-      metro-config: 0.80.12(bufferutil@4.0.8)
+      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       metro-core: 0.80.12
       node-fetch: 2.7.0(encoding@0.1.13)
       querystring: 0.2.1
@@ -28654,8 +28658,8 @@ snapshots:
   '@veramo-community/lds-ecdsa-secp256k1-recovery2020@https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b':
     dependencies:
       '@bitauth/libauth': 1.19.1
-      '@digitalcredentials/jsonld': 5.2.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
-      '@digitalcredentials/jsonld-signatures': 9.4.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
+      '@digitalcredentials/jsonld': 5.2.2(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
+      '@digitalcredentials/jsonld-signatures': 9.4.0(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
       '@ethersproject/transactions': 5.7.0
       '@trust/keyto': 1.0.1
       base64url: 3.0.1
@@ -28822,7 +28826,7 @@ snapshots:
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
-      '@digitalcredentials/jsonld': 6.0.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
+      '@digitalcredentials/jsonld': 6.0.0(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
       '@digitalcredentials/jsonld-signatures': 10.0.1(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@digitalcredentials/vc': 7.0.0(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@transmute/credentials-context': 0.7.0-unstable.81
@@ -35998,21 +36002,6 @@ snapshots:
       flow-enums-runtime: 0.0.6
       metro-core: 0.80.12
 
-  metro-config@0.80.12(bufferutil@4.0.8):
-    dependencies:
-      connect: 3.7.0
-      cosmiconfig: 5.2.1
-      flow-enums-runtime: 0.0.6
-      jest-validate: 29.7.0
-      metro: 0.80.12(bufferutil@4.0.8)
-      metro-cache: 0.80.12
-      metro-core: 0.80.12
-      metro-runtime: 0.80.12
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   metro-config@0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3):
     dependencies:
       connect: 3.7.0
@@ -36170,7 +36159,7 @@ snapshots:
       metro-babel-transformer: 0.80.12
       metro-cache: 0.80.12
       metro-cache-key: 0.80.12
-      metro-config: 0.80.12(bufferutil@4.0.8)
+      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       metro-core: 0.80.12
       metro-file-map: 0.80.12
       metro-resolver: 0.80.12
