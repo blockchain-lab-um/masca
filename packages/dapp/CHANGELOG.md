@@ -1,5 +1,11 @@
 # @blockchain-lab-um/dapp
 
+## 1.4.0-beta.3
+
+### Patch Changes
+
+- [#658](https://github.com/blockchain-lab-um/masca/pull/658) [`413bc9c`](https://github.com/blockchain-lab-um/masca/commit/413bc9c37e8742a3befb17b61a40b32992880746) Thanks [@martines3000](https://github.com/martines3000)! - Resolve missing intl translation
+
 ## 1.4.0-beta.2
 
 ### Patch Changes
