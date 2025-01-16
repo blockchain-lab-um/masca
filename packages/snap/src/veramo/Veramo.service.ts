@@ -619,6 +619,7 @@ class VeramoService {
   static async decodeSdJwtPresentation(
     params: DecodeSdJwtPresentationRequestParams
   ): Promise<SdJwtCredential[]> {
+    const sdjwt = SDJwtService.get();
     const credentials: SdJwtCredential[] = [];
 
     const mapDisclosures = (disclosures: any[] = []) =>
@@ -631,7 +632,7 @@ class VeramoService {
       }));
 
     params.presentation.map(async (vp) => {
-      const res = await VeramoService.instance.decodeSdJwt(vp);
+      const res = await sdjwt.decode(vp);
 
       const payload = res.jwt?.payload;
       const signature = res.jwt?.signature ?? '';
