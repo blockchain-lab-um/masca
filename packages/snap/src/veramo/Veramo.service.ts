@@ -106,9 +106,8 @@ import { sign } from '../utils/sign';
 import { CeramicCredentialStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapCredentialStore } from './plugins/snapDataStore/snapDataStore';
 
-import { SDJwtPlugin } from '../../../../../sd-jwt-implementacija-masca/sd-jwt-veramo';
-import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
 import { randomBytes } from 'node:crypto';
+import SDJwtService from 'src/SDJwt.service';
 
 export type Agent = TAgent<
   IDIDManager &
@@ -118,8 +117,7 @@ export type Agent = TAgent<
     IDataManager &
     ICredentialIssuer &
     ICredentialVerifier &
-    IOIDCClientPlugin &
-    SDJwtPlugin
+    IOIDCClientPlugin
 >;
 
 class VeramoService {
@@ -293,7 +291,7 @@ class VeramoService {
     credential: MinimalUnsignedCredential;
     disclosureFrame: Record<string, any>;
   }): Promise<any> {
-    const state = StorageService.get();
+    const sdjwt = SDJwtService.getInstance();
     let { credential, disclosureFrame } = params;
     const { did, keys } = await VeramoService.getIdentifier();
 
@@ -328,6 +326,13 @@ class VeramoService {
       credentialPayload: sdJwtVcPayload,
       disclosureFrame: disclosureFrame,
     });
+
+    const credentialJwt = await sdjwt.issue(
+      sdJwtVcPayload as any,
+      disclosureFrame as any
+    );
+
+    // console.log('# #  # ----> credentialJwt VERAMO SERVICE : ', credentialJwt);
 
     const customCredential = {
       ...vc,
@@ -1241,8 +1246,7 @@ class VeramoService {
         IDataManager &
         ICredentialIssuer &
         ICredentialVerifier &
-        IOIDCClientPlugin &
-        SDJwtPlugin
+        IOIDCClientPlugin
     >({
       plugins: [
         new CredentialPlugin(),
@@ -1279,19 +1283,6 @@ class VeramoService {
           providers: didProviders,
         }),
         new OIDCClientPlugin(),
-        new SDJwtPlugin({
-          hasher: digest,
-          saltGenerator: generateSalt,
-          verifySignature: async (data, signature, publicKey) => {
-            try {
-              // TODO: Implement verifying signature (sd-jwt)
-              return true;
-            } catch (error) {
-              console.error('SD-JWT Signature Verification Failed', error);
-              return false;
-            }
-          },
-        }),
       ],
     });
   }

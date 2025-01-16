@@ -280,9 +280,6 @@ importers:
       ethr-did-resolver:
         specifier: 10.1.3
         version: 10.1.3(bufferutil@4.0.8)(utf-8-validate@6.0.3)
-      sd-jwt-veramo:
-        specifier: ../../../sd-jwt-implementacija-masca/sd-jwt-veramo
-        version: link:../../../sd-jwt-implementacija-masca/sd-jwt-veramo
     devDependencies:
       '@veramo/did-manager':
         specifier: 6.0.0
@@ -642,9 +639,6 @@ importers:
       react-share:
         specifier: ^5.1.0
         version: 5.1.0(react@18.3.1)
-      sd-jwt-veramo:
-        specifier: ../../../sd-jwt-implementacija-masca/sd-jwt-veramo
-        version: link:../../../sd-jwt-implementacija-masca/sd-jwt-veramo
       sharp:
         specifier: ^0.33.3
         version: 0.33.3
@@ -939,9 +933,6 @@ importers:
       qs:
         specifier: ^6.11.2
         version: 6.11.2
-      sd-jwt-veramo:
-        specifier: ../../../sd-jwt-implementacija-masca/sd-jwt-veramo
-        version: link:../../../sd-jwt-implementacija-masca/sd-jwt-veramo
       viem:
         specifier: ^2.9.23
         version: 2.9.25(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.3)(zod@3.23.8)
@@ -26873,7 +26864,7 @@ snapshots:
       chalk: 4.1.2
       execa: 5.1.1
       metro: 0.80.12(bufferutil@4.0.8)
-      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      metro-config: 0.80.12(bufferutil@4.0.8)
       metro-core: 0.80.12
       node-fetch: 2.7.0(encoding@0.1.13)
       querystring: 0.2.1
@@ -26895,7 +26886,7 @@ snapshots:
       chalk: 4.1.2
       execa: 5.1.1
       metro: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
-      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      metro-config: 0.80.12(bufferutil@4.0.8)
       metro-core: 0.80.12
       node-fetch: 2.7.0(encoding@0.1.13)
       querystring: 0.2.1
@@ -28658,8 +28649,8 @@ snapshots:
   '@veramo-community/lds-ecdsa-secp256k1-recovery2020@https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b':
     dependencies:
       '@bitauth/libauth': 1.19.1
-      '@digitalcredentials/jsonld': 5.2.2(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
-      '@digitalcredentials/jsonld-signatures': 9.4.0(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
+      '@digitalcredentials/jsonld': 5.2.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
+      '@digitalcredentials/jsonld-signatures': 9.4.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
       '@ethersproject/transactions': 5.7.0
       '@trust/keyto': 1.0.1
       base64url: 3.0.1
@@ -28826,7 +28817,7 @@ snapshots:
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
-      '@digitalcredentials/jsonld': 6.0.0(react-native@0.74.1(@babel/core@7.23.2)(@babel/preset-env@7.25.8(@babel/core@7.23.2))(@types/react@18.3.1)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1))
+      '@digitalcredentials/jsonld': 6.0.0(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3))(web-streams-polyfill@4.0.0)
       '@digitalcredentials/jsonld-signatures': 10.0.1(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@digitalcredentials/vc': 7.0.0(expo-crypto@13.0.2(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)))(expo@51.0.2(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3))(msrcrypto@1.5.8)(react-native-securerandom@1.0.1(react-native@0.74.1(@babel/core@7.25.8)(@babel/preset-env@7.25.8(@babel/core@7.25.8))(@types/react@18.2.14)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@6.0.3)))
       '@transmute/credentials-context': 0.7.0-unstable.81
@@ -36002,13 +35993,13 @@ snapshots:
       flow-enums-runtime: 0.0.6
       metro-core: 0.80.12
 
-  metro-config@0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3):
+  metro-config@0.80.12(bufferutil@4.0.8):
     dependencies:
       connect: 3.7.0
       cosmiconfig: 5.2.1
       flow-enums-runtime: 0.0.6
       jest-validate: 29.7.0
-      metro: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      metro: 0.80.12(bufferutil@4.0.8)
       metro-cache: 0.80.12
       metro-core: 0.80.12
       metro-runtime: 0.80.12
@@ -36159,7 +36150,7 @@ snapshots:
       metro-babel-transformer: 0.80.12
       metro-cache: 0.80.12
       metro-cache-key: 0.80.12
-      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      metro-config: 0.80.12(bufferutil@4.0.8)
       metro-core: 0.80.12
       metro-file-map: 0.80.12
       metro-resolver: 0.80.12
@@ -36208,7 +36199,7 @@ snapshots:
       metro-babel-transformer: 0.80.12
       metro-cache: 0.80.12
       metro-cache-key: 0.80.12
-      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      metro-config: 0.80.12(bufferutil@4.0.8)
       metro-core: 0.80.12
       metro-file-map: 0.80.12
       metro-resolver: 0.80.12

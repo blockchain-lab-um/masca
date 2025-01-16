@@ -15,8 +15,6 @@ import { Resolver } from 'did-resolver';
 import { getResolver as ensDidResolver } from 'ens-did-resolver';
 import { JsonRpcProvider, type Provider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
-import { SDJwtPlugin } from 'sd-jwt-veramo';
-import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
 
 export interface CreateVeramoAgentProps {
   providers?: Record<string, Provider>;
@@ -24,7 +22,7 @@ export interface CreateVeramoAgentProps {
 
 export const createVeramoAgent: (
   props?: CreateVeramoAgentProps
-) => Promise<TAgent<IResolver & ICredentialVerifier & SDJwtPlugin>> = async (
+) => Promise<TAgent<IResolver & ICredentialVerifier>> = async (
   props?: CreateVeramoAgentProps
 ) => {
   const { providers } = props ?? {};
@@ -53,7 +51,7 @@ export const createVeramoAgent: (
 
   UniversalResolverService.init();
 
-  return createAgent<IResolver & ICredentialVerifier & SDJwtPlugin>({
+  return createAgent<IResolver & ICredentialVerifier>({
     plugins: [
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
@@ -69,21 +67,8 @@ export const createVeramoAgent: (
           ...UniversalResolverService.getResolver(),
         }),
       }),
-      new SDJwtPlugin({
-        hasher: digest,
-        saltGenerator: generateSalt,
-        verifySignature: async (data, signature, publicKey) => {
-          try {
-            // TODO: Implement signature verification
-            return true;
-          } catch (error) {
-            console.error('SD-JWT Signature Verification Failed', error);
-            return false;
-          }
-        },
-      }),
     ],
   });
 };
 
-export type Agent = TAgent<IResolver & ICredentialVerifier & SDJwtPlugin>;
+export type Agent = TAgent<IResolver & ICredentialVerifier>;

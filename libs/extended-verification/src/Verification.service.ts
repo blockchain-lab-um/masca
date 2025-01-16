@@ -9,7 +9,6 @@ import { normalizeCredential, normalizePresentation } from 'did-jwt-vc';
 import type { Provider } from 'ethers';
 
 import { type Agent, createVeramoAgent } from './createVeramoAgent';
-import type { IVerifySdJwtVcPresentationArgs } from 'sd-jwt-veramo';
 
 export interface CredentialVerificationResult {
   signature: {
@@ -54,17 +53,9 @@ export class VerificationService {
     VerificationService.veramoAgent = await createVeramoAgent();
   }
 
-  static async verifySdJwtPresentation(
-    args: IVerifySdJwtVcPresentationArgs
-  ): Promise<any> {
-    try {
-      const result =
-        await VerificationService.veramoAgent.verifySdJwtVcPresentation(args);
-      return ResultObject.success(result);
-    } catch (error) {
-      console.error('Error verifying SD-JWT presentation:', error);
-      return ResultObject.error('Verification failed');
-    }
+  // TODO: Implement this (edis)
+  static async verifySdJwtPresentation(args: any): Promise<any> {
+    throw new Error('Not implemented');
   }
 
   static async verify(

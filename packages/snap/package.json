@@ -101,8 +101,7 @@
     "lodash.clonedeep": "^4.5.0",
     "multiformats": "^13.1.0",
     "qs": "^6.11.2",
-    "viem": "^2.9.23",
-    "sd-jwt-veramo": "../../../sd-jwt-implementacija-masca/sd-jwt-veramo"
+    "viem": "^2.9.23"
   },
   "devDependencies": {
     "@ceramicnetwork/streamid": "2.17.0",

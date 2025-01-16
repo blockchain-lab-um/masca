@@ -26,7 +26,7 @@
       "./files/circuits/credentialAtomicQuerySigV2/circuit_final.zkey",
       "./files/circuits/credentialAtomicQuerySigV2/verification_key.json"
     ],
-    "shasum": "nHpRp4CVHapl7TO0A6ImnRO0u3T/y4sPghawmRrfAFo="
+    "shasum": "xFjYkfkWeWHrH8U1EN8dBDz/6OmE3hlpv3mcWzIQraM="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},
