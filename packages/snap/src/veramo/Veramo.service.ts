@@ -553,7 +553,7 @@ class VeramoService {
               presentationFrame: presentationKeys as string[],
             });
 
-            return presentation.res.presentation;
+            return presentation.presentation;
           }
         })
       );
@@ -597,18 +597,17 @@ class VeramoService {
     presentationFrame: string[];
   }): Promise<any> {
     const { encodedSdJwtVc, presentationFrame } = params;
+    const sdjwt = SDJwtService.get();
 
     const presentationKeys =
       await VeramoService.createPresentationFrame(presentationFrame);
 
-    const res = await VeramoService.instance.createSdJwtVcPresentation({
-      presentation: encodedSdJwtVc,
-      presentationKeys: {
-        credentialSubject: presentationKeys,
-      },
-    });
+    const sdJwtPresentation = await sdjwt.present(
+      encodedSdJwtVc,
+      presentationKeys
+    );
 
-    return { res, proof: { type: 'sd-jwt' } };
+    return { presentation: sdJwtPresentation, proof: { type: 'sd-jwt' } };
   }
 
   /**
@@ -709,23 +708,26 @@ class VeramoService {
   static async createPresentationFrame(
     claims: string[]
   ): Promise<PresentationFrame<Record<string, boolean>>> {
-    const frame: any = {};
+    let frame: any = {};
 
     claims.forEach((claim) => {
-      // Split nested claims by '.'
       const keys = claim.split('.');
-      // Start from the root
       let current = frame;
 
-      // Build the nested structure
       keys.forEach((key, index) => {
         if (!current[key]) {
-          // If last key, set to true, otherwise set to an empty object
           current[key] = index === keys.length - 1 ? true : {};
         }
-        current = current[key]; // Traverse deeper
+        current = current[key];
       });
     });
+
+    // Change this if want to add more properties that are not in credentialSubject to the frame
+    frame = {
+      credentialSubject: {
+        ...frame,
+      },
+    };
 
     return frame as PresentationFrame<Record<string, boolean>>;
   }
