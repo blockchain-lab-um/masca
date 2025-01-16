@@ -291,7 +291,7 @@ class VeramoService {
     credential: MinimalUnsignedCredential;
     disclosureFrame: Record<string, any>;
   }): Promise<any> {
-    const sdjwt = SDJwtService.getInstance();
+    const sdjwt = SDJwtService.get();
     let { credential, disclosureFrame } = params;
     const { did, keys } = await VeramoService.getIdentifier();
 
@@ -322,20 +322,22 @@ class VeramoService {
       },
     };
 
-    const vc = await VeramoService.instance.createSdJwtVc({
-      credentialPayload: sdJwtVcPayload,
-      disclosureFrame: disclosureFrame,
-    });
-
-    const credentialJwt = await sdjwt.issue(
+    const sdJwtCredential = await sdjwt.issue(
       sdJwtVcPayload as any,
       disclosureFrame as any
     );
 
-    // console.log('# #  # ----> credentialJwt VERAMO SERVICE : ', credentialJwt);
+    const decode = await sdjwt.decode(sdJwtCredential);
+
+    const signedCredentialWithDisclosures = {
+      ...decode.jwt?.payload,
+      signature: decode.jwt?.signature,
+      encoded: sdJwtCredential,
+      disclosures: decode.disclosures,
+    };
 
     const customCredential = {
-      ...vc,
+      credential: signedCredentialWithDisclosures,
       proofType: 'sd-jwt',
     };
 

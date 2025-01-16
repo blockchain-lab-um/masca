@@ -98,7 +98,7 @@ class SDJwtService {
    * Get the global SDJwtInstance
    * @returns SDJwtInstance
    */
-  static getInstance(): SDJwtInstance<any> {
+  static get(): SDJwtInstance<any> {
     if (!SDJwtService.instance) {
       throw new Error('---> SDJwtService is not initialized');
     }
