@@ -607,7 +607,7 @@ class VeramoService {
     // sd_hash is automatically added by the library
     const kbPayload = {
       iat: Math.floor(Date.now() / 1000),
-      aud: `${did}#${keys[0].kid}`,
+      aud: '', // TODO: Set the audience
       nonce: randomBytes(16).toString('hex'),
     };
 
