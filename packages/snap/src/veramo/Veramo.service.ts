@@ -596,15 +596,27 @@ class VeramoService {
     encodedSdJwtVc: string;
     presentationFrame: string[];
   }): Promise<any> {
-    const { encodedSdJwtVc, presentationFrame } = params;
     const sdjwt = SDJwtService.get();
+
+    const { did, keys } = await VeramoService.getIdentifier();
+    const { encodedSdJwtVc, presentationFrame } = params;
 
     const presentationKeys =
       await VeramoService.createPresentationFrame(presentationFrame);
 
+    // sd_hash is automatically added by the library
+    const kbPayload = {
+      iat: Math.floor(Date.now() / 1000),
+      aud: `${did}#${keys[0].kid}`,
+      nonce: randomBytes(16).toString('hex'),
+    };
+
     const sdJwtPresentation = await sdjwt.present(
       encodedSdJwtVc,
-      presentationKeys
+      presentationKeys,
+      {
+        kb: { payload: kbPayload },
+      }
     );
 
     return { presentation: sdJwtPresentation, proof: { type: 'sd-jwt' } };

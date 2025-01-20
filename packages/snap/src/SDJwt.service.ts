@@ -23,6 +23,16 @@ class SDJwtService {
   }
 
   /**
+   * Helper function to decode a Base64 URL-safe string into a Buffer.
+   * @param base64Url - The Base64 URL-safe encoded string.
+   * @returns A Buffer containing the decoded data.
+   */
+  private static fromBase64Url(base64Url: string): Buffer {
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return Buffer.from(base64, 'base64');
+  }
+
+  /**
    * Initializes the SDJwtService.
    *
    * This method sets up the SDJwtService by retrieving the wallet from the WalletService,
@@ -67,9 +77,11 @@ class SDJwtService {
         signatureBase64Url: string
       ): Promise<boolean> => {
         const hash = crypto.createHash('sha256').update(data).digest();
-        const signatureBuffer = Buffer.from(signatureBase64Url, 'base64url');
+        const signatureBuffer = SDJwtService.fromBase64Url(signatureBase64Url);
+
         const r = signatureBuffer.subarray(0, 32);
         const s = signatureBuffer.subarray(32);
+
         return keyPair.verify(hash, { r, s });
       };
 
@@ -88,6 +100,9 @@ class SDJwtService {
         hasher: digest,
         hashAlg: 'SHA-256',
         saltGenerator: generateSalt,
+        kbSigner: SDJwtService.signer,
+        kbVerifier: SDJwtService.verifier,
+        kbSignAlg: 'EdDSA',
       });
     } catch (e) {
       console.error('Failed to initialize SDJwtService', e);
