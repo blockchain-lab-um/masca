@@ -656,6 +656,7 @@ class VeramoService {
         disclosures
       );
 
+      vc.encoded = vp;
       credentials.push(vc);
     });
 
