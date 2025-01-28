@@ -78,7 +78,10 @@ class SignerService {
         const curve = method === 'did:key:jwk_jcs-pub' ? 'p256' : 'secp256k1';
 
         const ctx = new EC(curve);
-        const ecPrivateKey = ctx.keyFromPrivate(wallet.privateKey.slice(2));
+        const ecPrivateKey = ctx.keyFromPrivate(
+          wallet.privateKey.slice(2),
+          'hex'
+        );
 
         const alg = curve === 'secp256k1' ? 'ES256K' : 'ES256';
 

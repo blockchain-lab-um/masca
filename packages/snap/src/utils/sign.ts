@@ -22,7 +22,7 @@ export const sign = async (signArgs: SignArgs, signOptions: SignOptions) => {
   const { privateKey, did, kid, curve } = signOptions;
   const ctx = new EC(curve);
 
-  const ecPrivateKey = ctx.keyFromPrivate(privateKey.slice(2));
+  const ecPrivateKey = ctx.keyFromPrivate(privateKey.slice(2), 'hex');
 
   const jwtPayload = {
     ...signArgs.payload,
