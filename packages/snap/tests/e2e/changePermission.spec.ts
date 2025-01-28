@@ -24,6 +24,9 @@ describe('changePermission', () => {
     const spyQuery = vi.spyOn(snapMock.rpcMocks, 'snap_dialog');
 
     const defaultState = getDefaultSnapState(account);
+    defaultState[CURRENT_STATE_VERSION].accountState[
+      account
+    ].general.account.ssi.storesEnabled.ceramic = false;
 
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
@@ -66,6 +69,9 @@ describe('changePermission', () => {
     const spyQuery = vi.spyOn(snapMock.rpcMocks, 'snap_dialog');
 
     const defaultState = getDefaultSnapState(account);
+    defaultState[CURRENT_STATE_VERSION].accountState[
+      account
+    ].general.account.ssi.storesEnabled.ceramic = false;
 
     const initialPermissions2 = getInitialPermissions();
     initialPermissions2.methods.queryCredentials = true;
@@ -112,9 +118,11 @@ describe('changePermission', () => {
 
   it('should change queryPermission to true & not show a popup when querying', async () => {
     const spyPermission = vi.spyOn(UIService, 'changePermissionDialog');
-    const spyQuery = vi.spyOn(snapMock.rpcMocks, 'snap_dialog');
 
     const defaultState = getDefaultSnapState(account);
+    defaultState[CURRENT_STATE_VERSION].accountState[
+      account
+    ].general.account.ssi.storesEnabled.ceramic = false;
 
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
@@ -180,6 +188,9 @@ describe('changePermission', () => {
     const spyQuery = vi.spyOn(snapMock.rpcMocks, 'snap_dialog');
 
     const defaultState = getDefaultSnapState(account);
+    defaultState[CURRENT_STATE_VERSION].accountState[
+      account
+    ].general.account.ssi.storesEnabled.ceramic = false;
 
     const initialPermissions3 = getInitialPermissions();
     initialPermissions3.methods.queryCredentials = true;

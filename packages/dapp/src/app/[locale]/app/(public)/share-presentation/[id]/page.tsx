@@ -9,12 +9,20 @@ import { usePresentation, useUpdatePresentationViews } from '@/hooks';
 import { NormalViewButton } from './NormalViewButton';
 import { VerificationService } from '@blockchain-lab-um/extended-verification';
 import type { VerifiablePresentation } from '@veramo/core';
+import { SDJwtView } from './SDJwtView';
 
 export const revalidate = 0;
 
 const verifyPresentation = async (presentation: VerifiablePresentation) => {
   await VerificationService.init();
   return VerificationService.verify(presentation);
+};
+
+const verifySdJwtPresentation = async (presentation: string) => {
+  await VerificationService.init();
+  return VerificationService.verifySdJwtPresentation({
+    presentation: presentation,
+  });
 };
 
 export default async function Page({
@@ -35,9 +43,16 @@ export default async function Page({
 
   await useUpdatePresentationViews(id);
 
-  const verificationResult = await verifyPresentation(data.presentation);
-
   const { presentation } = data;
+
+  const isSdJwtPresentation =
+    Array.isArray(presentation) &&
+    Object.keys(presentation[0]).includes('_sd_alg');
+
+  // TODO: Implement sd-jwt verification
+  const verificationResult = isSdJwtPresentation
+    ? null
+    : await verifyPresentation(data.presentation);
 
   const credentials = presentation.verifiableCredential
     ? presentation.verifiableCredential.map(decodeCredentialToObject)
@@ -48,7 +63,14 @@ export default async function Page({
   return (
     <div className="flex w-full flex-1 items-start justify-center">
       <div className="max-w-full flex-1 md:max-w-3xl">
-        {view === 'Normal' && (
+        {view === 'Normal' && isSdJwtPresentation && (
+          <SDJwtView
+            credential={presentation[Number.parseInt(page, 10) - 1]}
+            page={page}
+            total={presentation.length ?? 1}
+          />
+        )}
+        {view === 'Normal' && !isSdJwtPresentation && verificationResult && (
           <FormattedView
             credential={credentials[Number.parseInt(page, 10) - 1]}
             presentation={presentation}

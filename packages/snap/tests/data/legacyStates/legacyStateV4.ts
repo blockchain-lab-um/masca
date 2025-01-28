@@ -1,17 +1,14 @@
-import {
-  CURRENT_STATE_VERSION,
-  type DappPermissions,
-  type MascaAccountConfig,
-  type MascaAccountState,
-  type MascaState,
-  type PolygonBaseState,
-  type PolygonState,
+import type {
+  MascaLegacyAccountStateV4,
+  MascaLegacyStateV4,
+  MascaLegacyAccountConfigV4,
+  PolygonLegacyBaseStateV4,
+  PolygonLegacyStateV4,
+  DappLegacyPermissionsV4,
 } from '@blockchain-lab-um/masca-types';
 import cloneDeep from 'lodash.clonedeep';
 
-export const UNIRESOLVER_PROXY_URL = 'https://masca.io/api/proxy/uniresolver';
-
-export const emptyPolygonBaseState: PolygonBaseState = {
+const emptyPolygonBaseState: PolygonLegacyBaseStateV4 = {
   credentials: {},
   identities: {},
   profiles: {},
@@ -19,7 +16,7 @@ export const emptyPolygonBaseState: PolygonBaseState = {
   merkleTree: {},
 };
 
-const emptyPolygonState: PolygonState = {
+const emptyPolygonState: PolygonLegacyStateV4 = {
   polygonid: {
     polygon: {
       main: cloneDeep(emptyPolygonBaseState),
@@ -50,20 +47,18 @@ const emptyAccountState = {
           ceramic: true,
         },
       },
-    } as MascaAccountConfig,
+    } as MascaLegacyAccountConfigV4,
   },
-} as MascaAccountState;
+} as MascaLegacyAccountStateV4;
 
-export const getEmptyAccountState = () => cloneDeep(emptyAccountState);
+export const getLegacyEmptyAccountStateV4 = () => cloneDeep(emptyAccountState);
 
-// order/priority: forced, global, trusted dapp, specific rpc method
-const initialPermissions: DappPermissions = {
+const initialLegacyPermissionsV4: DappLegacyPermissionsV4 = {
   trusted: false,
   methods: {
     queryCredentials: false,
     saveCredential: false,
     createPresentation: false,
-    decodeSdJwtPresentation: false,
     deleteCredential: false,
     togglePopups: false,
     addTrustedDapp: false,
@@ -95,17 +90,18 @@ const initialPermissions: DappPermissions = {
   },
 };
 
-export const getInitialPermissions = () => cloneDeep(initialPermissions);
+export const getInitialLegacyPermissionsV4 = () =>
+  cloneDeep(initialLegacyPermissionsV4);
 
-const initialSnapState: MascaState = {
-  [CURRENT_STATE_VERSION]: {
+const initialSnapState: MascaLegacyStateV4 = {
+  v4: {
     accountState: {},
     currentAccount: '',
     config: {
       dApp: {
         disablePopups: false,
         permissions: {
-          'masca.io': getInitialPermissions(),
+          'masca.io': getInitialLegacyPermissionsV4(),
         },
       },
       snap: {
@@ -115,4 +111,4 @@ const initialSnapState: MascaState = {
   },
 };
 
-export const getInitialSnapState = () => cloneDeep(initialSnapState);
+export const getLegacyStateV4 = () => cloneDeep(initialSnapState);

@@ -3,6 +3,7 @@ import type {
   AvailableMethods,
   CreateCredentialRequestParams,
   CreatePresentationRequestParams,
+  DecodeSdJwtPresentationRequestParams,
   DeleteCredentialsOptions,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
@@ -15,6 +16,7 @@ import type {
   QueryCredentialsRequestResult,
   SaveCredentialOptions,
   SaveCredentialRequestResult,
+  SdJwtCredential,
   SetCurrentAccountRequestParams,
   SignDataRequestParams,
   VerifyDataRequestParams,
@@ -113,6 +115,27 @@ async function createPresentation(
   );
 
   return signedResult;
+}
+
+/**
+ * Decode a SD-JWT presentation
+ * @param params - parameters for decoding a SD-JWT presentation
+ * @return Result<SdJwtCredential> - decoded SD-JWT presentation
+ */
+async function decodeSdJwtPresentation(
+  this: Masca,
+  params: DecodeSdJwtPresentationRequestParams
+): Promise<Result<SdJwtCredential[]>> {
+  return sendSnapMethod<any>(
+    this,
+    {
+      method: 'decodeSdJwtPresentation',
+      params: {
+        ...params,
+      },
+    },
+    this.snapId
+  );
 }
 
 /**
@@ -404,11 +427,12 @@ async function createCredential(
 
   const vcResult = result as Result<VerifiableCredential>;
 
-  if (isError(vcResult)) {
+  // Fix (no issuer id): the sd-jwt has iss value and not issuer with id value
+  if (vcResult.success && vcResult.data.proofType === 'sd-jwt') {
     return vcResult;
   }
 
-  if (vcResult.data.proof) {
+  if (isError(vcResult)) {
     return vcResult;
   }
 
@@ -637,6 +661,7 @@ export class Masca {
     saveCredential: wrapper(saveCredential.bind(this)),
     queryCredentials: wrapper(queryCredentials.bind(this)),
     createPresentation: wrapper(createPresentation.bind(this)),
+    decodeSdJwtPresentation: wrapper(decodeSdJwtPresentation.bind(this)),
     togglePopups: wrapper(togglePopups.bind(this)),
     addTrustedDapp: wrapper(addTrustedDapp.bind(this)),
     removeTrustedDapp: wrapper(removeTrustedDapp.bind(this)),

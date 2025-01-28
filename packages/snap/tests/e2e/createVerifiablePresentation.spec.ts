@@ -1,6 +1,7 @@
-import type {
-  AvailableMethods,
-  ProofOptions,
+import {
+  CURRENT_STATE_VERSION,
+  type AvailableMethods,
+  type ProofOptions,
 } from '@blockchain-lab-um/masca-types';
 import { type Result, isError } from '@blockchain-lab-um/utils';
 import type { MetaMaskInpageProvider } from '@metamask/providers';
@@ -54,9 +55,13 @@ describe('createVerifiablePresentation', () => {
 
     beforeAll(async () => {
       snapMock = createMockSnap();
+      const defaultState = getDefaultSnapState(account);
+      defaultState[CURRENT_STATE_VERSION].accountState[
+        account
+      ].general.account.ssi.storesEnabled.ceramic = false;
       snapMock.rpcMocks.snap_manageState({
         operation: 'update',
-        newState: getDefaultSnapState(account),
+        newState: defaultState,
       });
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       global.snap = snapMock;
@@ -85,7 +90,7 @@ describe('createVerifiablePresentation', () => {
 
       issuer = switchMethod.data;
 
-      await agent.clear({ options: { store: ['snap', 'ceramic'] } });
+      await agent.clear({ options: { store: ['snap'] } });
     });
 
     describe.each(proofFormats)('Using Proof Format: %s', (proofFormat) => {
@@ -239,9 +244,7 @@ describe('createVerifiablePresentation', () => {
         throw new Error('Should have failed');
       }
 
-      expect(vp.error).toBe(
-        `Error: invalid_argument: $input.vcs[0].issuer, $input.vcs[0].credentialSubject, $input.vcs[0]["@context"], $input.vcs[0].issuanceDate, $input.vcs[0].proof`
-      );
+      expect(vp.error).toBe('Error: invalid_argument: $input.vcs');
       expect.assertions(1);
     });
   });

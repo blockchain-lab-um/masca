@@ -10,7 +10,7 @@ export type AvailableCredentialStores =
 export const isavailableCredentialStores = (x: string) =>
   isIn<AvailableCredentialStores>(availableCredentialStores, x);
 
-export const CURRENT_STATE_VERSION = 'v4';
+export const CURRENT_STATE_VERSION = 'v5';
 
 /**
  * @description
@@ -121,6 +121,7 @@ export const methodIndexMapping: Record<InternalSigMethods, number> = {
 
 export const supportedProofFormats = [
   'jwt',
+  'sd-jwt',
   'lds',
   'EthereumEip712Signature2021',
 ] as const;

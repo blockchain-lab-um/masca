@@ -15,6 +15,7 @@ import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { type SnapMock, createMockSnap } from '../helpers/snapMock';
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 
 describe('verifyData', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -23,9 +24,15 @@ describe('verifyData', () => {
 
   beforeAll(async () => {
     snapMock = createMockSnap();
+    const defaultSnapState = getDefaultSnapState(account);
+
+    defaultSnapState[CURRENT_STATE_VERSION].accountState[
+      account
+    ].general.account.ssi.storesEnabled.ceramic = false;
+
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
-      newState: getDefaultSnapState(account),
+      newState: defaultSnapState,
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
@@ -62,7 +69,7 @@ describe('verifyData', () => {
   });
 
   beforeEach(async () => {
-    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
+    await agent.clear({ options: { store: ['snap'] } });
   });
 
   it('should succeed verifiying a VC', async () => {

@@ -20,7 +20,9 @@ export interface CreateVeramoAgentProps {
   providers?: Record<string, Provider>;
 }
 
-export const createVeramoAgent = async (props?: CreateVeramoAgentProps) => {
+export const createVeramoAgent = async (
+  props?: CreateVeramoAgentProps
+): Promise<TAgent<IResolver & ICredentialVerifier>> => {
   const { providers } = props ?? {};
   // This any is here, because Veramo does't export the `ProviderConfiguration` type
   // from `ethr-did-resolver` and `ens-did-resolver` package uses Ethers v5 still with a

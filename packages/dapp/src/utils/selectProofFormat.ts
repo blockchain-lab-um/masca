@@ -1,5 +1,7 @@
 export const selectProofFormat = (method: string) => {
   switch (method) {
+    case 'did:jwk':
+      return 'sd-jwt';
     case 'did:ethr':
     case 'did:pkh':
     case 'did:ens':

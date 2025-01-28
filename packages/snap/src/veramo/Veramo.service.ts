@@ -10,12 +10,15 @@ import {
   type AvailableCredentialStores,
   CURRENT_STATE_VERSION,
   type CreatePresentationRequestParams,
+  type DecodeSdJwtPresentationRequestParams,
   type Filter,
   type MinimalUnsignedCredential,
   type QueryCredentialsOptions,
   type QueryCredentialsRequestResult,
+  type SdJwtCredential,
   type SaveCredentialRequestResult,
   type VerifyDataRequestParams,
+  type Disclosure,
 } from '@blockchain-lab-um/masca-types';
 import {
   type IOIDCClientPlugin,
@@ -58,6 +61,7 @@ import {
   type W3CVerifiableCredential,
   createAgent,
 } from '@veramo/core';
+import type { PresentationFrame } from '@sd-jwt/types';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import { CredentialStatusPlugin } from '@veramo/credential-status';
 import { CredentialPlugin } from '@veramo/credential-w3c';
@@ -102,6 +106,9 @@ import { normalizeCredential } from '../utils/credential';
 import { sign } from '../utils/sign';
 import { CeramicCredentialStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapCredentialStore } from './plugins/snapDataStore/snapDataStore';
+
+import { randomBytes } from 'node:crypto';
+import SDJwtService from 'src/SDJwt.service';
 
 export type Agent = TAgent<
   IDIDManager &
@@ -267,6 +274,10 @@ class VeramoService {
     const { credential, proofFormat = 'jwt' } = params;
     const identifier = await VeramoService.getIdentifier();
 
+    if (proofFormat === ('sd-jwt' as ProofFormat)) {
+      return VeramoService.instance.createCredentialSdJwt({ credential });
+    }
+
     credential.issuer = identifier.did;
 
     const vc = await VeramoService.instance.createVerifiableCredential({
@@ -275,6 +286,63 @@ class VeramoService {
     });
 
     return vc;
+  }
+
+  static async createCredentialSdJwt(params: {
+    credential: MinimalUnsignedCredential;
+    disclosureFrame: Record<string, any>;
+  }): Promise<any> {
+    const sdjwt = SDJwtService.get();
+    let { credential, disclosureFrame } = params;
+    const { did, keys } = await VeramoService.getIdentifier();
+
+    const sdJwtVcPayload = {
+      '@context': credential['@context'],
+      id: randomBytes(16).toString('hex'),
+      vct: Array.isArray(credential.type)
+        ? credential.type.join(',')
+        : credential.type || '',
+      iss: `${did}#${keys[0].kid}`,
+      iat: Math.floor(Date.now() / 1000),
+      sub: `${did}#${keys[0].kid}`, // TODO: Fix this. Here is Holder reference
+      credentialSubject: {
+        ...credential.credentialSubject,
+      },
+      credentialSchema: {
+        ...credential.credentialSchema,
+      },
+    };
+
+    const credentialSubjectKeys: string[] = Object.keys(
+      credential.credentialSubject
+    );
+
+    disclosureFrame = {
+      credentialSubject: {
+        _sd: credentialSubjectKeys,
+      },
+    };
+
+    const sdJwtCredential = await sdjwt.issue(
+      sdJwtVcPayload as any,
+      disclosureFrame as any
+    );
+
+    const decode = await sdjwt.decode(sdJwtCredential);
+
+    const signedCredentialWithDisclosures = {
+      ...decode.jwt?.payload,
+      signature: decode.jwt?.signature,
+      encoded: sdJwtCredential,
+      disclosures: decode.disclosures,
+    };
+
+    const customCredential = {
+      credential: signedCredentialWithDisclosures,
+      proofType: 'sd-jwt',
+    };
+
+    return customCredential;
   }
 
   /**
@@ -461,21 +529,222 @@ class VeramoService {
   static async createPresentation(
     params: CreatePresentationRequestParams
   ): Promise<VerifiablePresentation> {
-    const { vcs, proofFormat = 'jwt', proofOptions } = params;
+    const {
+      vcs,
+      proofFormat = 'jwt',
+      proofOptions,
+      presentationFrame = [],
+    } = params;
     const domain = proofOptions?.domain;
     const challenge = proofOptions?.challenge;
     const identifier = await VeramoService.getIdentifier();
+
+    if (proofFormat === 'sd-jwt') {
+      const presentations = await Promise.all(
+        vcs.map(async (vc) => {
+          if (typeof vc === 'object' && 'id' in vc && 'encodedVc' in vc) {
+            // filter keys only for this VC
+            const presentationKeys = presentationFrame
+              .filter((claimKey) => vc.id === claimKey.split('/')[0])
+              .map((claimKey) => claimKey.split('/')[1])
+              .filter(Boolean);
+
+            const presentation = await VeramoService.createPresentationSdJwt({
+              encodedSdJwtVc: vc.encodedVc,
+              presentationFrame: presentationKeys as string[],
+            });
+
+            return presentation.presentation;
+          }
+        })
+      );
+
+      const combinedPresentations = {
+        presentations: presentations.map((presentation) => {
+          return {
+            presentation: presentation,
+          };
+        }),
+        proof: {
+          type: 'sd-jwt',
+        },
+      };
+
+      return combinedPresentations as any;
+    }
 
     return VeramoService.instance.createVerifiablePresentation({
       presentation: {
         holder: identifier.did,
         type: ['VerifiablePresentation', 'Custom'],
-        verifiableCredential: vcs,
+        verifiableCredential: vcs as W3CVerifiableCredential[],
       },
       proofFormat,
       domain,
       challenge,
     });
+  }
+
+  /**
+   * Creates a presentation SD-JWT (Selective Disclosure JSON Web Token) from the given encoded SD-JWT VC (Verifiable Credential).
+   *
+   * @param params - An object containing the encoded SD-JWT VC.
+   * @param params.encodedSdJwtVc - The encoded SD-JWT VC to be used for creating the presentation.
+   * @param params.presentationFrame - The presentation frame to be used for creating the presentation.
+   * @returns A promise that resolves to the created SD-JWT VC presentation.
+   */
+  static async createPresentationSdJwt(params: {
+    encodedSdJwtVc: string;
+    presentationFrame: string[];
+  }): Promise<any> {
+    const sdjwt = SDJwtService.get();
+
+    const { did, keys } = await VeramoService.getIdentifier();
+    const { encodedSdJwtVc, presentationFrame } = params;
+
+    const presentationKeys =
+      await VeramoService.createPresentationFrame(presentationFrame);
+
+    // sd_hash is automatically added by the library
+    const kbPayload = {
+      iat: Math.floor(Date.now() / 1000),
+      aud: '', // TODO: Set the audience
+      nonce: randomBytes(16).toString('hex'),
+    };
+
+    const sdJwtPresentation = await sdjwt.present(
+      encodedSdJwtVc,
+      presentationKeys,
+      {
+        kb: { payload: kbPayload },
+      }
+    );
+
+    return { presentation: sdJwtPresentation, proof: { type: 'sd-jwt' } };
+  }
+
+  /**
+   * Decodes a given SD-JWT presentation string and returns the corresponding SdJwtCredential.
+   *
+   * @param presentation - The SD-JWT presentation string to be decoded.
+   * @returns A promise that resolves to an SdJwtCredential object.
+   */
+  static async decodeSdJwtPresentation(
+    params: DecodeSdJwtPresentationRequestParams
+  ): Promise<SdJwtCredential[]> {
+    const sdjwt = SDJwtService.get();
+    const credentials: SdJwtCredential[] = [];
+
+    const mapDisclosures = (disclosures: any[] = []) =>
+      disclosures.map((disclosure) => ({
+        key: disclosure.key ?? '',
+        salt: disclosure.salt,
+        value: disclosure.value as string,
+        digest: disclosure._digest ?? '',
+        encoded: disclosure.encode(),
+      }));
+
+    params.presentation.map(async (vp) => {
+      const res = await sdjwt.decode(vp);
+
+      const payload = res.jwt?.payload;
+      const signature = res.jwt?.signature ?? '';
+      const disclosures = mapDisclosures(res.disclosures);
+
+      const vc = VeramoService.createSdJwtCredentialFromPayload(
+        payload,
+        signature,
+        disclosures
+      );
+
+      vc.encoded = vp;
+      credentials.push(vc);
+    });
+
+    return credentials;
+  }
+
+  /**
+   * Helper function to convert a jwt VC payload to SdJwtCredential
+   * @param vc - The VC payload
+   * @param jwt - The JWT response containing signature
+   * @returns SdJwtCredential
+   */
+  private static createSdJwtCredentialFromPayload(
+    vc: any,
+    signature: string,
+    disclosures: Disclosure[]
+  ): SdJwtCredential {
+    const sdJwtVc: SdJwtCredential = {
+      iss: typeof vc.iss === 'string' ? vc.iss : '',
+      iat: typeof vc.iat === 'number' ? vc.iat : '',
+      sub: typeof vc.sub === 'string' ? vc.sub : '',
+      vct: typeof vc.vct === 'string' ? vc.vct : '',
+      '@context': Array.isArray(vc['@context'])
+        ? (vc['@context'] as string[])
+        : [],
+      credentialSchema:
+        typeof vc.credentialSchema === 'object' && vc.credentialSchema !== null
+          ? {
+              id: (vc.credentialSchema as Record<string, unknown>)
+                ?.id as string,
+              type: (vc.credentialSchema as Record<string, unknown>)
+                ?.type as string,
+            }
+          : {
+              id: '',
+              type: '',
+            },
+      credentialSubject:
+        typeof vc.credentialSubject === 'object' &&
+        vc.credentialSubject !== null
+          ? (vc.credentialSubject as Record<string, unknown>)
+          : {},
+      _sd_alg: typeof vc._sd_alg === 'string' ? vc._sd_alg : '',
+      id: typeof vc.id === 'string' ? vc.id : '',
+      signature: typeof signature === 'string' ? signature : '',
+      disclosures: disclosures.map((disclosure) => ({
+        key: disclosure.key,
+        salt: disclosure.salt,
+        value: disclosure.value,
+        digest: disclosure.digest,
+        encoded: disclosure.encoded,
+      })),
+    };
+
+    return sdJwtVc;
+  }
+
+  /**
+   * Converts an array of claim names into a nested PresentationFrame object.
+   * @param claims - Array of claim names (e.g., ['id', 'data.list.0.r']).
+   * @returns A nested PresentationFrame object.
+   */
+  static async createPresentationFrame(
+    claims: string[]
+  ): Promise<PresentationFrame<Record<string, boolean>>> {
+    let frame: any = {};
+
+    claims.forEach((claim) => {
+      const keys = claim.split('.');
+      let current = frame;
+
+      keys.forEach((key, index) => {
+        if (!current[key]) {
+          current[key] = index === keys.length - 1 ? true : {};
+        }
+        current = current[key];
+      });
+    });
+
+    // Change this if want to add more properties that are not in credentialSubject to the frame
+    frame = {
+      credentialSubject: {
+        ...frame,
+      },
+    };
+
+    return frame as PresentationFrame<Record<string, boolean>>;
   }
 
   /**

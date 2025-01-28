@@ -1,22 +1,21 @@
-import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
-import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
+import type {
+  Disclosure,
+  QueryCredentialsRequestResult,
+} from '@blockchain-lab-um/masca-connector';
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
   XCircleIcon,
 } from '@heroicons/react/24/solid';
 import { Tooltip } from '@nextui-org/react';
-import { encodeBase64url } from '@veramo/utils';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 
 import { isPolygonVC } from '@/utils/credential';
 import { formatDid } from '@/utils/format';
 
-interface SelectedVCsTableRowProps {
+interface SelectedVcShareTableRowProps {
   vc: QueryCredentialsRequestResult;
   selectedSdJwtDisclosures: string[];
-  handleRemove: (id: string) => void;
   handleDisclosureCheck: (
     vcId: string,
     disclosureKey: string,
@@ -24,12 +23,11 @@ interface SelectedVCsTableRowProps {
   ) => void;
 }
 
-const SelectedVCsTableRow = ({
+const SelectedVcShareTableRow = ({
   vc,
   selectedSdJwtDisclosures,
-  handleRemove,
   handleDisclosureCheck,
-}: SelectedVCsTableRowProps) => {
+}: SelectedVcShareTableRowProps) => {
   const t = useTranslations('SelectedVCsTableRow');
 
   let issuer = '';
@@ -56,20 +54,7 @@ const SelectedVCsTableRow = ({
   return (
     <>
       <tr className="animated-transition dark:text-navy-blue-50 dark:border-navy-blue-tone/30 dark:hover:bg-navy-blue-700/30 border-b border-gray-100 duration-75 hover:bg-gray-50">
-        <td className="py-2">
-          <span className="flex items-center justify-center">
-            <Link
-              href={`/app/verifiable-credential/${encodeBase64url(
-                vc.metadata.id
-              )}`}
-            >
-              <button type="button">
-                <ArrowsPointingOutIcon className="h-5 w-5" />
-              </button>
-            </Link>
-          </span>
-        </td>
-        <td>{type}</td>
+        <td className="p-2">{type}</td>
         <td>
           {
             <Tooltip
@@ -89,7 +74,7 @@ const SelectedVCsTableRow = ({
         </td>
         <td>
           {!isPolygonVC(vc) ? (
-            <span className="flex items-center justify-center">
+            <span className="flex items-center justify-center p-2">
               <Tooltip
                 className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
                 content={`${
@@ -118,65 +103,63 @@ const SelectedVCsTableRow = ({
             </span>
           )}
         </td>
-        <td>
-          <span className="flex items-center justify-center">
-            <button type="button" onClick={() => handleRemove(vc.metadata.id)}>
-              <XCircleIcon className="animated-transition h-6 w-6 rounded-full text-red-500 hover:text-red-500/90" />
-            </button>
-          </span>
-        </td>
-      </tr>
-      {vc.data.disclosures?.length > 0 && (
-        <tr className="animated-transition dark:text-navy-blue-50 dark:border-navy-blue-tone/30 dark:hover:bg-navy-blue-700/30 duration-75 hover:bg-gray-50">
-          <td colSpan={5} className="pb-4 pl-4 pr-4 ">
-            <label className="block p-2 text-sm font-medium text-gray-700 dark:text-navy-blue-100">
-              Select claims to disclose:
-            </label>
-            <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {vc.data.disclosures.map((disclosure) => (
-                <div
-                  key={`${vc.metadata.id}.${disclosure.key}`}
-                  className="flex items-center p-2 bg-white dark:bg-navy-blue-800 rounded-lg shadow-md cursor-pointer"
-                  onClick={() =>
-                    handleDisclosureCheck(
-                      vc.metadata.id,
-                      disclosure.key,
-                      !selectedSdJwtDisclosures.includes(
-                        `${vc.metadata.id}/${disclosure.key}`
-                      )
-                    )
-                  }
-                >
-                  <input
-                    type="checkbox"
-                    id={`${vc.metadata.id}.${disclosure.key}`}
-                    name={`${vc.metadata.id}.${disclosure.key}`}
-                    checked={selectedSdJwtDisclosures.includes(
-                      `${vc.metadata.id}/${disclosure.key}`
-                    )}
-                    onChange={(e) =>
+        {vc.data.disclosures?.length > 0 && (
+          <tr className="flex flex-col items-center justify-center animated-transition dark:text-navy-blue-50 dark:border-navy-blue-tone/30 dark:hover:bg-navy-blue-700/30 duration-75 hover:bg-gray-50">
+            <td colSpan={5} className="w-full pb-3">
+              <label className="block text-center pt-1 text-sm text-gray-800 dark:text-navy-blue-100">
+                Select claims to disclose:
+              </label>
+              <div className="mt-3 flex flex-wrap justify-center gap-2">
+                {vc.data.disclosures.map((disclosure: Disclosure) => (
+                  <div
+                    key={`${vc.metadata.id}.${disclosure.key}`}
+                    className="flex items-center p-2 bg-white dark:bg-navy-blue-800 rounded-md shadow-sm cursor-pointer transition-all duration-300 hover:shadow-md hover:bg-gray-50 dark:hover:bg-navy-blue-600"
+                    style={{
+                      flex: '0 1 calc(33% - 0.5rem)', // Zmanjšan razmik in širina
+                      maxWidth: '33%',
+                    }}
+                    onClick={() =>
                       handleDisclosureCheck(
                         vc.metadata.id,
                         disclosure.key,
-                        e.target.checked
+                        !selectedSdJwtDisclosures.includes(
+                          `${vc.metadata.id}/${disclosure.key}`
+                        )
                       )
                     }
-                    className="form-checkbox h-4 w-4 text-blue-600"
-                  />
-                  <label
-                    htmlFor={`${vc.metadata.id}/${disclosure.key}`}
-                    className="ml-2 text-gray-800 dark:text-navy-blue-100"
                   >
-                    {disclosure.key}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </td>
-        </tr>
-      )}
+                    <input
+                      type="checkbox"
+                      id={`${vc.metadata.id}.${disclosure.key}`}
+                      name={`${vc.metadata.id}.${disclosure.key}`}
+                      checked={selectedSdJwtDisclosures.includes(
+                        `${vc.metadata.id}/${disclosure.key}`
+                      )}
+                      onChange={(e) =>
+                        handleDisclosureCheck(
+                          vc.metadata.id,
+                          disclosure.key,
+                          e.target.checked
+                        )
+                      }
+                      className="form-checkbox h-4 w-4 text-blue-600"
+                    />
+                    <label
+                      htmlFor={`${vc.metadata.id}/${disclosure.key}`}
+                      className="ml-2 text-gray-800 dark:text-navy-blue-100 truncate"
+                      title={disclosure.key}
+                    >
+                      {disclosure.key}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </td>
+          </tr>
+        )}
+      </tr>
     </>
   );
 };
 
-export default SelectedVCsTableRow;
+export default SelectedVcShareTableRow;

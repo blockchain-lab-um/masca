@@ -3,11 +3,13 @@ import {
   CURRENT_STATE_VERSION,
   type CreateCredentialRequestParams,
   type CreatePresentationRequestParams,
+  type DecodeSdJwtPresentationRequestParams,
   type DeleteCredentialsRequestParams,
   type HandleAuthorizationRequestParams,
   type HandleCredentialOfferRequestParams,
   type QueryCredentialsRequestParams,
   type QueryCredentialsRequestResult,
+  type SdJwtCredential,
   type SaveCredentialRequestParams,
   type SaveCredentialRequestResult,
   type VerifyDataRequestParams,
@@ -172,11 +174,39 @@ class SnapService {
       return unsignedVc;
     }
 
-    let storeString = '';
-    if (save === true) {
-      storeString = `Data store(s): **${
-        typeof store === 'string' ? store : store.join(', ')
-      }**`;
+    if (proofFormat === 'sd-jwt') {
+      // Hide the type value from the credential subject
+      const disclosureFrame = {
+        _sd: ['type'],
+      };
+
+      const vc = await VeramoService.createCredentialSdJwt({
+        credential: minimalUnsignedCredential,
+        disclosureFrame,
+      });
+
+      const identifier = await VeramoService.getIdentifier();
+
+      const { did } = identifier;
+
+      if (
+        await UIService.createCredentialDialog({
+          save,
+          store,
+          minimalUnsignedCredential: vc,
+          did,
+        })
+      ) {
+        if (save === true) {
+          await VeramoService.saveCredential({
+            verifiableCredential: vc,
+            store,
+          });
+        }
+        return vc;
+      }
+
+      throw new Error('User rejected create credential request');
     }
 
     const vc = await VeramoService.createCredential({
@@ -191,7 +221,7 @@ class SnapService {
     if (
       await UIService.createCredentialDialog({
         save,
-        storeString,
+        store,
         minimalUnsignedCredential: vc,
         did,
       })
@@ -278,7 +308,12 @@ class SnapService {
   static async createPresentation(
     params: CreatePresentationRequestParams
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
-    const { vcs, proofFormat = 'jwt', proofOptions } = params;
+    const {
+      vcs,
+      proofFormat = 'jwt',
+      proofOptions,
+      presentationFrame = [],
+    } = params;
     const state = StorageService.get();
     const method =
       state[CURRENT_STATE_VERSION].accountState[
@@ -293,7 +328,7 @@ class SnapService {
       }
 
       const unsignedVp = await VeramoService.createUnsignedPresentation({
-        credentials: vcs,
+        credentials: vcs as W3CVerifiableCredential[],
       });
 
       return unsignedVp;
@@ -308,12 +343,20 @@ class SnapService {
         vcs,
         proofFormat,
         proofOptions,
+        presentationFrame,
       });
 
       return res;
     }
 
     throw new Error('User rejected create presentation request.');
+  }
+
+  static async decodeSdJwtPresentation(
+    params: DecodeSdJwtPresentationRequestParams
+  ): Promise<SdJwtCredential[]> {
+    const res = VeramoService.decodeSdJwtPresentation(params);
+    return res;
   }
 
   /**
@@ -517,6 +560,9 @@ class SnapService {
         isValidCreatePresentationRequest(params);
         await VeramoService.importIdentifier();
         res = await SnapService.createPresentation(params);
+        return ResultObject.success(res);
+      case 'decodeSdJwtPresentation':
+        res = await SnapService.decodeSdJwtPresentation(params);
         return ResultObject.success(res);
       case 'deleteCredential':
         isValidDeleteCredentialsRequest(

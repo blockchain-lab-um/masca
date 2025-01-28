@@ -53,6 +53,11 @@ export class VerificationService {
     VerificationService.veramoAgent = await createVeramoAgent();
   }
 
+  // TODO: Implement this (edis)
+  static async verifySdJwtPresentation(args: any): Promise<any> {
+    throw new Error('Not implemented');
+  }
+
   static async verify(
     data: W3CVerifiablePresentation | W3CVerifiableCredential,
     options?: { ebsiChecks?: boolean }

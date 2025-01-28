@@ -4,6 +4,7 @@ import type {
   ChangePermissionsRequestParams,
   CreateCredentialRequestParams,
   CreatePresentationRequestParams,
+  DecodeSdJwtPresentationRequestParams,
   DeleteCredentialsRequestParams,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
@@ -44,6 +45,11 @@ export interface DeleteCredential {
 export interface CreatePresentation {
   method: 'createPresentation';
   params: CreatePresentationRequestParams;
+}
+
+export interface DecodeSdJwtPresentation {
+  method: 'decodeSdJwtPresentation';
+  params: DecodeSdJwtPresentationRequestParams;
 }
 
 export interface SetCredentialStore {

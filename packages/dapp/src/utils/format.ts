@@ -20,6 +20,32 @@ export const stringifyCredentialSubject = (
 ): QueryCredentialsRequestResult => {
   const verifiableCredential = queryCredentialsRequestResult.data;
   const { credentialSubject } = verifiableCredential;
+
+  if (verifiableCredential?.proofType === 'sd-jwt') {
+    const modifiedQueryCredentialsRequestResult = {
+      ...queryCredentialsRequestResult,
+      data: {
+        ...verifiableCredential.credential,
+        credentialSubject: {
+          ...verifiableCredential.credential.credentialSubject,
+          filterString: JSON.stringify(
+            verifiableCredential.credential.credentialSubject
+          ),
+        } as CredentialSubject,
+        issuanceDate: new Date(
+          verifiableCredential.credential.iat * 1000
+        ).toISOString(),
+        issuer: { id: verifiableCredential.credential.iss },
+        type: verifiableCredential.credential.vct.split(','),
+      },
+    };
+
+    return {
+      ...modifiedQueryCredentialsRequestResult,
+      metadata: queryCredentialsRequestResult.metadata,
+    };
+  }
+
   const modifiedQueryCredentialsRequestResult = {
     ...queryCredentialsRequestResult,
     data: {

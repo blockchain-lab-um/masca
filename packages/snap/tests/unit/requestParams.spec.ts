@@ -286,6 +286,14 @@ describe('Utils [requestParams]', () => {
           })
         ).not.toThrowError();
       });
+      it('request with proofFormat', () => {
+        expect(() =>
+          isValidCreatePresentationRequest({
+            vcs: [EXAMPLE_VC],
+            proofFormat: 'sd-jwt',
+          })
+        ).not.toThrowError();
+      });
       it('request with proofFormat and empty proofOptions', () => {
         expect(() =>
           isValidCreatePresentationRequest({
@@ -295,11 +303,29 @@ describe('Utils [requestParams]', () => {
           })
         ).not.toThrowError();
       });
+      it('request with proofFormat and empty proofOptions', () => {
+        expect(() =>
+          isValidCreatePresentationRequest({
+            vcs: [EXAMPLE_VC2],
+            proofFormat: 'sd-jwt',
+            proofOptions: {},
+          })
+        ).not.toThrowError();
+      });
       it('request with proofFormat and proofOptions with domain and challenge', () => {
         expect(() =>
           isValidCreatePresentationRequest({
             vcs: [EXAMPLE_VC],
             proofFormat: 'jwt',
+            proofOptions: { domain: 'test', challenge: 'test' },
+          })
+        ).not.toThrowError();
+      });
+      it('request with proofFormat and proofOptions with domain and challenge', () => {
+        expect(() =>
+          isValidCreatePresentationRequest({
+            vcs: [EXAMPLE_VC],
+            proofFormat: 'sd-jwt',
             proofOptions: { domain: 'test', challenge: 'test' },
           })
         ).not.toThrowError();
@@ -563,6 +589,39 @@ describe('Utils [requestParams]', () => {
           )
         ).not.toThrowError();
       });
+      it('unsignedVC & PF', () => {
+        const state = getDefaultSnapState(account);
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
+        expect(() =>
+          isValidCreateCredentialRequest(
+            {
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
+              proofFormat: 'sd-jwt',
+            },
+            account,
+            state
+          )
+        ).not.toThrowError();
+      });
+      it('empty options', () => {
+        const state = getDefaultSnapState(account);
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
+        expect(() =>
+          isValidCreateCredentialRequest(
+            {
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
+              proofFormat: 'sd-jwt',
+              options: {},
+            },
+            account,
+            state
+          )
+        ).not.toThrowError();
+      });
       it('empty options', () => {
         const state = getDefaultSnapState(account);
         state[CURRENT_STATE_VERSION].accountState[
@@ -589,8 +648,42 @@ describe('Utils [requestParams]', () => {
           isValidCreateCredentialRequest(
             {
               minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
+              proofFormat: 'sd-jwt',
+              options: { save: true },
+            },
+            account,
+            state
+          )
+        ).not.toThrowError();
+      });
+      it('save option', () => {
+        const state = getDefaultSnapState(account);
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
+        expect(() =>
+          isValidCreateCredentialRequest(
+            {
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat: 'jwt',
               options: { save: true },
+            },
+            account,
+            state
+          )
+        ).not.toThrowError();
+      });
+      it('full options', () => {
+        const state = getDefaultSnapState(account);
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
+        expect(() =>
+          isValidCreateCredentialRequest(
+            {
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
+              proofFormat: 'sd-jwt',
+              options: { save: true, store: ['snap'] },
             },
             account,
             state

@@ -39,6 +39,42 @@ bundleString = bundleString.replaceAll(
   'singleThread: true'
 );
 
+// [sd-jwt-veramo] - @sphereon/ssi-sdk-ext.did-utils
+bundleString = bundleString.replaceAll(
+  'global.navigator.userAgent.indexOf("Edge/") > -1',
+  'false'
+);
+
+// [sd-jwt veramo plugin] - fix cannot add property createHash, object is not extensible
+bundleString = bundleString.replaceAll(
+  'window.crypto.createHash = require_hash7()(window.crypto);',
+  ''
+);
+
+// [sd-jwt veramo plugin] - fix cannot add property createHash, object is not extensible
+bundleString = bundleString.replaceAll('var rf2 = require_browser21();', '');
+
+// [sd-jwt veramo plugin] - fix cannot add property createHash, object is not extensible
+bundleString = bundleString.replaceAll(
+  'window.crypto.randomFill = rf2.randomFill;',
+  ''
+);
+
+// [sd-jwt veramo plugin] - fix cannot add property createHash, object is not extensible
+bundleString = bundleString.replaceAll(
+  'window.crypto.randomFillSync = rf2.randomFillSync;',
+  ''
+);
+
+// [sd-jwt veramo plugin] - fix cannot add property createHash, object is not extensible (lib/extended-verification)
+bundleString = bundleString.replaceAll(
+  'window.crypto.createHash = require_hash6()(window.crypto);',
+  ''
+);
+
+// [sd-jwt veramo plugin] - fix cannot add property createHash, object is not extensible (lib/extended-verification)
+bundleString = bundleString.replaceAll('var rf2 = require_browser20();', '');
+
 console.log('[End]: Custom transform');
 
 fs.writeFileSync(bundlePath, bundleString);

@@ -241,6 +241,12 @@ importers:
       '@blockchain-lab-um/utils':
         specifier: 1.4.0-beta.1
         version: link:../utils
+      '@sd-jwt/crypto-nodejs':
+        specifier: ^0.7.2
+        version: 0.7.2
+      '@sd-jwt/sd-jwt-vc':
+        specifier: ^0.8.0
+        version: 0.8.0
       '@veramo/core':
         specifier: 6.0.0
         version: 6.0.0
@@ -486,6 +492,9 @@ importers:
       '@react-oauth/google':
         specifier: ^0.12.1
         version: 0.12.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@sd-jwt/crypto-browser':
+        specifier: ^0.7.2
+        version: 0.7.2
       '@supabase/supabase-js':
         specifier: ^2.43.1
         version: 2.43.1(bufferutil@4.0.8)
@@ -504,6 +513,9 @@ importers:
       '@types/jsdom':
         specifier: ^21.1.6
         version: 21.1.6
+      '@types/uuid':
+        specifier: ^9.0.8
+        version: 9.0.8
       '@veramo/core':
         specifier: 6.0.0
         version: 6.0.0
@@ -837,6 +849,18 @@ importers:
       '@metamask/utils':
         specifier: 9.3.0
         version: 9.3.0
+      '@sd-jwt/core':
+        specifier: ^0.7.2
+        version: 0.7.2
+      '@sd-jwt/crypto-nodejs':
+        specifier: ^0.7.2
+        version: 0.7.2
+      '@sd-jwt/sd-jwt-vc':
+        specifier: ^0.8.0
+        version: 0.8.0
+      '@sd-jwt/types':
+        specifier: ^0.7.2
+        version: 0.7.2
       '@sphereon/pex':
         specifier: 3.3.3
         version: 3.3.3
@@ -988,6 +1012,9 @@ importers:
       '@blockchain-lab-um/utils':
         specifier: 1.4.0-beta.1
         version: link:../../libs/utils
+      '@sd-jwt/core':
+        specifier: ^0.7.2
+        version: 0.7.2
       '@veramo/core':
         specifier: 6.0.0
         version: 6.0.0
@@ -6824,21 +6851,76 @@ packages:
   '@scure/bip39@1.2.2':
     resolution: {integrity: sha512-HYf9TUXG80beW+hGAt3TRM8wU6pQoYur9iNypTROm42dorCGmLnFe3eWjz3gOq6G62H2WRh0FCzAR1PI+29zIA==}
 
+  '@sd-jwt/core@0.7.2':
+    resolution: {integrity: sha512-vix1GplUFc1A9H42r/yXkg7cKYthggyqZEwlFdsBbn4xdZNE+AHVF4N7kPa1pPxipwN3UIHd4XnQ5MJV15mhsQ==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/core@0.8.0':
+    resolution: {integrity: sha512-r1bwTwEXrMTy/+IOFe6ZyhfhwrAqDKBDiB3oj6C/7peF1cNvoHWFkSTPOj/4E26RpAmLaiZH/jjnv3UcCBcSCA==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/crypto-browser@0.7.2':
+    resolution: {integrity: sha512-3EsFaVxgzWw/MguUKjMnW66kBv3NjErgdrf0wniyIAfKCi/njlJ+Zxlj9BW2Dmekiqdh2rH1JOPnCM3CZU9XUw==}
+
+  '@sd-jwt/crypto-nodejs@0.7.2':
+    resolution: {integrity: sha512-7DHy1WBHwvXseiX+U7XA6jX4dX4Ins3Nxd12JhBSm+FJfIwU97FU/H0KlF6lLyi4a4nbY/O6U9wJjYI1PxA9sQ==}
+    engines: {node: '>=18'}
+
   '@sd-jwt/decode@0.6.1':
     resolution: {integrity: sha512-QgTIoYd5zyKKLgXB4xEYJTrvumVwtsj5Dog0v0L9UH9ZvHekDaeexS247X7A4iSdzTvmZzUpGskgABOa4D8NmQ==}
     engines: {node: '>=16'}
+
+  '@sd-jwt/decode@0.7.2':
+    resolution: {integrity: sha512-dan2LSvK63SKwb62031G4r7TE4TaiI0EK1KbPXqS+LCXNkNDUHqhtYp9uOpj+grXceCsMtMa2f8VnUfsjmwHHg==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/decode@0.8.0':
+    resolution: {integrity: sha512-TLgJDh+2R/xPyrEQuNQdJV3QFbixgLzFt0Fab9SiQsUZkC82b1DdXbtKndFvQ8fVrdNucN/hL27I7Dw4mdguLg==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/jwt-status-list@0.8.0':
+    resolution: {integrity: sha512-PifAbutRSxVV/hzqbMlt4WWuGGrQR+Z21SXrU8F+dNXGa1LMCtKhDVmNhbEVRKj/yVvOK0SIf6u8uhAx1iyrhw==}
+    engines: {node: '>=18'}
 
   '@sd-jwt/present@0.6.1':
     resolution: {integrity: sha512-QRD3TUDLj4PqQNZ70bBxh8FLLrOE9mY8V9qiZrJSsaDOLFs2p1CtZG+v9ig62fxFYJZMf4bWKwYjz+qqGAtxCg==}
     engines: {node: '>=16'}
 
+  '@sd-jwt/present@0.7.2':
+    resolution: {integrity: sha512-mQV85u2+mLLy2VZ9Wx2zpaB6yTDnbhCfWkP7eeCrzJQHBKAAHko8GrylEFmLKewFIcajS/r4lT/zHOsCkp5pZw==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/present@0.8.0':
+    resolution: {integrity: sha512-Yzo/7pOpnLn1I/oxqzP/lDDJg7uCKMq41G3zu0MNO92+DNl3YSUQVV4qoMs5qdnPrSiAeqAhJSmUdUJr+EuprA==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/sd-jwt-vc@0.8.0':
+    resolution: {integrity: sha512-Zl665RFhEyCaoJ8U8+0nu7vOgrDBsA6n8q1R6CEQ9at9RoXSfKyh1mXF3dLvBAL+NZU2vqfQmrRde8I9wxVl+g==}
+    engines: {node: '>=18'}
+
   '@sd-jwt/types@0.6.1':
     resolution: {integrity: sha512-LKpABZJGT77jNhOLvAHIkNNmGqXzyfwBT+6r+DN9zNzMx1CzuNR0qXk1GMUbast9iCfPkGbnEpUv/jHTBvlIvg==}
     engines: {node: '>=16'}
 
+  '@sd-jwt/types@0.7.2':
+    resolution: {integrity: sha512-1NRKowiW0ZiB9SGLApLPBH4Xk8gDQJ+nA9NdZ+uy6MmJKLEwjuJxO7yTvRIv/jX/0/Ebh339S7Kq4RD2AiFuRg==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/types@0.8.0':
+    resolution: {integrity: sha512-Tn95AuC9YCWw6RcyUG2pF1iIZbASnczgAWRqQkVJTyhkoBcf68y66HHKxO7K2FJp7ZrhHRm9zeRDb8Om/ZDF2A==}
+    engines: {node: '>=18'}
+
   '@sd-jwt/utils@0.6.1':
     resolution: {integrity: sha512-1NHZ//+GecGQJb+gSdDicnrHG0DvACUk9jTnXA5yLZhlRjgkjyfJLNsCZesYeCyVp/SiyvIC9B+JwoY4kI0TwQ==}
     engines: {node: '>=16'}
+
+  '@sd-jwt/utils@0.7.2':
+    resolution: {integrity: sha512-aMPY7uHRMgyI5PlDvEiIc+eBFGC1EM8OCQRiEjJ8HGN0pajWMYj0qwSw7pS90A49/DsYU1a5Zpvb7nyjgGH0Yg==}
+    engines: {node: '>=18'}
+
+  '@sd-jwt/utils@0.8.0':
+    resolution: {integrity: sha512-C6aJ6xQ5Y50U4YP0Ql28hSkHNbMZgzHxVQ49gdbWfhF2E/9psyWtCBKbb8I7mJNBVrWDox1Fmu0oeoBZ2OVPeQ==}
+    engines: {node: '>=18'}
 
   '@sec-ant/readable-stream@0.4.1':
     resolution: {integrity: sha512-831qok9r2t8AlxLko40y2ebgSDhenenCatLVeW/uBtnHPyhHOvG0C7TvfgecV+wHzIm5KUICgzmVpWS+IMEAeg==}
@@ -8201,6 +8283,14 @@ packages:
       ajv:
         optional: true
 
+  ajv-formats@3.0.1:
+    resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
+    peerDependencies:
+      ajv: ^8.0.0
+    peerDependenciesMeta:
+      ajv:
+        optional: true
+
   ajv-keywords@3.5.2:
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==}
     peerDependencies:
@@ -8219,6 +8309,9 @@ packages:
 
   ajv@8.13.0:
     resolution: {integrity: sha512-PRA911Blj99jR5RMeTunVbNXMF6Lp4vZXnk5GQjcnUWUTsrXtekg/pnmFFI2u/I36Y/2bITGS30GZCXei6uNkA==}
+
+  ajv@8.17.1:
+    resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
 
   algoliasearch-helper@3.19.0:
     resolution: {integrity: sha512-AaSb5DZDMZmDQyIy6lf4aL0OZGgyIdqvLIIvSuVQOIOqfhrYSY7TvotIFI2x0Q3cP3xUpTd7lI1astUC4aXBJw==}
@@ -10623,6 +10716,9 @@ packages:
 
   fast-text-encoding@1.0.6:
     resolution: {integrity: sha512-VhXlQgj9ioXCqGstD37E/HBeqEGV/qOD/kmbVG8h5xKBYvM1L3lR1Zn4555cQ8GkYbJa8aJSipLPndE1k6zK2w==}
+
+  fast-uri@3.0.6:
+    resolution: {integrity: sha512-Atfo14OibSv5wAp4VWNsFYE1AchQRTv9cBGWET4pZWHzYshFSS9NQI6I57rdKn9croWVMbYFbLhJ+yJvmZIIHw==}
 
   fast-url-parser@1.1.3:
     resolution: {integrity: sha512-5jOCVXADYNuRkKFzNJ0dCCewsZiYo0dz8QNYljkOpFC6r2U4OBmKtvm/Tsuh4w1YYdDqDb31a8TVhBJ2OJKdqQ==}
@@ -26843,7 +26939,7 @@ snapshots:
       chalk: 4.1.2
       execa: 5.1.1
       metro: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
-      metro-config: 0.80.12(bufferutil@4.0.8)
+      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       metro-core: 0.80.12
       node-fetch: 2.7.0(encoding@0.1.13)
       querystring: 0.2.1
@@ -27433,10 +27529,44 @@ snapshots:
       '@noble/hashes': 1.3.3
       '@scure/base': 1.1.5
 
+  '@sd-jwt/core@0.7.2':
+    dependencies:
+      '@sd-jwt/decode': 0.7.2
+      '@sd-jwt/present': 0.7.2
+      '@sd-jwt/types': 0.7.2
+      '@sd-jwt/utils': 0.7.2
+
+  '@sd-jwt/core@0.8.0':
+    dependencies:
+      '@sd-jwt/decode': 0.8.0
+      '@sd-jwt/present': 0.8.0
+      '@sd-jwt/types': 0.8.0
+      '@sd-jwt/utils': 0.8.0
+
+  '@sd-jwt/crypto-browser@0.7.2': {}
+
+  '@sd-jwt/crypto-nodejs@0.7.2': {}
+
   '@sd-jwt/decode@0.6.1':
     dependencies:
       '@sd-jwt/types': 0.6.1
       '@sd-jwt/utils': 0.6.1
+
+  '@sd-jwt/decode@0.7.2':
+    dependencies:
+      '@sd-jwt/types': 0.7.2
+      '@sd-jwt/utils': 0.7.2
+
+  '@sd-jwt/decode@0.8.0':
+    dependencies:
+      '@sd-jwt/types': 0.8.0
+      '@sd-jwt/utils': 0.8.0
+
+  '@sd-jwt/jwt-status-list@0.8.0':
+    dependencies:
+      '@sd-jwt/types': 0.8.0
+      base64url: 3.0.1
+      pako: 2.1.0
 
   '@sd-jwt/present@0.6.1':
     dependencies:
@@ -27444,11 +27574,45 @@ snapshots:
       '@sd-jwt/types': 0.6.1
       '@sd-jwt/utils': 0.6.1
 
+  '@sd-jwt/present@0.7.2':
+    dependencies:
+      '@sd-jwt/decode': 0.7.2
+      '@sd-jwt/types': 0.7.2
+      '@sd-jwt/utils': 0.7.2
+
+  '@sd-jwt/present@0.8.0':
+    dependencies:
+      '@sd-jwt/decode': 0.8.0
+      '@sd-jwt/types': 0.8.0
+      '@sd-jwt/utils': 0.8.0
+
+  '@sd-jwt/sd-jwt-vc@0.8.0':
+    dependencies:
+      '@sd-jwt/core': 0.8.0
+      '@sd-jwt/jwt-status-list': 0.8.0
+      '@sd-jwt/utils': 0.8.0
+      ajv: 8.17.1
+      ajv-formats: 3.0.1(ajv@8.17.1)
+
   '@sd-jwt/types@0.6.1': {}
+
+  '@sd-jwt/types@0.7.2': {}
+
+  '@sd-jwt/types@0.8.0': {}
 
   '@sd-jwt/utils@0.6.1':
     dependencies:
       '@sd-jwt/types': 0.6.1
+      js-base64: 3.7.7
+
+  '@sd-jwt/utils@0.7.2':
+    dependencies:
+      '@sd-jwt/types': 0.7.2
+      js-base64: 3.7.7
+
+  '@sd-jwt/utils@0.8.0':
+    dependencies:
+      '@sd-jwt/types': 0.8.0
       js-base64: 3.7.7
 
   '@sec-ant/readable-stream@0.4.1': {}
@@ -29684,6 +29848,10 @@ snapshots:
     optionalDependencies:
       ajv: 8.13.0
 
+  ajv-formats@3.0.1(ajv@8.17.1):
+    optionalDependencies:
+      ajv: 8.17.1
+
   ajv-keywords@3.5.2(ajv@6.12.6):
     dependencies:
       ajv: 6.12.6
@@ -29713,6 +29881,13 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
       uri-js: 4.4.1
+
+  ajv@8.17.1:
+    dependencies:
+      fast-deep-equal: 3.1.3
+      fast-uri: 3.0.6
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
 
   algoliasearch-helper@3.19.0(algoliasearch@4.23.3):
     dependencies:
@@ -32804,6 +32979,8 @@ snapshots:
 
   fast-text-encoding@1.0.6: {}
 
+  fast-uri@3.0.6: {}
+
   fast-url-parser@1.1.3:
     dependencies:
       punycode: 1.4.1
@@ -35679,6 +35856,21 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  metro-config@0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3):
+    dependencies:
+      connect: 3.7.0
+      cosmiconfig: 5.2.1
+      flow-enums-runtime: 0.0.6
+      jest-validate: 29.7.0
+      metro: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      metro-cache: 0.80.12
+      metro-core: 0.80.12
+      metro-runtime: 0.80.12
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
   metro-core@0.80.12:
     dependencies:
       flow-enums-runtime: 0.0.6
@@ -35870,7 +36062,7 @@ snapshots:
       metro-babel-transformer: 0.80.12
       metro-cache: 0.80.12
       metro-cache-key: 0.80.12
-      metro-config: 0.80.12(bufferutil@4.0.8)
+      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
       metro-core: 0.80.12
       metro-file-map: 0.80.12
       metro-resolver: 0.80.12

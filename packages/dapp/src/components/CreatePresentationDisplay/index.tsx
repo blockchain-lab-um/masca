@@ -6,10 +6,7 @@ import {
   isError,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
-import type {
-  W3CVerifiableCredential,
-  W3CVerifiablePresentation,
-} from '@veramo/core';
+import type { W3CVerifiablePresentation } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -27,6 +24,7 @@ import { removeCredentialSubjectFilterString } from '@/utils/format';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
+  'SD-JWT': 'sd-jwt',
   'JSON-LD': 'lds',
   EIP712Signature: 'EthereumEip712Signature2021',
 };
@@ -46,8 +44,12 @@ const CreatePresentationDisplay = () => {
   const [domain, setDomain] = useState('');
   const [isInvalidMethod, setInvalidMethod] = useState(false);
   const [includesPolygonVC, setIncludesPolygonVC] = useState(false);
+  const [selectedSdJwtDisclosures, setSelectedSdJwtDisclosures] = useState<
+    string[]
+  >([]);
   const [availableProofFormats, setAvailableProofFormats] = useState([
     'JWT',
+    'SD-JWT',
     'JSON-LD',
     'EIP712Signature',
   ]);
@@ -76,6 +78,9 @@ const CreatePresentationDisplay = () => {
     ) {
       setAvailableProofFormats(['EIP712Signature']);
       setFormat('EIP712Signature');
+    } else if (didMethod === 'did:jwk') {
+      setAvailableProofFormats(['JWT', 'SD-JWT', 'JSON-LD', 'EIP712Signature']);
+      setFormat('SD-JWT');
     } else {
       setAvailableProofFormats(['JWT', 'JSON-LD', 'EIP712Signature']);
       setFormat('JWT');
@@ -97,14 +102,27 @@ const CreatePresentationDisplay = () => {
         (vc: QueryCredentialsRequestResult) => vc.metadata.id !== id
       )
     );
+
+    setSelectedSdJwtDisclosures((prevSelectedDisclosures) =>
+      prevSelectedDisclosures.filter(
+        (disclosure) => !disclosure.startsWith(`${id}/`)
+      )
+    );
   };
 
   const handleCreatePresentation = async () => {
     if (!api) return;
     setLoading(true);
-    const vcs: W3CVerifiableCredential[] = selectedCredentials.map(
-      (vc) => removeCredentialSubjectFilterString(vc).data
-    );
+
+    const vcs =
+      format === 'SD-JWT'
+        ? selectedCredentials.map((vc) => ({
+            id: vc.metadata.id,
+            encodedVc: vc.data.encoded,
+          }))
+        : selectedCredentials.map(
+            (vc) => removeCredentialSubjectFilterString(vc).data
+          );
 
     const proofOptions = { type: '', domain, challenge };
 
@@ -112,6 +130,7 @@ const CreatePresentationDisplay = () => {
       vcs,
       proofFormat: proofFormats[format],
       proofOptions,
+      presentationFrame: selectedSdJwtDisclosures,
     });
     if (isError(res)) {
       console.error(res);
@@ -123,6 +142,21 @@ const CreatePresentationDisplay = () => {
     setVpModalOpen(true);
     setLoading(false);
   };
+
+  const handleDisclosureCheck = (id: string, key: string, checked: boolean) => {
+    const disclosureString = `${id}/${key}`;
+    if (checked) {
+      setSelectedSdJwtDisclosures([
+        ...selectedSdJwtDisclosures,
+        disclosureString,
+      ]);
+    } else {
+      setSelectedSdJwtDisclosures(
+        selectedSdJwtDisclosures.filter((d) => d !== disclosureString)
+      );
+    }
+  };
+
   return (
     <>
       <div className="mt-5 flex w-full justify-between px-6 pt-2">
@@ -156,7 +190,9 @@ const CreatePresentationDisplay = () => {
           <tbody className="text-md break-all text-gray-800">
             {selectedCredentials.map((vc) => (
               <SelectedVCsTableRow
+                selectedSdJwtDisclosures={selectedSdJwtDisclosures}
                 handleRemove={handleRemove}
+                handleDisclosureCheck={handleDisclosureCheck}
                 key={vc.metadata.id}
                 vc={vc}
               />

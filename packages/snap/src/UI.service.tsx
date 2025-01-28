@@ -194,11 +194,11 @@ class UIService {
 
   static async createCredentialDialog(params: {
     save: boolean | undefined;
-    storeString: string;
+    store: string | string[];
     minimalUnsignedCredential: any;
     did: string;
   }) {
-    const { save, storeString, minimalUnsignedCredential, did } = params;
+    const { save, store, minimalUnsignedCredential, did } = params;
 
     const uiPanelContent = (
       <Box>
@@ -213,7 +213,10 @@ class UIService {
           credential below?
         </Text>
         <Divider />
-        <Text>{storeString}</Text>
+        <Text>
+          Data store(s):{' '}
+          <Bold>{typeof store === 'string' ? store : store.join(', ')}</Bold>
+        </Text>
         <Text>Credential:</Text>
         <Copyable value={JSON.stringify(minimalUnsignedCredential, null, 2)} />
       </Box>
@@ -256,7 +259,7 @@ class UIService {
   }
 
   static async createPresentationDialog(params: {
-    vcs: W3CVerifiableCredential[];
+    vcs: W3CVerifiableCredential[] | Array<{ id: string; encodedVc: string }>;
     did: string;
   }) {
     const { vcs, did } = params;
@@ -274,9 +277,14 @@ class UIService {
         </Text>
         <Divider />
         <Text>Credentials:</Text>
-        {vcs.map((vc) => (
-          <Copyable key={vc.toString()} value={JSON.stringify(vc, null, 2)} />
-        ))}
+        {Array.isArray(vcs)
+          ? vcs.map((vc) => (
+              <Copyable
+                key={vc.toString()}
+                value={JSON.stringify(vc, null, 2)}
+              />
+            ))
+          : [<Copyable key={vcs} value={JSON.stringify(vcs, null, 2)} />]}
       </Box>
     );
 

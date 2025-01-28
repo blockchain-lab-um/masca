@@ -11,6 +11,7 @@ import UIService from './UI.service';
 import WalletService from './Wallet.service';
 import StorageService from './storage/Storage.service';
 import VeramoService from './veramo/Veramo.service';
+import SDJwtService from './SDJwt.service';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
@@ -32,6 +33,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     await GeneralService.initAccountState();
 
     await WalletService.init();
+
+    await SDJwtService.init();
 
     await VeramoService.init();
 
