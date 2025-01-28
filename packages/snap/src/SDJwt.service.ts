@@ -2,7 +2,6 @@ import { SDJwtInstance } from '@sd-jwt/core';
 import WalletService from './Wallet.service';
 import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
 import { ec as EC } from 'elliptic';
-import { sha256 } from 'ethereum-cryptography/sha256';
 import { bytesToBase64url, decodeBase64url } from '@veramo/utils';
 
 type SdJwtPayload = Record<string, unknown>;
@@ -45,10 +44,7 @@ class SDJwtService {
       }
 
       SDJwtService.signer = async (data: string): Promise<string> => {
-        console.log('data:', data);
-        // TODO: I dont think this sha256 is needed
-        const hash = sha256(Buffer.from(data));
-        const signature = keyPair.sign(hash);
+        const signature = keyPair.sign(Buffer.from(data));
 
         return bytesToBase64url(
           Buffer.concat([
@@ -62,13 +58,12 @@ class SDJwtService {
         data: string,
         signatureBase64Url: string
       ): Promise<boolean> => {
-        const hash = sha256(Buffer.from(data));
         const signatureBuffer = decodeBase64url(signatureBase64Url);
 
         const r = signatureBuffer.substring(0, 32);
         const s = signatureBuffer.substring(32);
 
-        return keyPair.verify(hash, { r, s });
+        return keyPair.verify(Buffer.from(data), { r, s });
       };
 
       SDJwtService.instance = new SDJwtInstance({
