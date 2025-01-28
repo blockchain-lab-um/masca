@@ -2,7 +2,7 @@ import { SDJwtInstance } from '@sd-jwt/core';
 import WalletService from './Wallet.service';
 import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
 import { ec as EC } from 'elliptic';
-import crypto from 'node:crypto';
+import { bytesToBase64url, decodeBase64url } from '@veramo/utils';
 
 type SdJwtPayload = Record<string, unknown>;
 
@@ -13,27 +13,6 @@ class SDJwtService {
     signatureBase64Url: string
   ) => Promise<boolean>;
   static instance: SDJwtInstance<SdJwtPayload>;
-
-  /**
-   * Helper function to encode in Base64 URL-safe format.
-   */
-  private static toBase64Url(buffer: Buffer): string {
-    return buffer
-      .toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
-  }
-
-  /**
-   * Helper function to decode a Base64 URL-safe string into a Buffer.
-   * @param base64Url - The Base64 URL-safe encoded string.
-   * @returns A Buffer containing the decoded data.
-   */
-  private static fromBase64Url(base64Url: string): Buffer {
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    return Buffer.from(base64, 'base64');
-  }
 
   /**
    * Initializes the SDJwtService.
@@ -56,7 +35,7 @@ class SDJwtService {
 
       const privateKeyHex = wallet.privateKey.slice(2); // Remove '0x' prefix
 
-      const ec = new EC('secp256k1');
+      const ec = new EC('p256');
       const keyPair = ec.keyFromPrivate(privateKeyHex, 'hex');
       const publicKey = keyPair.getPublic();
 
@@ -65,12 +44,12 @@ class SDJwtService {
       }
 
       SDJwtService.signer = async (data: string): Promise<string> => {
-        const hash = crypto.createHash('sha256').update(data).digest();
-        const signature = keyPair.sign(hash);
-        return SDJwtService.toBase64Url(
+        const signature = keyPair.sign(Buffer.from(data));
+
+        return bytesToBase64url(
           Buffer.concat([
-            Buffer.from(signature.r.toArray('be', 32)),
-            Buffer.from(signature.s.toArray('be', 32)),
+            signature.r.toArrayLike(Buffer, 'be', 32),
+            signature.s.toArrayLike(Buffer, 'be', 32),
           ])
         );
       };
@@ -79,13 +58,12 @@ class SDJwtService {
         data: string,
         signatureBase64Url: string
       ): Promise<boolean> => {
-        const hash = crypto.createHash('sha256').update(data).digest();
-        const signatureBuffer = SDJwtService.fromBase64Url(signatureBase64Url);
+        const signatureBuffer = decodeBase64url(signatureBase64Url);
 
-        const r = signatureBuffer.subarray(0, 32);
-        const s = signatureBuffer.subarray(32);
+        const r = signatureBuffer.substring(0, 32);
+        const s = signatureBuffer.substring(32);
 
-        return keyPair.verify(hash, { r, s });
+        return keyPair.verify(Buffer.from(data), { r, s });
       };
 
       SDJwtService.instance = new SDJwtInstance({
@@ -99,13 +77,13 @@ class SDJwtService {
           : async () => {
               throw new Error('Verifier not initialized');
             },
-        signAlg: 'EdDSA',
+        signAlg: 'ES256',
         hasher: digest,
-        hashAlg: 'SHA-256',
+        hashAlg: 'sha-256',
         saltGenerator: generateSalt,
         kbSigner: SDJwtService.signer,
         kbVerifier: SDJwtService.verifier,
-        kbSignAlg: 'EdDSA',
+        kbSignAlg: 'ES256',
       });
     } catch (e) {
       console.error('Failed to initialize SDJwtService', e);
