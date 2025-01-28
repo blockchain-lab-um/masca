@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/oidc-client-plugin",
-  "version": "0.4.0-beta.1",
+  "version": "0.4.0-beta.2",
   "license": "(Apache-2.0 AND MIT)",
   "type": "module",
   "main": "./dist/index.js",
@@ -22,7 +22,7 @@
   "dependencies": {
     "@blockchain-lab-um/oidc-types": "0.1.0-beta.0",
     "@blockchain-lab-um/utils": "1.4.0-beta.1",
-    "@sphereon/pex": "^2.0.1",
+    "@sphereon/pex": "^3.3.3",
     "@veramo/core": "6.0.0",
     "@veramo/utils": "6.0.0",
     "cross-fetch": "^4.0.0",
@@ -31,7 +31,7 @@
     "qs": "^6.11.2"
   },
   "devDependencies": {
-    "@sphereon/ssi-types": "^0.11.0",
+    "@sphereon/ssi-types": "0.22.0",
     "@types/qs": "^6.9.12",
     "@vitest/coverage-v8": "1.6.0",
     "jest-extended": "4.0.2",

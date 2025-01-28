@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.3.0-beta.3
+
+### Minor Changes
+
+- [#658](https://github.com/blockchain-lab-um/masca/pull/658) [`413bc9c`](https://github.com/blockchain-lab-um/masca/commit/413bc9c37e8742a3befb17b61a40b32992880746) Thanks [@martines3000](https://github.com/martines3000)! - Update handling of oidc auth requests.
+
+- [#655](https://github.com/blockchain-lab-um/masca/pull/655) [`1e8c6a9`](https://github.com/blockchain-lab-um/masca/commit/1e8c6a990f090723ea0af4fa1ec44feef8e7c497) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Replace old UI with jsx UI
+
+- [`cdaa99e`](https://github.com/blockchain-lab-um/masca/commit/cdaa99e9098f404ac0eb80ac806329a8275fb57c) Thanks [@martines3000](https://github.com/martines3000)! - Fixes credential decoding in handleAuthorizationRequest
+
+### Patch Changes
+
+- Updated dependencies [[`413bc9c`](https://github.com/blockchain-lab-um/masca/commit/413bc9c37e8742a3befb17b61a40b32992880746)]:
+  - @blockchain-lab-um/oidc-client-plugin@0.4.0-beta.2
+
 ## 1.3.0-beta.2
 
 ### Patch Changes

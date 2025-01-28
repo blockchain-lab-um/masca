@@ -14,12 +14,14 @@ import {
   type Result,
   ResultObject,
   qsCustomDecoder,
-  uint8ArrayToHex,
 } from '@blockchain-lab-um/utils';
-import { PEX } from '@sphereon/pex';
-import type { IVerifiableCredential } from '@sphereon/ssi-types';
+import { PEX, PresentationSubmissionLocation } from '@sphereon/pex';
+import type {
+  IVerifiableCredential,
+  OriginalVerifiableCredential,
+} from '@sphereon/ssi-types';
 import type { IAgentPlugin } from '@veramo/core';
-import { bytesToBase64url } from '@veramo/utils';
+import { bytesToBase64url, decodeCredentialToObject } from '@veramo/utils';
 import { fetch } from 'cross-fetch';
 import { sha256 } from 'ethereum-cryptography/sha256.js';
 import { decodeJwt } from 'jose';
@@ -75,7 +77,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
     codeVerifier: null,
   };
 
-  // FIXME: Set proxy to masca.io
   public proxyUrl = 'https://masca.io/api/proxy/oidc';
 
   readonly methods: IOIDCClientPlugin = {
@@ -520,9 +521,9 @@ export class OIDCClientPlugin implements IAgentPlugin {
         return ResultObject.error('Nonce is required');
       }
 
-      if (authorizationRequest.scope !== 'openid') {
-        return ResultObject.error('Only openid scope is supported');
-      }
+      // if (authorizationRequest.scope !== 'openid') {
+      //   return ResultObject.error('Only openid scope is supported');
+      // }
 
       if (!authorizationRequest.client_id) {
         return ResultObject.error('Client id is required');
@@ -564,20 +565,13 @@ export class OIDCClientPlugin implements IAgentPlugin {
           authorizationRequest.presentation_definition = presentationDefinition;
           this.current.presentationDefinition = presentationDefinition;
         } else {
-          this.current.presentationDefinition = JSON.parse(
-            authorizationRequest.presentation_definition as unknown as string
-          ) as unknown as PresentationDefinition;
+          this.current.presentationDefinition =
+            typeof authorizationRequest.presentation_definition === 'string'
+              ? (JSON.parse(
+                  authorizationRequest.presentation_definition as unknown as string
+                ) as unknown as PresentationDefinition)
+              : (authorizationRequest.presentation_definition as unknown as PresentationDefinition);
         }
-
-        // This is only if we combine the specs with SIOPv2
-        // if (
-        //   authorizationRequest.id_token_type &&
-        //   authorizationRequest.id_token_type !== 'subject_signed'
-        // ) {
-        //   return ResultObject.error(
-        //     'Only subject_signed id token type is supported'
-        //   );
-        // }
       }
 
       this.current.authorizationRequest = authorizationRequest;
@@ -593,7 +587,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
 
   public async selectCredentials(
     args: SelectCredentialsArgs
-  ): Promise<Result<IVerifiableCredential[]>> {
+  ): Promise<Result<OriginalVerifiableCredential[]>> {
     const { credentials } = args;
 
     if (!credentials) {
@@ -607,54 +601,40 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Presentation definition not found');
     }
 
-    const map = new Map<string, IVerifiableCredential>();
+    // NOTE: We filter out `JwtDecodedVerifiableCredential` | `SdJwtDecodedVerifiableCredential` types
+    const decodedCredentials = (
+      credentials
+        .map((credential) =>
+          typeof credential === 'string'
+            ? (decodeCredentialToObject(credential) as IVerifiableCredential)
+            : credential
+        )
+        .filter((credential) => {
+          const castCredentialToVerifiableCredential =
+            credential as IVerifiableCredential;
 
-    const errors: string[] = [];
-
-    // FIXME: Workaround, because PEX doesn't work correctly with multiple input descriptors
-    presentationDefinition.input_descriptors.forEach((inputDescriptor) => {
-      const presentationDefinitionSplit: PresentationDefinition = {
-        id: presentationDefinition.id,
-        format: presentationDefinition.format,
-        input_descriptors: [inputDescriptor],
-      };
-
-      const { verifiableCredential } = pex.selectFrom(
-        presentationDefinitionSplit,
-        credentials
-      );
-
-      if (!verifiableCredential || verifiableCredential.length === 0) {
-        errors.push(inputDescriptor.id);
-      } else {
-        // Add credentials to hash map (unique by hash)
-        for (const credential of verifiableCredential) {
-          const hash = uint8ArrayToHex(
-            sha256(Buffer.from(JSON.stringify(credential)))
+          return (
+            castCredentialToVerifiableCredential.proof !== undefined &&
+            (Array.isArray(castCredentialToVerifiableCredential.proof)
+              ? castCredentialToVerifiableCredential.proof[0].jwt !== undefined
+              : castCredentialToVerifiableCredential.proof.jwt !== undefined)
           );
+        }) as IVerifiableCredential[]
+    ).map((credential: any) =>
+      Array.isArray(credential.proof)
+        ? (credential.proof[0].jwt as string)
+        : (credential.proof.jwt as string)
+    );
 
-          if (!map.has(hash)) {
-            map.set(hash, credential);
-          }
-        }
-      }
-    });
+    const result = pex.selectFrom(presentationDefinition, decodedCredentials);
 
-    if (errors.length > 0) {
+    if (result.areRequiredCredentialsPresent === 'error') {
       return ResultObject.error(
-        `Failed to select credentials for input descriptors: ${errors.join(
-          ', '
-        )}`
+        'Not all credential requests could be satisfied'
       );
     }
 
-    const verifiableCredential = Array.from(map.values());
-
-    if (!verifiableCredential) {
-      return ResultObject.error('Failed to select credentials');
-    }
-
-    return ResultObject.success(verifiableCredential);
+    return ResultObject.success(result.verifiableCredential ?? []);
   }
 
   public async createPresentationSubmission(
@@ -673,92 +653,13 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Presentation definition not found');
     }
 
-    // FIXME: Pex doesn't work even with workarounds
-    // Hardcoded to work with EBSI Conformance Tests
-    const presentationSubmission: PresentationSubmission = {
-      id: window.crypto.randomUUID(),
-      definition_id: presentationDefinition.id,
-      descriptor_map: [
-        {
-          id: 'same-device-in-time-credential',
-          path: '$',
-          format: 'jwt_vp',
-          path_nested: {
-            id: 'same-device-in-time-credential',
-            format: 'jwt_vc',
-            path: `$.verifiableCredential[${credentials.findIndex(
-              (credential: any) =>
-                credential.type.includes('CTWalletSameInTime')
-            )}]`,
-          },
-        },
-        {
-          id: 'cross-device-in-time-credential',
-          path: '$',
-          format: 'jwt_vp',
-          path_nested: {
-            id: 'cross-device-in-time-credential',
-            format: 'jwt_vc',
-            path: `$.verifiableCredential[${credentials.findIndex(
-              (credential: any) =>
-                credential.type.includes('CTWalletCrossInTime')
-            )}]`,
-          },
-        },
-        {
-          id: 'same-device-deferred-credential',
-          path: '$',
-          format: 'jwt_vp',
-          path_nested: {
-            id: 'same-device-deferred-credential',
-            format: 'jwt_vc',
-            path: `$.verifiableCredential[${credentials.findIndex(
-              (credential: any) =>
-                credential.type.includes('CTWalletSameDeferred')
-            )}]`,
-          },
-        },
-        {
-          id: 'cross-device-deferred-credential',
-          path: '$',
-          format: 'jwt_vp',
-          path_nested: {
-            id: 'cross-device-deferred-credential',
-            format: 'jwt_vc',
-            path: `$.verifiableCredential[${credentials.findIndex(
-              (credential: any) =>
-                credential.type.includes('CTWalletCrossDeferred')
-            )}]`,
-          },
-        },
-        {
-          id: 'same-device-pre_authorised-credential',
-          path: '$',
-          format: 'jwt_vp',
-          path_nested: {
-            id: 'same-device-pre_authorised-credential',
-            format: 'jwt_vc',
-            path: `$.verifiableCredential[${credentials.findIndex(
-              (credential: any) =>
-                credential.type.includes('CTWalletSamePreAuthorised')
-            )}]`,
-          },
-        },
-        {
-          id: 'cross-device-pre_authorised-credential',
-          path: '$',
-          format: 'jwt_vp',
-          path_nested: {
-            id: 'cross-device-pre_authorised-credential',
-            format: 'jwt_vc',
-            path: `$.verifiableCredential[${credentials.findIndex(
-              (credential: any) =>
-                credential.type.includes('CTWalletCrossPreAuthorised')
-            )}]`,
-          },
-        },
-      ],
-    };
+    const presentationSubmission = pex.presentationSubmissionFrom(
+      presentationDefinition,
+      credentials,
+      {
+        presentationSubmissionLocation: PresentationSubmissionLocation.EXTERNAL,
+      }
+    );
 
     return ResultObject.success(presentationSubmission);
   }

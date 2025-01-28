@@ -87,6 +87,7 @@ import {
 } from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
+import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import { type DIDResolutionResult, Resolver } from 'did-resolver';
 import {
   type ProviderConfiguration,
@@ -1036,12 +1037,14 @@ class VeramoService {
     const { sendOIDCAuthorizationResponseArgs } =
       handleAuthorizationRequestResult;
 
-    const sendAuthorizationResponseResult =
-      await VeramoService.sendAuthorizationResponse(
+    const authorizationResponseResult =
+      await VeramoService.instance.sendOIDCAuthorizationResponse(
         sendOIDCAuthorizationResponseArgs
       );
 
-    throw new Error('Not implemented');
+    if (isError(authorizationResponseResult)) {
+      throw new Error(authorizationResponseResult.error);
+    }
   }
 
   // FIXME: This is a temporary solution (we need to refactor this)
@@ -1093,7 +1096,6 @@ class VeramoService {
         throw new Error('presentation_definition is required');
       }
 
-      // if(!credentials) {
       const store = ['snap'] as AvailableCredentialStores[];
 
       const queryResults = await VeramoService.queryCredentials({
@@ -1102,6 +1104,7 @@ class VeramoService {
 
       const queriedCredentials: any = queryResults.map((result) => result.data);
 
+      // NOTE: We filter out `JwtDecodedVerifiableCredential` | `SdJwtDecodedVerifiableCredential` types
       const selectCredentialsResult =
         await VeramoService.instance.selectCredentials({
           credentials: queriedCredentials,
@@ -1111,13 +1114,9 @@ class VeramoService {
         throw new Error(selectCredentialsResult.error);
       }
 
-      const decodedCredentials = selectCredentialsResult.data.map(
-        (credential) => decodeCredentialToObject(credential)
-      );
-
       const createPresentationSubmissionResult =
         await VeramoService.instance.createPresentationSubmission({
-          credentials: decodedCredentials as any,
+          credentials: selectCredentialsResult.data,
         });
 
       if (isError(createPresentationSubmissionResult)) {
@@ -1130,9 +1129,9 @@ class VeramoService {
         await VeramoService.instance.createVerifiablePresentation({
           presentation: {
             holder: did,
-            verifiableCredential: decodedCredentials.map(
-              (credential) => credential.proof.jwt
-            ),
+            // NOTE: We make an assumption that the first proof is the one we want and that it is a JWT proof
+            verifiableCredential:
+              selectCredentialsResult.data as W3CVerifiableCredential[],
           },
           proofFormat: 'jwt',
         });
@@ -1143,7 +1142,8 @@ class VeramoService {
         '@context': context,
         holder,
         type,
-        verifiableCredential: decodedCredentials,
+        verifiableCredential:
+          selectCredentialsResult.data as W3CVerifiableCredential[],
       };
 
       const createVpTokenResult = await VeramoService.instance.createVpToken({
