@@ -7,8 +7,11 @@ import crypto from 'node:crypto';
 type SdJwtPayload = Record<string, unknown>;
 
 class SDJwtService {
-  static signer: any;
-  static verifier: any;
+  static signer: (data: string) => Promise<string>;
+  static verifier: (
+    data: string,
+    signatureBase64Url: string
+  ) => Promise<boolean>;
   static instance: SDJwtInstance<SdJwtPayload>;
 
   /**
