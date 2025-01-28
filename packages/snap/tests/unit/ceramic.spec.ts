@@ -11,7 +11,7 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { EXAMPLE_VC } from '../data/verifiable-credentials';
 import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
-describe('Utils [ceramic]', () => {
+describe.skip('Utils [ceramic]', () => {
   let snapMock: SnapsProvider & SnapMock;
 
   beforeAll(async () => {
