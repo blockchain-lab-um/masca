@@ -2,6 +2,7 @@ import type {
   MascaLegacyStateV1,
   MascaLegacyStateV2,
   MascaLegacyStateV3,
+  MascaLegacyStateV4,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
 import { emptyPolygonBaseState, getInitialPermissions } from './config';
@@ -60,6 +61,21 @@ export const migrateToV4 = (state: MascaLegacyStateV3): MascaState => {
       newState.v4.accountState[account].polygon.state[method].polygon.amoy =
         cloneDeep(emptyPolygonBaseState);
     }
+  }
+
+  return newState as MascaState;
+};
+
+export const migrateToV5 = (state: MascaLegacyStateV4): MascaState => {
+  const newState: any = { v5: state.v4 };
+
+  const origins = Object.keys(newState.v5.config.dApp.permissions);
+
+  for (const origin of origins) {
+    // Add `decodeSdJwtPresentation` to permissions
+    newState.v5.config.dApp.permissions[
+      origin
+    ].methods.decodeSdJwtPresentation = false;
   }
 
   return newState as MascaState;

@@ -30,7 +30,8 @@ class SDJwtService {
       const wallet = WalletService.get();
 
       if (!wallet) {
-        throw new Error('Failed to retrieve keys');
+        // We can return here, becuase if the wallet is not set, we know the current method is not supported
+        return;
       }
 
       const privateKeyHex = wallet.privateKey.slice(2); // Remove '0x' prefix
