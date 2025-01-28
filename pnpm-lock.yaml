@@ -280,9 +280,6 @@ importers:
       ethr-did-resolver:
         specifier: 10.1.3
         version: 10.1.3(bufferutil@4.0.8)(utf-8-validate@6.0.3)
-      sd-jwt-veramo:
-        specifier: ../../../sd-jwt-implementacija-masca/sd-jwt-veramo
-        version: link:../../../sd-jwt-implementacija-masca/sd-jwt-veramo
     devDependencies:
       '@veramo/did-manager':
         specifier: 6.0.0
@@ -642,9 +639,6 @@ importers:
       react-share:
         specifier: ^5.1.0
         version: 5.1.0(react@18.3.1)
-      sd-jwt-veramo:
-        specifier: ../../../sd-jwt-implementacija-masca/sd-jwt-veramo
-        version: link:../../../sd-jwt-implementacija-masca/sd-jwt-veramo
       sharp:
         specifier: ^0.33.3
         version: 0.33.3
@@ -855,6 +849,9 @@ importers:
       '@sd-jwt/crypto-nodejs':
         specifier: ^0.7.2
         version: 0.7.2
+      '@sd-jwt/sd-jwt-vc':
+        specifier: ^0.8.0
+        version: 0.8.0
       '@sd-jwt/types':
         specifier: ^0.7.2
         version: 0.7.2
@@ -936,9 +933,6 @@ importers:
       qs:
         specifier: ^6.11.2
         version: 6.11.2
-      sd-jwt-veramo:
-        specifier: ../../../sd-jwt-implementacija-masca/sd-jwt-veramo
-        version: link:../../../sd-jwt-implementacija-masca/sd-jwt-veramo
       viem:
         specifier: ^2.9.23
         version: 2.9.25(bufferutil@4.0.8)(typescript@5.4.5)(utf-8-validate@6.0.3)(zod@3.23.8)
@@ -10128,6 +10122,7 @@ packages:
 
   eciesjs@0.3.18:
     resolution: {integrity: sha512-RQhegEtLSyIiGJmFTZfvCTHER/fymipXFVx6OwSRYD6hOuy+6Kjpk0dGvIfP9kxn/smBpxQy71uxpGO406ITCw==}
+    deprecated: Please upgrade to v0.4+
 
   ed25519-signature-2018-context@1.1.0:
     resolution: {integrity: sha512-ppDWYMNwwp9bploq0fS4l048vHIq41nWsAbPq6H4mNVx9G/GxW3fwg4Ln0mqctP13MoEpREK7Biz8TbVVdYXqA==}
@@ -26891,7 +26886,7 @@ snapshots:
       chalk: 4.1.2
       execa: 5.1.1
       metro: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
-      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      metro-config: 0.80.12(bufferutil@4.0.8)
       metro-core: 0.80.12
       node-fetch: 2.7.0(encoding@0.1.13)
       querystring: 0.2.1
@@ -36013,21 +36008,6 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  metro-config@0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3):
-    dependencies:
-      connect: 3.7.0
-      cosmiconfig: 5.2.1
-      flow-enums-runtime: 0.0.6
-      jest-validate: 29.7.0
-      metro: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
-      metro-cache: 0.80.12
-      metro-core: 0.80.12
-      metro-runtime: 0.80.12
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   metro-core@0.80.12:
     dependencies:
       flow-enums-runtime: 0.0.6
@@ -36219,7 +36199,7 @@ snapshots:
       metro-babel-transformer: 0.80.12
       metro-cache: 0.80.12
       metro-cache-key: 0.80.12
-      metro-config: 0.80.12(bufferutil@4.0.8)(utf-8-validate@6.0.3)
+      metro-config: 0.80.12(bufferutil@4.0.8)
       metro-core: 0.80.12
       metro-file-map: 0.80.12
       metro-resolver: 0.80.12

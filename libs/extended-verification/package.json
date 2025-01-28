@@ -47,7 +47,6 @@
     "did-resolver": "4.1.0",
     "ens-did-resolver": "^1.0.4",
     "ethers": "^6.11.1",
-    "sd-jwt-veramo": "../../../sd-jwt-implementacija-masca/sd-jwt-veramo",
     "ethr-did-resolver": "10.1.3"
   },
   "devDependencies": {

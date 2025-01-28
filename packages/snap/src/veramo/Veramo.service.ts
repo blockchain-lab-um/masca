@@ -106,9 +106,8 @@ import { sign } from '../utils/sign';
 import { CeramicCredentialStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapCredentialStore } from './plugins/snapDataStore/snapDataStore';
 
-import { SDJwtPlugin } from '../../../../../sd-jwt-implementacija-masca/sd-jwt-veramo';
-import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
 import { randomBytes } from 'node:crypto';
+import SDJwtService from 'src/SDJwt.service';
 
 export type Agent = TAgent<
   IDIDManager &
@@ -118,8 +117,7 @@ export type Agent = TAgent<
     IDataManager &
     ICredentialIssuer &
     ICredentialVerifier &
-    IOIDCClientPlugin &
-    SDJwtPlugin
+    IOIDCClientPlugin
 >;
 
 class VeramoService {
@@ -293,7 +291,7 @@ class VeramoService {
     credential: MinimalUnsignedCredential;
     disclosureFrame: Record<string, any>;
   }): Promise<any> {
-    const state = StorageService.get();
+    const sdjwt = SDJwtService.get();
     let { credential, disclosureFrame } = params;
     const { did, keys } = await VeramoService.getIdentifier();
 
@@ -324,13 +322,22 @@ class VeramoService {
       },
     };
 
-    const vc = await VeramoService.instance.createSdJwtVc({
-      credentialPayload: sdJwtVcPayload,
-      disclosureFrame: disclosureFrame,
-    });
+    const sdJwtCredential = await sdjwt.issue(
+      sdJwtVcPayload as any,
+      disclosureFrame as any
+    );
+
+    const decode = await sdjwt.decode(sdJwtCredential);
+
+    const signedCredentialWithDisclosures = {
+      ...decode.jwt?.payload,
+      signature: decode.jwt?.signature,
+      encoded: sdJwtCredential,
+      disclosures: decode.disclosures,
+    };
 
     const customCredential = {
-      ...vc,
+      credential: signedCredentialWithDisclosures,
       proofType: 'sd-jwt',
     };
 
@@ -546,7 +553,7 @@ class VeramoService {
               presentationFrame: presentationKeys as string[],
             });
 
-            return presentation.res.presentation;
+            return presentation.presentation;
           }
         })
       );
@@ -589,19 +596,30 @@ class VeramoService {
     encodedSdJwtVc: string;
     presentationFrame: string[];
   }): Promise<any> {
+    const sdjwt = SDJwtService.get();
+
+    const { did, keys } = await VeramoService.getIdentifier();
     const { encodedSdJwtVc, presentationFrame } = params;
 
     const presentationKeys =
       await VeramoService.createPresentationFrame(presentationFrame);
 
-    const res = await VeramoService.instance.createSdJwtVcPresentation({
-      presentation: encodedSdJwtVc,
-      presentationKeys: {
-        credentialSubject: presentationKeys,
-      },
-    });
+    // sd_hash is automatically added by the library
+    const kbPayload = {
+      iat: Math.floor(Date.now() / 1000),
+      aud: '', // TODO: Set the audience
+      nonce: randomBytes(16).toString('hex'),
+    };
 
-    return { res, proof: { type: 'sd-jwt' } };
+    const sdJwtPresentation = await sdjwt.present(
+      encodedSdJwtVc,
+      presentationKeys,
+      {
+        kb: { payload: kbPayload },
+      }
+    );
+
+    return { presentation: sdJwtPresentation, proof: { type: 'sd-jwt' } };
   }
 
   /**
@@ -613,6 +631,7 @@ class VeramoService {
   static async decodeSdJwtPresentation(
     params: DecodeSdJwtPresentationRequestParams
   ): Promise<SdJwtCredential[]> {
+    const sdjwt = SDJwtService.get();
     const credentials: SdJwtCredential[] = [];
 
     const mapDisclosures = (disclosures: any[] = []) =>
@@ -625,7 +644,7 @@ class VeramoService {
       }));
 
     params.presentation.map(async (vp) => {
-      const res = await VeramoService.instance.decodeSdJwt(vp);
+      const res = await sdjwt.decode(vp);
 
       const payload = res.jwt?.payload;
       const signature = res.jwt?.signature ?? '';
@@ -637,6 +656,7 @@ class VeramoService {
         disclosures
       );
 
+      vc.encoded = vp;
       credentials.push(vc);
     });
 
@@ -702,23 +722,26 @@ class VeramoService {
   static async createPresentationFrame(
     claims: string[]
   ): Promise<PresentationFrame<Record<string, boolean>>> {
-    const frame: any = {};
+    let frame: any = {};
 
     claims.forEach((claim) => {
-      // Split nested claims by '.'
       const keys = claim.split('.');
-      // Start from the root
       let current = frame;
 
-      // Build the nested structure
       keys.forEach((key, index) => {
         if (!current[key]) {
-          // If last key, set to true, otherwise set to an empty object
           current[key] = index === keys.length - 1 ? true : {};
         }
-        current = current[key]; // Traverse deeper
+        current = current[key];
       });
     });
+
+    // Change this if want to add more properties that are not in credentialSubject to the frame
+    frame = {
+      credentialSubject: {
+        ...frame,
+      },
+    };
 
     return frame as PresentationFrame<Record<string, boolean>>;
   }
@@ -1241,8 +1264,7 @@ class VeramoService {
         IDataManager &
         ICredentialIssuer &
         ICredentialVerifier &
-        IOIDCClientPlugin &
-        SDJwtPlugin
+        IOIDCClientPlugin
     >({
       plugins: [
         new CredentialPlugin(),
@@ -1279,19 +1301,6 @@ class VeramoService {
           providers: didProviders,
         }),
         new OIDCClientPlugin(),
-        new SDJwtPlugin({
-          hasher: digest,
-          saltGenerator: generateSalt,
-          verifySignature: async (data, signature, publicKey) => {
-            try {
-              // TODO: Implement verifying signature (sd-jwt)
-              return true;
-            } catch (error) {
-              console.error('SD-JWT Signature Verification Failed', error);
-              return false;
-            }
-          },
-        }),
       ],
     });
   }
