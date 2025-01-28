@@ -1,7 +1,8 @@
-import type {
-  AvailableCredentialStores,
-  AvailableMethods,
-  QueryCredentialsRequestResult,
+import {
+  CURRENT_STATE_VERSION,
+  type AvailableCredentialStores,
+  type AvailableMethods,
+  type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { type Result, isError } from '@blockchain-lab-um/utils';
 import type { MetaMaskInpageProvider } from '@metamask/providers';
@@ -41,9 +42,13 @@ describe('createVerifiableCredential', () => {
 
     beforeAll(async () => {
       snapMock = createMockSnap();
+      const defaultState = getDefaultSnapState(account);
+      defaultState[CURRENT_STATE_VERSION].accountState[
+        account
+      ].general.account.ssi.storesEnabled.ceramic = false;
       snapMock.rpcMocks.snap_manageState({
         operation: 'update',
-        newState: getDefaultSnapState(account),
+        newState: defaultState,
       });
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
@@ -72,7 +77,7 @@ describe('createVerifiableCredential', () => {
 
       issuer = switchMethod.data;
 
-      await agent.clear({ options: { store: ['snap', 'ceramic'] } });
+      await agent.clear({ options: { store: ['snap'] } });
     });
 
     describe.each(proofFormats)('Using Proof Format: %s', (proofFormat) => {
@@ -151,7 +156,7 @@ describe('createVerifiableCredential', () => {
 
           expect.assertions(2);
 
-          await agent.clear({ options: { store: ['snap', 'ceramic'] } });
+          await agent.clear({ options: { store: ['snap'] } });
         }
       );
     });
