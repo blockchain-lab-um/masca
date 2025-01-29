@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/masca-types",
-  "version": "1.4.0-beta.1",
+  "version": "1.4.0-beta.2",
   "description": "Types for Masca",
   "keywords": ["ssi", "metamask", "snap", "dapp"],
   "license": "(Apache-2.0 AND MIT)",

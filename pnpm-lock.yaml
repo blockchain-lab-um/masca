@@ -236,7 +236,7 @@ importers:
         specifier: 1.1.0-beta.1
         version: link:../did-provider-key
       '@blockchain-lab-um/masca-types':
-        specifier: 1.4.0-beta.1
+        specifier: 1.4.0-beta.2
         version: link:../../packages/types
       '@blockchain-lab-um/utils':
         specifier: 1.4.0-beta.1
@@ -417,7 +417,7 @@ importers:
   packages/connector:
     dependencies:
       '@blockchain-lab-um/masca-types':
-        specifier: 1.4.0-beta.1
+        specifier: 1.4.0-beta.2
         version: link:../types
       '@blockchain-lab-um/utils':
         specifier: 1.4.0-beta.1
@@ -457,10 +457,10 @@ importers:
         specifier: 1.1.0-beta.1
         version: link:../../libs/did-provider-key
       '@blockchain-lab-um/extended-verification':
-        specifier: 0.2.0-beta.1
+        specifier: 0.2.0-beta.2
         version: link:../../libs/extended-verification
       '@blockchain-lab-um/masca-connector':
-        specifier: 1.4.0-beta.1
+        specifier: 1.4.0-beta.2
         version: link:../connector
       '@blockchain-lab-um/oidc-types':
         specifier: 0.1.0-beta.0
@@ -805,10 +805,10 @@ importers:
         specifier: 1.1.0-beta.1
         version: link:../../libs/did-provider-key
       '@blockchain-lab-um/extended-verification':
-        specifier: 0.2.0-beta.1
+        specifier: 0.2.0-beta.2
         version: link:../../libs/extended-verification
       '@blockchain-lab-um/masca-types':
-        specifier: 1.4.0-beta.1
+        specifier: 1.4.0-beta.2
         version: link:../types
       '@blockchain-lab-um/oidc-client-plugin':
         specifier: 0.4.0-beta.2

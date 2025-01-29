@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.4.0-beta.2
+
+### Minor Changes
+
+- [`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Added SD-JWT support
+
+### Patch Changes
+
+- Updated dependencies [[`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223)]:
+  - @blockchain-lab-um/masca-types@1.4.0-beta.2
+
 ## 1.4.0-beta.1
 
 ### Patch Changes
