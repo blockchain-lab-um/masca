@@ -26,7 +26,6 @@ import {
   Italic,
   Link,
   type JSXElement,
-  type SnapComponent,
 } from '@metamask/snaps-sdk/jsx';
 import type { W3CVerifiableCredential } from '@veramo/core';
 

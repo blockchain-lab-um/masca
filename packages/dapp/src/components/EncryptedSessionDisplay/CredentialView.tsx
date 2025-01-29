@@ -1,5 +1,5 @@
 import { isError } from '@blockchain-lab-um/masca-connector';
-import { Tab } from '@headlessui/react';
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import type { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
@@ -88,8 +88,8 @@ export const CredentialView = ({
 
   return (
     <div>
-      <Tab.Group>
-        <Tab.List>
+      <TabGroup>
+        <TabList>
           <div className="dark:bg-navy-blue-700 relative mb-4 flex w-36 shrink-0 justify-between rounded-full bg-white">
             <Tab className="outline-none focus-visible:outline-none">
               {({ selected }) => (
@@ -126,15 +126,15 @@ export const CredentialView = ({
               JSON
             </Tab>
           </div>
-        </Tab.List>
-        <Tab.Panels>
-          <Tab.Panel>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
             <FormattedPanel credential={credential} />
-          </Tab.Panel>
-          <Tab.Panel>
+          </TabPanel>
+          <TabPanel>
             <JsonPanel data={credential} />
-          </Tab.Panel>
-        </Tab.Panels>
+          </TabPanel>
+        </TabPanels>
         <div className="mt-8 flex justify-end">
           <Button variant="cancel" onClick={() => onScanNewCode()}>
             {t('cancel')}
@@ -143,7 +143,7 @@ export const CredentialView = ({
             {t('save')}
           </Button>
         </div>
-      </Tab.Group>
+      </TabGroup>
     </div>
   );
 };

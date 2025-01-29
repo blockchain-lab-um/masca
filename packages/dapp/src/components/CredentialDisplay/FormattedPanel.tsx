@@ -5,7 +5,6 @@ import {
   DocumentDuplicateIcon,
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Image } from '@nextui-org/react';
 import { Tooltip } from '@nextui-org/react';
 import type { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
