@@ -1,5 +1,21 @@
 # @blockchain-lab-um/oidc-client-plugin
 
+## 0.4.0
+
+### Minor Changes
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo libraries.
+
+- [#658](https://github.com/blockchain-lab-um/masca/pull/658) [`413bc9c`](https://github.com/blockchain-lab-um/masca/commit/413bc9c37e8742a3befb17b61a40b32992880746) Thanks [@martines3000](https://github.com/martines3000)! - Update handling of oidc auth requests.
+
+### Patch Changes
+
+- [#637](https://github.com/blockchain-lab-um/masca/pull/637) [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032) Thanks [@martines3000](https://github.com/martines3000)! - Update Vitest
+
+- Updated dependencies [[`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032)]:
+  - @blockchain-lab-um/utils@1.4.0
+  - @blockchain-lab-um/oidc-types@0.1.0
+
 ## 0.4.0-beta.2
 
 ### Minor Changes

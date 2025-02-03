@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.4.0
+
+### Minor Changes
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Deprecate Polygon Mumbai and add support for Polygon Amoy.
+
+- [`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Added SD-JWT support
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo libraries.
+
+### Patch Changes
+
+- Updated dependencies [[`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032)]:
+  - @blockchain-lab-um/utils@1.4.0
+  - @blockchain-lab-um/masca-types@1.4.0
+
 ## 1.4.0-beta.2
 
 ### Minor Changes
