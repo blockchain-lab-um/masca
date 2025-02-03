@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/masca-types",
-  "version": "1.4.0-beta.2",
+  "version": "1.4.0",
   "description": "Types for Masca",
   "keywords": ["ssi", "metamask", "snap", "dapp"],
   "license": "(Apache-2.0 AND MIT)",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@0xpolygonid/js-sdk": "1.12.0",
-    "@blockchain-lab-um/utils": "1.4.0-beta.1",
+    "@blockchain-lab-um/utils": "1.4.0",
     "@sd-jwt/core": "^0.7.2",
     "@veramo/core": "6.0.0",
     "typia": "^6.11.2"

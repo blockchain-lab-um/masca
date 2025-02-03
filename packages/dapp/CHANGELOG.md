@@ -1,5 +1,33 @@
 # @blockchain-lab-um/dapp
 
+## 1.4.0
+
+### Minor Changes
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo libraries.
+
+- [`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Added SD-JWT support
+
+### Patch Changes
+
+- [#629](https://github.com/blockchain-lab-um/masca/pull/629) [`d5601e5`](https://github.com/blockchain-lab-um/masca/commit/d5601e5a30ed2297b5b09507c72e23ca56328349) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Replaced shared presentation verifying lib.
+
+- [#609](https://github.com/blockchain-lab-um/masca/pull/609) [`5cb712a`](https://github.com/blockchain-lab-um/masca/commit/5cb712ad40156207f41c3f2fd863f0ad0472791a) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds reclaim option for campaigns.
+
+- [#634](https://github.com/blockchain-lab-um/masca/pull/634) [`c829624`](https://github.com/blockchain-lab-um/masca/commit/c8296242be92d0a76e3d762f952d2d549a570ab0) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds banner at the top of dapp.
+
+- [#614](https://github.com/blockchain-lab-um/masca/pull/614) [`fc1f796`](https://github.com/blockchain-lab-um/masca/commit/fc1f796ad66b5dbceccd0d96f64e2d98cfca71f0) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Adds campaign issue checks.
+
+- [#658](https://github.com/blockchain-lab-um/masca/pull/658) [`413bc9c`](https://github.com/blockchain-lab-um/masca/commit/413bc9c37e8742a3befb17b61a40b32992880746) Thanks [@martines3000](https://github.com/martines3000)! - Resolve missing intl translation
+
+- [#626](https://github.com/blockchain-lab-um/masca/pull/626) [`932f6aa`](https://github.com/blockchain-lab-um/masca/commit/932f6aa03cde4007a6e65100869e8403de525552) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Improves dropdowns.
+
+- Updated dependencies [[`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459)]:
+  - @blockchain-lab-um/did-provider-key@1.1.0
+  - @blockchain-lab-um/extended-verification@0.2.0
+  - @blockchain-lab-um/masca-connector@1.4.0
+  - @blockchain-lab-um/oidc-types@0.1.0
+
 ## 1.4.0-beta.4
 
 ### Minor Changes

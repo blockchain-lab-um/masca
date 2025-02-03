@@ -1,5 +1,42 @@
 # Changelog
 
+## 1.3.0
+
+### Minor Changes
+
+- [#658](https://github.com/blockchain-lab-um/masca/pull/658) [`413bc9c`](https://github.com/blockchain-lab-um/masca/commit/413bc9c37e8742a3befb17b61a40b32992880746) Thanks [@martines3000](https://github.com/martines3000)! - Update handling of oidc auth requests.
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Deprecate Polygon Mumbai and add support for Polygon Amoy.
+
+- [#617](https://github.com/blockchain-lab-um/masca/pull/617) [`3f6d73e`](https://github.com/blockchain-lab-um/masca/commit/3f6d73eeee4c6b9a6b869b8e075c6dc147b4fd80) Thanks [@martines3000](https://github.com/martines3000)! - Update snaps libraries
+
+- [#655](https://github.com/blockchain-lab-um/masca/pull/655) [`1e8c6a9`](https://github.com/blockchain-lab-um/masca/commit/1e8c6a990f090723ea0af4fa1ec44feef8e7c497) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Replace old UI with jsx UI
+
+- [`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Added SD-JWT support
+
+- [`cdaa99e`](https://github.com/blockchain-lab-um/masca/commit/cdaa99e9098f404ac0eb80ac806329a8275fb57c) Thanks [@martines3000](https://github.com/martines3000)! - Fixes credential decoding in handleAuthorizationRequest
+
+### Patch Changes
+
+- [#623](https://github.com/blockchain-lab-um/masca/pull/623) [`34fef30`](https://github.com/blockchain-lab-um/masca/commit/34fef30741b91440366ec7abe980c825a6ab01f5) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Use external verification for verifyData rpc.
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo and iden3 libraries
+
+- [#637](https://github.com/blockchain-lab-um/masca/pull/637) [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032) Thanks [@martines3000](https://github.com/martines3000)! - Update Vitest
+
+- [#637](https://github.com/blockchain-lab-um/masca/pull/637) [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032) Thanks [@martines3000](https://github.com/martines3000)! - Move UniversalResolver service implementation to utils library.
+
+- [#625](https://github.com/blockchain-lab-um/masca/pull/625) [`f29e494`](https://github.com/blockchain-lab-um/masca/commit/f29e494a8cb6a9de30682a59feb6adee7e15b1e7) Thanks [@martines3000](https://github.com/martines3000)! - Adjust nbf and iat for idtoken signing
+
+- Updated dependencies [[`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`413bc9c`](https://github.com/blockchain-lab-um/masca/commit/413bc9c37e8742a3befb17b61a40b32992880746), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032)]:
+  - @blockchain-lab-um/oidc-client-plugin@0.4.0
+  - @blockchain-lab-um/utils@1.4.0
+  - @blockchain-lab-um/did-provider-key@1.1.0
+  - @blockchain-lab-um/veramo-datamanager@1.1.0
+  - @blockchain-lab-um/extended-verification@0.2.0
+  - @blockchain-lab-um/masca-types@1.4.0
+  - @blockchain-lab-um/oidc-types@0.1.0
+
 ## 1.3.0-beta.4
 
 ### Minor Changes
