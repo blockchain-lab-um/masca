@@ -1,5 +1,17 @@
 # @blockchain-lab-um/dapp
 
+## 1.4.0-beta.4
+
+### Minor Changes
+
+- [`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Added SD-JWT support
+
+### Patch Changes
+
+- Updated dependencies [[`8480f01`](https://github.com/blockchain-lab-um/masca/commit/8480f01a217123ed51a51fc235609a41174a4223)]:
+  - @blockchain-lab-um/masca-connector@1.4.0-beta.2
+  - @blockchain-lab-um/extended-verification@0.2.0-beta.2
+
 ## 1.4.0-beta.3
 
 ### Patch Changes
