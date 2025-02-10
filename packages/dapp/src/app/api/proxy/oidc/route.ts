@@ -6,51 +6,69 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
-  // Get url from search params where to send the request
-  const { searchParams } = new URL(request.url);
-  const url = searchParams.get('url');
+  try {
+    // Get url from search params where to send the request
+    const { searchParams } = new URL(request.url);
+    const url = searchParams.get('url');
 
-  if (!url) {
-    return new NextResponse('Missing url parameter', {
+    if (!url) {
+      return new NextResponse('Missing url parameter', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    // Send the request to the url
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'manual',
+    });
+
+    if (!response.ok && response.status !== 302) {
+      console.error(
+        `Bad response from server: status ${
+          response.status
+        } body ${response.text()}`
+      );
+
+      return new NextResponse('Bad response from server', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    if (!response.headers.has('location')) {
+      return new NextResponse('Missing location header', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    return NextResponse.json(
+      { location: response.headers.get('location') },
+      { headers: { ...CORS_HEADERS } }
+    );
+  } catch (e) {
+    console.error(e);
+    return new NextResponse('Bad request', {
       status: 400,
       headers: {
         ...CORS_HEADERS,
       },
     });
   }
-
-  // Send the request to the url
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'manual',
-  });
-
-  if (!response.ok && response.status !== 302) {
-    return new NextResponse('Bad response from server', {
-      status: 400,
-      headers: {
-        ...CORS_HEADERS,
-      },
-    });
-  }
-
-  if (!response.headers.has('location')) {
-    return new NextResponse('Missing location header', {
-      status: 400,
-      headers: {
-        ...CORS_HEADERS,
-      },
-    });
-  }
-
-  return NextResponse.json(
-    { location: response.headers.get('location') },
-    { headers: { ...CORS_HEADERS } }
-  );
 }
 
 export async function POST(request: NextRequest) {
@@ -101,7 +119,7 @@ export async function POST(request: NextRequest) {
       { headers: { ...CORS_HEADERS } }
     );
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return new NextResponse('Missing location header', {
       status: 400,
       headers: { ...CORS_HEADERS },
