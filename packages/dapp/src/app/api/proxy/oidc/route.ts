@@ -32,13 +32,7 @@ export async function GET(request: NextRequest) {
       redirect: 'manual',
     });
 
-    if (!response.ok && response.status !== 302) {
-      console.error(
-        `Bad response from server: status ${
-          response.status
-        } body ${response.text()}`
-      );
-
+    if (!response.ok || response.status !== 302) {
       return new NextResponse('Bad response from server', {
         status: 400,
         headers: {
