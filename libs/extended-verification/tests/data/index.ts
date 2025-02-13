@@ -13,6 +13,10 @@ export const CREDENTIAL_VALID_EIP712 = readJSON(
   import.meta.url,
   'credential_valid_eip712.json'
 ) as VerifiableCredential;
+export const CREDENTIAL_VALID_JWT_ISSUER_DID_EBSI = readJSON(
+  import.meta.url,
+  'credential_valid_jwt_issuer_did_ebsi.json'
+) as VerifiableCredential;
 export const CREDENTIAL_VALID_JWT_EXP_NBF = readJSON(
   import.meta.url,
   'credential_valid_jwt_exp_nbf.json'

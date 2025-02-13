@@ -33,6 +33,7 @@
     "@blockchain-lab-um/did-provider-key": "1.1.0",
     "@blockchain-lab-um/masca-types": "1.4.0",
     "@blockchain-lab-um/utils": "1.4.0",
+    "@cef-ebsi/ebsi-did-resolver": "^3.2.0",
     "@sd-jwt/crypto-nodejs": "^0.7.2",
     "@sd-jwt/sd-jwt-vc": "^0.8.0",
     "@veramo/core": "6.0.0",
