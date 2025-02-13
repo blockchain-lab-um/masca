@@ -25,7 +25,7 @@ import { removeCredentialSubjectFilterString } from '@/utils/format';
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
   'SD-JWT': 'sd-jwt',
-  'JSON-LD': 'lds',
+  // 'JSON-LD': 'lds',
   EIP712Signature: 'EthereumEip712Signature2021',
 };
 
@@ -50,7 +50,7 @@ const CreatePresentationDisplay = () => {
   const [availableProofFormats, setAvailableProofFormats] = useState([
     'JWT',
     'SD-JWT',
-    'JSON-LD',
+    // 'JSON-LD',
     'EIP712Signature',
   ]);
 
@@ -79,10 +79,19 @@ const CreatePresentationDisplay = () => {
       setAvailableProofFormats(['EIP712Signature']);
       setFormat('EIP712Signature');
     } else if (didMethod === 'did:jwk') {
-      setAvailableProofFormats(['JWT', 'SD-JWT', 'JSON-LD', 'EIP712Signature']);
+      setAvailableProofFormats([
+        'JWT',
+        'SD-JWT',
+        // 'JSON-LD',
+        'EIP712Signature',
+      ]);
       setFormat('SD-JWT');
     } else {
-      setAvailableProofFormats(['JWT', 'JSON-LD', 'EIP712Signature']);
+      setAvailableProofFormats([
+        'JWT',
+        //  'JSON-LD',
+        'EIP712Signature',
+      ]);
       setFormat('JWT');
     }
   }, [didMethod]);
