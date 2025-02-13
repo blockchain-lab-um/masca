@@ -11,6 +11,7 @@ import {
   CREDENTIAL_VALID_EIP712,
   CREDENTIAL_VALID_JWT,
   CREDENTIAL_VALID_JWT_EXP_NBF,
+  CREDENTIAL_VALID_JWT_ISSUER_DID_EBSI,
   PRESENTATION_INVALID_EIP712_SIGNATURE,
   PRESENTATION_INVALID_JWT_CREDENTIAL_EIP712_CREDENTIAL_JWT_EXPIRED,
   PRESENTATION_INVALID_JWT_CREDENTIAL_EIP712_SIGNATURE,
@@ -101,6 +102,39 @@ describe('Veramo Service', () => {
       it('valid JWT credential with exp and nbf', async () => {
         const result = await VerificationService.verify(
           CREDENTIAL_VALID_JWT_EXP_NBF
+        );
+
+        if (isError(result)) {
+          throw new Error(result.error);
+        }
+
+        const { data } = result;
+
+        expect(data.verified).toBe(true);
+        expect(data.details).toEqual({
+          credentials: [
+            {
+              signature: {
+                isValid: true,
+                errors: [],
+              },
+              schema: {
+                isValid: true,
+                errors: [],
+              },
+              isExpired: false,
+              isNotYetValid: false,
+              isRevoked: false,
+              ebsiTrustedIssuer: false,
+            },
+          ],
+          presentation: null,
+        });
+      });
+
+      it('valid JWT credential issuer did ebsi', async () => {
+        const result = await VerificationService.verify(
+          CREDENTIAL_VALID_JWT_ISSUER_DID_EBSI
         );
 
         if (isError(result)) {

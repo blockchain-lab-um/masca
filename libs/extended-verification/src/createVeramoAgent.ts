@@ -15,6 +15,7 @@ import { Resolver } from 'did-resolver';
 import { getResolver as ensDidResolver } from 'ens-did-resolver';
 import { JsonRpcProvider, type Provider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
+import { getResolver as getEBSIResolver } from '@cef-ebsi/ebsi-did-resolver';
 
 export interface CreateVeramoAgentProps {
   providers?: Record<string, Provider>;
@@ -63,6 +64,10 @@ export const createVeramoAgent = async (
             networks,
           }),
           ...UniversalResolverService.getResolver(),
+          // NOTE: EBSI resolver after universal resolver, as we want to override the EBSI resolver from universal resolver
+          ...getEBSIResolver({
+            registry: 'https://api-pilot.ebsi.eu/did-registry/v5/identifiers',
+          }),
         }),
       }),
     ],
