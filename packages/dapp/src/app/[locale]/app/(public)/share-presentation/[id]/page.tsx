@@ -111,66 +111,87 @@ export async function generateMetadata({
 
   // Create the OpenGraph Image URL
   const ogUrl = new URL(`${url}/api/og`);
-  ogUrl.searchParams.set('type', 'share-presentation');
-  ogUrl.searchParams.set('holder', presentation.holder);
-  ogUrl.searchParams.set(
-    'numberOfCredentials',
-    (presentation.verifiableCredential?.length ?? 0).toString()
-  );
-  ogUrl.searchParams.set('title', title);
 
-  if (presentation.verifiableCredential?.length === 1) {
-    let credential = presentation.verifiableCredential[0];
-    if (typeof presentation.verifiableCredential[0] === 'string') {
-      try {
-        credential = JSON.parse(presentation.verifiableCredential[0]);
-      } catch (e) {
+  if (!Array.isArray(presentation)) {
+    ogUrl.searchParams.set('type', 'share-presentation');
+    ogUrl.searchParams.set('holder', presentation.holder);
+    ogUrl.searchParams.set(
+      'numberOfCredentials',
+      (presentation.verifiableCredential?.length ?? 0).toString()
+    );
+    ogUrl.searchParams.set('title', title);
+
+    if (presentation.verifiableCredential?.length === 1) {
+      let credential = presentation.verifiableCredential[0];
+      if (typeof presentation.verifiableCredential[0] === 'string') {
         try {
-          credential = normalizeCredential(
-            presentation.verifiableCredential[0]
-          );
-        } catch (ex) {
-          console.error(ex);
+          credential = JSON.parse(presentation.verifiableCredential[0]);
+        } catch (e) {
+          try {
+            credential = normalizeCredential(
+              presentation.verifiableCredential[0]
+            );
+          } catch (ex) {
+            console.error(ex);
+          }
         }
       }
+
+      const types = convertTypes((credential as any).type);
+
+      if (typeof (credential as any).issuer === 'string') {
+        ogUrl.searchParams.set(
+          'credentialIssuer',
+          (credential as any).issuer ?? 'Unknown'
+        );
+      } else {
+        ogUrl.searchParams.set(
+          'credentialIssuer',
+          (credential as any).issuer.id ?? 'Unknown'
+        );
+      }
+
+      if (types.split(', ')[0] === 'Education Credential') {
+        ogUrl.searchParams.set(
+          'credentialIssuer',
+          (credential as any).credentialSubject.achieved.wasAwardedBy
+            .awardingBody ?? 'Unknown'
+        );
+
+        ogUrl.searchParams.set(
+          'credentialTitle',
+          (credential as any).credentialSubject.achieved.title ?? 'missing'
+        );
+      }
+      ogUrl.searchParams.set('credentialType', types);
+      ogUrl.searchParams.set(
+        'credentialSubject',
+        (credential as any).credentialSubject.id
+      );
+      ogUrl.searchParams.set(
+        'credentialIssuanceDate',
+        (credential as any).issuanceDate
+      );
     }
-
-    const types = convertTypes((credential as any).type);
-
-    if (typeof (credential as any).issuer === 'string') {
-      ogUrl.searchParams.set(
-        'credentialIssuer',
-        (credential as any).issuer ?? 'Unknown'
-      );
-    } else {
-      ogUrl.searchParams.set(
-        'credentialIssuer',
-        (credential as any).issuer.id ?? 'Unknown'
-      );
-    }
-
-    if (types.split(', ')[0] === 'Education Credential') {
-      ogUrl.searchParams.set(
-        'credentialIssuer',
-        (credential as any).credentialSubject.achieved.wasAwardedBy
-          .awardingBody ?? 'Unknown'
-      );
-
-      ogUrl.searchParams.set(
-        'credentialTitle',
-        (credential as any).credentialSubject.achieved.title ?? 'missing'
-      );
-    }
-    ogUrl.searchParams.set('credentialType', types);
+  } else {
+    ogUrl.searchParams.set('type', 'share-presentation');
+    ogUrl.searchParams.set('title', title);
     ogUrl.searchParams.set(
-      'credentialSubject',
-      (credential as any).credentialSubject.id
+      'numberOfCredentials',
+      (presentation.length ?? 0).toString()
     );
-    ogUrl.searchParams.set(
-      'credentialIssuanceDate',
-      (credential as any).issuanceDate
-    );
+    ogUrl.searchParams.set('holder', presentation[0].sub);
+    if (presentation.length === 1) {
+      ogUrl.searchParams.set('credentialIssuer', presentation[0].iss);
+      ogUrl.searchParams.set('credentialSubject', presentation[0].sub);
+      ogUrl.searchParams.set(
+        'credentialIssuanceDate',
+        new Date(presentation[0].iat * 1000).toISOString()
+      );
+      ogUrl.searchParams.set('disclosures', presentation[0].disclosures.length);
+    }
   }
+
   return {
     title: 'My Shared Credentials',
     description: 'Page for displaying shared presentations',
