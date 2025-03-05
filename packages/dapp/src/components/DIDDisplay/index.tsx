@@ -5,14 +5,19 @@ import { useTranslations } from 'next-intl';
 import { copyToClipboard } from '@/utils/string';
 import { formatDid } from '@/utils/format';
 
-export const DIDDisplay = ({ did }: { did: string }) => {
+export const DIDDisplay = ({
+  did,
+  header = true,
+}: { did: string; header?: boolean | undefined }) => {
   const t = useTranslations('DIDDisplay');
 
   return (
     <div>
-      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-        DID:
-      </h2>
+      {header && (
+        <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
+          DID:
+        </h2>
+      )}
       <div className="flex flex-row">
         <Tooltip
           content={t('tooltip')}

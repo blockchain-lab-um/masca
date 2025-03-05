@@ -109,7 +109,11 @@ const DisclosureDetails = ({
               {value.key}:
             </h2>
             <h2 className="dark:text-navy-blue-200 pr-2 capitalize whitespace-nowrap text-gray-800">
-              {value.value}
+              {value.value.toLowerCase().includes('did:jwk:') ? (
+                <DIDDisplay did={value.value} header={false} />
+              ) : (
+                value.value
+              )}
             </h2>
             <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
               {isObject ? (

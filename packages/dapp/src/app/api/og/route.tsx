@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
       credentialSubject = 'unknown',
       credentialIssuanceDate = 'unknown',
       credentialTitle = 'unknown',
+      disclosures,
     } = values;
 
     if (type && type === 'share-presentation') {
@@ -246,14 +247,43 @@ export async function GET(req: NextRequest) {
                   {new Date(Date.parse(credentialIssuanceDate)).toDateString()}
                 </div>
               </div>
-              <div
-                tw="text-4xl flex w-full text-orange-100 justify-end"
-                style={{
-                  fontFamily: 'Inter Medium',
-                }}
-              >
-                {credentialType.split(',')[0]}
-              </div>
+              {!disclosures && (
+                <div
+                  tw="text-4xl flex w-full text-orange-100 justify-end"
+                  style={{
+                    fontFamily: 'Inter Medium',
+                  }}
+                >
+                  {credentialType.split(',')[0]}
+                </div>
+              )}
+              {disclosures && (
+                <div
+                  tw="flex flex-col"
+                  style={{
+                    fontFamily: 'Inter Medium',
+                  }}
+                >
+                  <div
+                    tw="text-4xl flex w-full text-orange-100 justify-end"
+                    style={{
+                      fontFamily: 'Inter Medium',
+                    }}
+                  >
+                    Selective Disclosure VP
+                  </div>
+                  <div tw="text-md text-orange-100 mt-4">DISCLOSURES</div>
+                  <div
+                    tw="tracking-tight flex text-xl text-white"
+                    style={{
+                      fontFamily: 'Inter',
+                      fontWeight: 'normal',
+                    }}
+                  >
+                    {disclosures}
+                  </div>
+                </div>
+              )}
             </div>
           </div>,
           {
