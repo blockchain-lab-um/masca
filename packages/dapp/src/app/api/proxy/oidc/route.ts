@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       redirect: 'manual',
     });
 
-    if (!response.ok || response.status !== 302) {
+    if (response.status !== 302) {
       return new NextResponse('Bad response from server', {
         status: 400,
         headers: {
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
       body: new URLSearchParams(body.data).toString(),
     });
 
-    if (!response.ok && response.status !== 302) {
+    if (response.status !== 302) {
       return new NextResponse('Bad response from server', {
         status: 400,
         headers: { ...CORS_HEADERS },
