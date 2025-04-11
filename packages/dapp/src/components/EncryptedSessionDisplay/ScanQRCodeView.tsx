@@ -52,7 +52,8 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
     try {
       if (
         decodedText.startsWith('openid-credential-offer://') ||
-        decodedText.startsWith('openid://')
+        decodedText.startsWith('openid://') ||
+        decodedText.startsWith('openid4vp://')
       ) {
         data = decodedText;
       } else {

@@ -84,7 +84,7 @@ export const EncryptedSessionProvider = ({
     }
 
     // OIDC Authorization Request
-    if (data.startsWith('openid://')) {
+    if (data.startsWith('openid://') || data.startsWith('openid4vp://')) {
       changeRequest({
         active: true,
         data,

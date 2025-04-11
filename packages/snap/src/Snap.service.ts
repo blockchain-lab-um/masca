@@ -470,7 +470,10 @@ class SnapService {
   ): Promise<void> {
     const { authorizationRequest } = params;
 
-    if (authorizationRequest.startsWith('openid://')) {
+    if (
+      authorizationRequest.startsWith('openid://') ||
+      authorizationRequest.startsWith('openid4vp://')
+    ) {
       await VeramoService.importIdentifier();
       return VeramoService.handleOIDCAuthorizationRequest({
         authorizationRequestURI: authorizationRequest,

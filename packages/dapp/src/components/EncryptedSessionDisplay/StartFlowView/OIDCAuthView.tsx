@@ -35,7 +35,9 @@ export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
         currDidMethod === 'did:jwk')
     ) {
       const result = await api.handleAuthorizationRequest({
-        authorizationRequest: request.data,
+        authorizationRequest: request.data.startsWith('openid4vp://')
+          ? request.data.replace('openid4vp://', 'openid://')
+          : request.data,
       });
       if (isError(result)) {
         setTimeout(() => {
