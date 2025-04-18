@@ -150,6 +150,10 @@ export class VerificationService {
           const result = await VerificationService.veramoAgent.verifyCredential(
             {
               credential,
+              policies: {
+                // FIXME: Remove and add `ICredentialStatusVerifier` plugin
+                credentialStatus: false,
+              },
             }
           );
           const errorMessage = result.error?.message || '';
