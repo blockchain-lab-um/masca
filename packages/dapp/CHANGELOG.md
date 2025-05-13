@@ -1,5 +1,19 @@
 # @blockchain-lab-um/dapp
 
+## 1.5.0-beta.0
+
+### Minor Changes
+
+- [`0c5eeb4`](https://github.com/blockchain-lab-um/masca/commit/0c5eeb45be786b8714d93bf7eaac472daf0e41a2) Thanks [@martines3000](https://github.com/martines3000)! - Add support for `opendi4vp://`
+
+### Patch Changes
+
+- [#665](https://github.com/blockchain-lab-um/masca/pull/665) [`e28adf7`](https://github.com/blockchain-lab-um/masca/commit/e28adf711ba0a68a2c50fbb3ae3996b580e5e7bf) Thanks [@martines3000](https://github.com/martines3000)! - Hide JSON-LD as it is currently not working.
+
+- Updated dependencies [[`5f2be1c`](https://github.com/blockchain-lab-um/masca/commit/5f2be1cd0211e17cb2445944eae27b5108cdcaa0), [`a9fac60`](https://github.com/blockchain-lab-um/masca/commit/a9fac609b1bb98bb6fefa5e99674f74eec404132)]:
+  - @blockchain-lab-um/extended-verification@0.3.0-beta.0
+  - @blockchain-lab-um/masca-connector@1.5.0-beta.0
+
 ## 1.4.0
 
 ### Minor Changes

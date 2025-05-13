@@ -15,5 +15,10 @@
     "@blockchain-lab-um/masca": "1.3.0",
     "@blockchain-lab-um/masca-types": "1.4.0"
   },
-  "changesets": []
+  "changesets": [
+    "breezy-years-joke",
+    "grumpy-beds-kick",
+    "heavy-bananas-kneel",
+    "wise-kiwis-play"
+  ]
 }
