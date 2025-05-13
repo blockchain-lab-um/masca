@@ -94,24 +94,40 @@ export async function POST(request: NextRequest) {
       body: new URLSearchParams(body.data).toString(),
     });
 
-    if (response.status !== 302) {
-      return new NextResponse('Bad response from server', {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+    if (response.status === 302) {
+      if (!response.headers.has('location')) {
+        return new NextResponse('Missing location header', {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        });
+      }
+
+      return NextResponse.json(
+        { location: response.headers.get('location') },
+        { headers: { ...CORS_HEADERS } }
+      );
     }
 
-    if (!response.headers.has('location')) {
-      return new NextResponse('Missing location header', {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+    if (response.status === 200) {
+      const data = await response.json();
+
+      if (!data || !data.url) {
+        return new NextResponse('Missing url parameter in response', {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        });
+      }
+
+      return NextResponse.json(
+        { location: data.url },
+        { headers: { ...CORS_HEADERS } }
+      );
     }
 
-    return NextResponse.json(
-      { location: response.headers.get('location') },
-      { headers: { ...CORS_HEADERS } }
-    );
+    return new NextResponse('Bad response from server', {
+      status: 400,
+      headers: { ...CORS_HEADERS },
+    });
   } catch (e) {
     console.error(e);
     return new NextResponse('Missing location header', {
