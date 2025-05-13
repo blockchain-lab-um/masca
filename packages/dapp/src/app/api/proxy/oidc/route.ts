@@ -109,17 +109,8 @@ export async function POST(request: NextRequest) {
     }
 
     if (response.status === 200) {
-      const data = await response.json();
-
-      if (!data || !data.url) {
-        return new NextResponse('Missing url parameter in response', {
-          status: 400,
-          headers: { ...CORS_HEADERS },
-        });
-      }
-
       return NextResponse.json(
-        { location: data.url },
+        { location: null },
         { headers: { ...CORS_HEADERS } }
       );
     }
