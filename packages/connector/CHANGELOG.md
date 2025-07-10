@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.0-beta.0
+
+### Minor Changes
+
+- [#667](https://github.com/blockchain-lab-um/masca/pull/667) [`a9fac60`](https://github.com/blockchain-lab-um/masca/commit/a9fac609b1bb98bb6fefa5e99674f74eec404132) Thanks [@martines3000](https://github.com/martines3000)! - Resolve issues with create verifiable credential on dapp.
+
 ## 1.4.0
 
 ### Minor Changes

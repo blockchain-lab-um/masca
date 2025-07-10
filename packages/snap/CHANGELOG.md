@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.4.0-beta.0
+
+### Minor Changes
+
+- [`0c5eeb4`](https://github.com/blockchain-lab-um/masca/commit/0c5eeb45be786b8714d93bf7eaac472daf0e41a2) Thanks [@martines3000](https://github.com/martines3000)! - Add support for `opendi4vp://`
+
+- [#667](https://github.com/blockchain-lab-um/masca/pull/667) [`a9fac60`](https://github.com/blockchain-lab-um/masca/commit/a9fac609b1bb98bb6fefa5e99674f74eec404132) Thanks [@martines3000](https://github.com/martines3000)! - Resolve issues with create verifiable credential on dapp.
+
+### Patch Changes
+
+- Updated dependencies [[`5f2be1c`](https://github.com/blockchain-lab-um/masca/commit/5f2be1cd0211e17cb2445944eae27b5108cdcaa0)]:
+  - @blockchain-lab-um/extended-verification@0.3.0-beta.0
+
 ## 1.3.0
 
 ### Minor Changes
