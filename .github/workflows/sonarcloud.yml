@@ -12,7 +12,7 @@ jobs:
   # Snap
   sonarcloud-snap:
     name: SonarCloud snap
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -45,7 +45,7 @@ jobs:
   # VC Manager
   sonarcloud-datamanager:
     name: SonarCloud datamanager
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -78,7 +78,7 @@ jobs:
   # Connector
   sonarcloud-connector:
     name: SonarCloud connector
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -96,7 +96,7 @@ jobs:
   # Dapp
   sonarcloud-dapp:
     name: SonarCloud dapp
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -114,7 +114,7 @@ jobs:
   # Docs
   sonarcloud-docs:
     name: SonarCloud docs
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -132,7 +132,7 @@ jobs:
   # Did-provider-key
   sonarcloud-did-provider-key:
     name: SonarCloud did-provider-key
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -164,7 +164,7 @@ jobs:
   # Did-provider-key
   sonarcloud-extended-verification-lib:
     name: SonarCloud extended-verification-lib
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
