@@ -33,7 +33,7 @@ jobs:
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@5.2.0
         with:
           projectBaseDir: packages/snap
           args: >
@@ -66,7 +66,7 @@ jobs:
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@5.2.0
         with:
           projectBaseDir: packages/datamanager
           args: >
@@ -84,7 +84,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@5.2.0
         with:
           projectBaseDir: packages/connector
           args: >
@@ -102,7 +102,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@5.2.0
         with:
           projectBaseDir: packages/dapp
           args: >
@@ -120,7 +120,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@5.2.0
         with:
           projectBaseDir: packages/docs
           args: >
@@ -153,7 +153,7 @@ jobs:
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@5.2.0
         with:
           projectBaseDir: libs/did-provider-key
           args: >
@@ -186,7 +186,7 @@ jobs:
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@5.2.0
         with:
           projectBaseDir: libs/extended-verification
           args: >
