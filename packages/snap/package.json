@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/masca",
-  "version": "1.4.0-beta.0",
+  "version": "1.4.0",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "keywords": [
     "MetaMask",
@@ -56,7 +56,7 @@
   "dependencies": {
     "@0xpolygonid/js-sdk": "1.12.0",
     "@blockchain-lab-um/did-provider-key": "1.1.0",
-    "@blockchain-lab-um/extended-verification": "0.3.0-beta.0",
+    "@blockchain-lab-um/extended-verification": "0.3.0",
     "@blockchain-lab-um/masca-types": "1.4.0",
     "@blockchain-lab-um/oidc-client-plugin": "0.4.0",
     "@blockchain-lab-um/oidc-types": "0.1.0",

@@ -1,5 +1,11 @@
 # @blockchain-lab-um/extended-verification
 
+## 0.3.0
+
+### Minor Changes
+
+- [#664](https://github.com/blockchain-lab-um/masca/pull/664) [`5f2be1c`](https://github.com/blockchain-lab-um/masca/commit/5f2be1cd0211e17cb2445944eae27b5108cdcaa0) Thanks [@martines3000](https://github.com/martines3000)! - Use `@cef-ebsi/ebsi-did-resolver` instead of uniresolver for resolving ebsi dids.
+
 ## 0.3.0-beta.0
 
 ### Minor Changes
