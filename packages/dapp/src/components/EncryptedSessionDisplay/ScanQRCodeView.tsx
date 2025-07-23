@@ -38,8 +38,97 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
     // Same device
     if (isConnected && deviceType === 'primary') {
       changeRequestData(decodedText);
-      onQRCodeScanned();
-      return;
+
+      // Process the QR code data immediately for same-device scanning
+      let data: string | null = null;
+
+      try {
+        if (
+          decodedText.startsWith('openid-credential-offer://') ||
+          decodedText.startsWith('openid://') ||
+          decodedText.startsWith('openid4vp://')
+        ) {
+          data = decodedText;
+        } else {
+          // Check if the QR code contains a Polygon Credential Offer or a Polygon Authorization Request
+          const jsonDecodedData = JSON.parse(decodedText);
+
+          if (jsonDecodedData) {
+            if (
+              jsonDecodedData.type ===
+              'https://iden3-communication.io/authorization/1.0/request'
+            ) {
+              data = decodedText;
+            } else if (
+              jsonDecodedData.type ===
+              'https://iden3-communication.io/credentials/1.0/offer'
+            ) {
+              data = decodedText;
+            }
+          }
+        }
+
+        if (!data) throw new Error('Unsupported QR code');
+
+        // Process the request data to trigger step progression
+        const { changeRequest } = useEncryptedSessionStore.getState();
+
+        if (data.startsWith('openid-credential-offer://')) {
+          changeRequest({
+            active: true,
+            data,
+            type: 'credentialOffer',
+            finished: false,
+          });
+        } else if (
+          data.startsWith('openid://') ||
+          data.startsWith('openid4vp://')
+        ) {
+          changeRequest({
+            active: true,
+            data,
+            type: 'oidcAuth',
+            finished: false,
+          });
+        } else {
+          const jsonDecodedData = JSON.parse(data);
+          if (
+            jsonDecodedData.type ===
+            'https://iden3-communication.io/credentials/1.0/offer'
+          ) {
+            changeRequest({
+              active: true,
+              data,
+              type: 'polygonCredentialOffer',
+              finished: false,
+            });
+          } else if (
+            jsonDecodedData.type ===
+            'https://iden3-communication.io/authorization/1.0/request'
+          ) {
+            changeRequest({
+              active: true,
+              data,
+              type: 'polygonAuth',
+              finished: false,
+            });
+          }
+        }
+
+        onQRCodeScanned();
+        return;
+      } catch (e) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('error'),
+            type: 'error',
+            loading: false,
+            link: null,
+          });
+        }, 200);
+        return;
+      }
     }
 
     // Cross device (mobile <-> desktop)
