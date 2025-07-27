@@ -981,6 +981,51 @@ class VeramoService {
       throw new Error('An error occurred while requesting the credential');
     }
 
+    if (credentialResponse.format === 'sd-jwt') {
+      const sdjwt = SDJwtService.get();
+      const sdJwtCredential = credentialResponse.credential;
+
+      const decode = await sdjwt.decode(sdJwtCredential);
+
+      const payload = decode.jwt?.payload;
+
+      // Transform SD-JWT payload to VerifiableCredential format
+      const transformedCredential = {
+        '@context': payload?.['@context'] || [
+          'https://www.w3.org/2018/credentials/v1',
+        ],
+        id: payload?.id || '',
+        type:
+          payload?.vct && typeof payload.vct === 'string'
+            ? payload.vct.split(',')
+            : ['VerifiableCredential'],
+        issuer: payload?.iss || '',
+        issuanceDate:
+          payload?.iat && typeof payload.iat === 'number'
+            ? new Date(payload.iat * 1000).toISOString()
+            : new Date().toISOString(),
+        credentialSubject: payload?.credentialSubject || {},
+        credentialSchema: payload?.credentialSchema || {},
+        proof: {
+          type: 'sd-jwt',
+          jwt: sdJwtCredential,
+        },
+        // SD-JWT specific fields
+        _sd_alg: payload?._sd_alg || 'sha-256',
+        signature: decode.jwt?.signature,
+        encoded: sdJwtCredential,
+        disclosures: decode.disclosures,
+      };
+
+      const customCredential = {
+        credential: transformedCredential,
+        proofType: 'sd-jwt',
+      };
+
+      return customCredential as any;
+    }
+
+    // Handle regular JWT credentials
     const credential = decodeCredentialToObject(credentialResponse.credential);
 
     return credential;
