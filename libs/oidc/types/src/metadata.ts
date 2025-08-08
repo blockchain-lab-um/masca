@@ -58,6 +58,7 @@ export type SupportedCredential = {
   | SupportedCredentialJwtVcJson
   | SupportedCredentialJwtVcJsonLd
   | SupportedCredentialMsoMdoc
+  | SupportedCredentialSdJwt
 );
 
 export interface SupportedCredentialJwtVcJson {
@@ -77,6 +78,19 @@ export interface SupportedCredentialMsoMdoc {
   format: 'mso_mdoc';
   doctype: string;
   claims?: any;
+}
+
+export interface SupportedCredentialSdJwt {
+  format: 'sd-jwt';
+  types: string[];
+  credentialSubject?: Record<string, unknown>;
+
+  '@context'?: string[];
+
+  credentialSchema?: {
+    id: string;
+    type: string;
+  };
 }
 
 export interface CredentialSchema {

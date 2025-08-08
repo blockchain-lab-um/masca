@@ -6,7 +6,7 @@ export type Credential = {
   format: SupportedCredentialFormats;
 } & (
   | {
-      format: 'jwt_vc_json' | 'jwt_vc_json-ld' | 'ldp_vc';
+      format: 'jwt_vc_json' | 'jwt_vc_json-ld' | 'ldp_vc' | 'sd-jwt';
       types: string[];
     }
   | {

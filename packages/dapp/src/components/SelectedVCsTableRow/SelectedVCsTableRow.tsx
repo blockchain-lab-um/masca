@@ -1,4 +1,7 @@
-import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type {
+  Disclosure,
+  QueryCredentialsRequestResult,
+} from '@blockchain-lab-um/masca-connector';
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import {
   CheckCircleIcon,
@@ -133,44 +136,46 @@ const SelectedVCsTableRow = ({
               Select claims to disclose:
             </label>
             <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {vc.data.disclosures.map((disclosure) => (
-                <div
-                  key={`${vc.metadata.id}.${disclosure.key}`}
-                  className="flex items-center p-2 bg-white dark:bg-navy-blue-800 rounded-lg shadow-md cursor-pointer"
-                  onClick={() =>
-                    handleDisclosureCheck(
-                      vc.metadata.id,
-                      disclosure.key,
-                      !selectedSdJwtDisclosures.includes(
-                        `${vc.metadata.id}/${disclosure.key}`
-                      )
-                    )
-                  }
-                >
-                  <input
-                    type="checkbox"
-                    id={`${vc.metadata.id}.${disclosure.key}`}
-                    name={`${vc.metadata.id}.${disclosure.key}`}
-                    checked={selectedSdJwtDisclosures.includes(
-                      `${vc.metadata.id}/${disclosure.key}`
-                    )}
-                    onChange={(e) =>
+              {vc.data.disclosures
+                .filter((disclosure: Disclosure) => disclosure.key !== 'id')
+                .map((disclosure: Disclosure) => (
+                  <div
+                    key={`${vc.metadata.id}.${disclosure.key}`}
+                    className="flex items-center p-2 bg-white dark:bg-navy-blue-800 rounded-lg shadow-md cursor-pointer"
+                    onClick={() =>
                       handleDisclosureCheck(
                         vc.metadata.id,
                         disclosure.key,
-                        e.target.checked
+                        !selectedSdJwtDisclosures.includes(
+                          `${vc.metadata.id}/${disclosure.key}`
+                        )
                       )
                     }
-                    className="form-checkbox h-4 w-4 text-blue-600"
-                  />
-                  <label
-                    htmlFor={`${vc.metadata.id}/${disclosure.key}`}
-                    className="ml-2 text-gray-800 dark:text-navy-blue-100"
                   >
-                    {disclosure.key}
-                  </label>
-                </div>
-              ))}
+                    <input
+                      type="checkbox"
+                      id={`${vc.metadata.id}.${disclosure.key}`}
+                      name={`${vc.metadata.id}.${disclosure.key}`}
+                      checked={selectedSdJwtDisclosures.includes(
+                        `${vc.metadata.id}/${disclosure.key}`
+                      )}
+                      onChange={(e) =>
+                        handleDisclosureCheck(
+                          vc.metadata.id,
+                          disclosure.key,
+                          e.target.checked
+                        )
+                      }
+                      className="form-checkbox h-4 w-4 text-blue-600"
+                    />
+                    <label
+                      htmlFor={`${vc.metadata.id}/${disclosure.key}`}
+                      className="ml-2 text-gray-800 dark:text-navy-blue-100"
+                    >
+                      {disclosure.key}
+                    </label>
+                  </div>
+                ))}
             </div>
           </td>
         </tr>

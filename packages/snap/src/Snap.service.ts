@@ -50,6 +50,7 @@ import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
 import { isTrustedDomain } from './utils/permissions';
 import VeramoService from './veramo/Veramo.service';
+import SDJwtService from './SDJwt.service';
 
 class SnapService {
   private static origin: string;
@@ -116,7 +117,18 @@ class SnapService {
         return res;
       }
 
-      const { id } = verifiableCredential.credentialSubject;
+      const { id } = (verifiableCredential as any).credentialSubject || {};
+
+      // Check for SD-JWT credentials (they have encoded field and disclosures)
+      if (
+        (verifiableCredential as any).encoded &&
+        (verifiableCredential as any).disclosures
+      ) {
+        return VeramoService.saveCredential({
+          verifiableCredential: verifiableCredential as W3CVerifiableCredential,
+          store,
+        });
+      }
 
       // Check if credential subject id is a string (did)
       if (typeof id === 'string') {
@@ -133,6 +145,14 @@ class SnapService {
           ];
         }
 
+        return VeramoService.saveCredential({
+          verifiableCredential: verifiableCredential as W3CVerifiableCredential,
+          store,
+        });
+      }
+
+      // Handle credentials without credentialSubject.id (like some SD-JWTs)
+      if (verifiableCredential.issuer && verifiableCredential.type) {
         return VeramoService.saveCredential({
           verifiableCredential: verifiableCredential as W3CVerifiableCredential,
           store,
@@ -645,6 +665,7 @@ class SnapService {
         isValidSwitchMethodRequest(params);
         await GeneralService.switchDIDMethod(params);
         await WalletService.init();
+        await SDJwtService.init();
         res = await SnapService.getDID();
         return ResultObject.success(res);
       case 'getSelectedMethod':

@@ -3,6 +3,8 @@ import WalletService from './Wallet.service';
 import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
 import { ec as EC } from 'elliptic';
 import { bytesToBase64url, decodeBase64url } from '@veramo/utils';
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
+import StorageService from './storage/Storage.service';
 
 type SdJwtPayload = Record<string, unknown>;
 
@@ -34,15 +36,26 @@ class SDJwtService {
         return;
       }
 
+      const state = StorageService.get();
+      const method =
+        state[CURRENT_STATE_VERSION].accountState[
+          state[CURRENT_STATE_VERSION].currentAccount
+        ].general.account.ssi.selectedMethod;
+
       const privateKeyHex = wallet.privateKey.slice(2); // Remove '0x' prefix
 
-      const ec = new EC('p256');
+      // Determine curve based on DID method
+      const curve = method === 'did:key:jwk_jcs-pub' ? 'p256' : 'secp256k1';
+      const ec = new EC(curve);
       const keyPair = ec.keyFromPrivate(privateKeyHex, 'hex');
       const publicKey = keyPair.getPublic();
 
       if (!keyPair || !publicKey) {
         throw new Error('Keys are missing from WalletService');
       }
+
+      // Determine signing algorithm based on curve
+      const signAlg = curve === 'secp256k1' ? 'ES256K' : 'ES256';
 
       SDJwtService.signer = async (data: string): Promise<string> => {
         const signature = keyPair.sign(Buffer.from(data));
@@ -78,13 +91,13 @@ class SDJwtService {
           : async () => {
               throw new Error('Verifier not initialized');
             },
-        signAlg: 'ES256',
+        signAlg,
         hasher: digest,
         hashAlg: 'sha-256',
         saltGenerator: generateSalt,
         kbSigner: SDJwtService.signer,
         kbVerifier: SDJwtService.verifier,
-        kbSignAlg: 'ES256',
+        kbSignAlg: signAlg,
       });
     } catch (e) {
       console.error('Failed to initialize SDJwtService', e);

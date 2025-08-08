@@ -12,6 +12,7 @@ export const supportedCredentialFormatsWithTypes = [
 export const supportedCredentialFormats = [
   ...supportedCredentialFormatsWithTypes,
   'mso_mdoc',
+  'sd-jwt',
 ] as const;
 
 export const supportedPresentationFormats = [
@@ -37,7 +38,7 @@ export type CredentialRequest = {
   proof?: Proof;
 } & (
   | {
-      format: 'jwt_vc_json' | 'jwt_vc_json-ld' | 'ldp_vc';
+      format: 'jwt_vc_json' | 'jwt_vc_json-ld' | 'ldp_vc' | 'sd-jwt';
       types: string[];
     }
   | {
