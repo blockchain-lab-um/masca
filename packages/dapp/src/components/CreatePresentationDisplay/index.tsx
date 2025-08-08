@@ -78,7 +78,7 @@ const CreatePresentationDisplay = () => {
     ) {
       setAvailableProofFormats(['EIP712Signature']);
       setFormat('EIP712Signature');
-    } else if (didMethod === 'did:jwk') {
+    } else if (didMethod === 'did:jwk' || didMethod === 'did:key:jwk_jcs-pub') {
       setAvailableProofFormats([
         'JWT',
         'SD-JWT',
