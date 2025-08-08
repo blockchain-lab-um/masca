@@ -8,15 +8,14 @@
     "build": "rimraf .next && next build",
     "postbuild": "next-sitemap --config=next-sitemap.config.js",
     "build:docker": "pnpm build",
-    "build:local": "infisical run --env=dev --path=/packages/dapp -- rimraf .next && next build",
     "dev": "infisical run --env=dev --path=/packages/dapp -- next dev",
-    "dev:local": "infisical run --env=dev --path=/packages/dapp -- cross-env USE_LOCAL='true' next dev",
+    "dev:local": "USE_LOCAL=true pnpm next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
     "lint": "biome check .",
     "lint:fix": "biome check --apply .",
     "start": "next start",
     "supabase:generate": "supabase gen types typescript --project-id nqgexdszsnrliuzuobul --schema public > src/utils/supabase/database.types.ts",
-    "start:local": "infisical run --env=dev --path=/packages/dapp -- next start"
+    "start:local": "next start"
   },
   "dependencies": {
     "@blockchain-lab-um/did-provider-key": "1.1.0",
