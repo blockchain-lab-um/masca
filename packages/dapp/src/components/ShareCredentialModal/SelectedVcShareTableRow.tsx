@@ -110,49 +110,51 @@ const SelectedVcShareTableRow = ({
                 Select claims to disclose:
               </label>
               <div className="mt-3 flex flex-wrap justify-center gap-2">
-                {vc.data.disclosures.map((disclosure: Disclosure) => (
-                  <div
-                    key={`${vc.metadata.id}.${disclosure.key}`}
-                    className="flex items-center p-2 bg-white dark:bg-navy-blue-800 rounded-md shadow-sm cursor-pointer transition-all duration-300 hover:shadow-md hover:bg-gray-50 dark:hover:bg-navy-blue-600"
-                    style={{
-                      flex: '0 1 calc(33% - 0.5rem)', // Zmanjšan razmik in širina
-                      maxWidth: '33%',
-                    }}
-                    onClick={() =>
-                      handleDisclosureCheck(
-                        vc.metadata.id,
-                        disclosure.key,
-                        !selectedSdJwtDisclosures.includes(
-                          `${vc.metadata.id}/${disclosure.key}`
-                        )
-                      )
-                    }
-                  >
-                    <input
-                      type="checkbox"
-                      id={`${vc.metadata.id}.${disclosure.key}`}
-                      name={`${vc.metadata.id}.${disclosure.key}`}
-                      checked={selectedSdJwtDisclosures.includes(
-                        `${vc.metadata.id}/${disclosure.key}`
-                      )}
-                      onChange={(e) =>
+                {vc.data.disclosures
+                  .filter((disclosure: Disclosure) => disclosure.key !== 'id')
+                  .map((disclosure: Disclosure) => (
+                    <div
+                      key={`${vc.metadata.id}.${disclosure.key}`}
+                      className="flex items-center p-2 bg-white dark:bg-navy-blue-800 rounded-md shadow-sm cursor-pointer transition-all duration-300 hover:shadow-md hover:bg-gray-50 dark:hover:bg-navy-blue-600"
+                      style={{
+                        flex: '0 1 calc(33% - 0.5rem)', // Zmanjšan razmik in širina
+                        maxWidth: '33%',
+                      }}
+                      onClick={() =>
                         handleDisclosureCheck(
                           vc.metadata.id,
                           disclosure.key,
-                          e.target.checked
+                          !selectedSdJwtDisclosures.includes(
+                            `${vc.metadata.id}/${disclosure.key}`
+                          )
                         )
                       }
-                      className="form-checkbox h-4 w-4 text-blue-600"
-                    />
-                    <label
-                      htmlFor={`${vc.metadata.id}/${disclosure.key}`}
-                      className="ml-2 text-gray-800 dark:text-navy-blue-100 truncate"
-                      title={disclosure.key}
                     >
-                      {disclosure.key}
-                    </label>
-                  </div>
-                ))}
+                      <input
+                        type="checkbox"
+                        id={`${vc.metadata.id}.${disclosure.key}`}
+                        name={`${vc.metadata.id}.${disclosure.key}`}
+                        checked={selectedSdJwtDisclosures.includes(
+                          `${vc.metadata.id}/${disclosure.key}`
+                        )}
+                        onChange={(e) =>
+                          handleDisclosureCheck(
+                            vc.metadata.id,
+                            disclosure.key,
+                            e.target.checked
+                          )
+                        }
+                        className="form-checkbox h-4 w-4 text-blue-600"
+                      />
+                      <label
+                        htmlFor={`${vc.metadata.id}/${disclosure.key}`}
+                        className="ml-2 text-gray-800 dark:text-navy-blue-100 truncate"
+                        title={disclosure.key}
+                      >
+                        {disclosure.key}
+                      </label>
+                    </div>
+                  ))}
               </div>
             </td>
           </tr>

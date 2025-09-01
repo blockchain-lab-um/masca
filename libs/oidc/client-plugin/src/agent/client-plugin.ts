@@ -626,7 +626,10 @@ export class OIDCClientPlugin implements IAgentPlugin {
         : (credential.proof.jwt as string)
     );
 
-    const result = pex.selectFrom(presentationDefinition, decodedCredentials);
+    const result = pex.selectFrom(
+      presentationDefinition as any,
+      decodedCredentials
+    );
 
     if (result.areRequiredCredentialsPresent === 'error') {
       return ResultObject.error(
@@ -654,7 +657,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
     }
 
     const presentationSubmission = pex.presentationSubmissionFrom(
-      presentationDefinition,
+      presentationDefinition as any,
       credentials,
       {
         presentationSubmissionLocation: PresentationSubmissionLocation.EXTERNAL,

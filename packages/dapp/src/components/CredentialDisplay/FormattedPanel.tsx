@@ -7,6 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Tooltip } from '@nextui-org/react';
 import type { VerifiableCredential } from '@veramo/core';
+import type { Disclosure } from '@blockchain-lab-um/masca-connector';
 import clsx from 'clsx';
 import { isAddress } from 'ethers/address';
 import { useTranslations } from 'next-intl';
@@ -124,6 +125,7 @@ const CredentialSubject = ({
 
 const FormattedPanel = ({ credential }: FormattedPanelProps) => {
   const t = useTranslations('FormattedPanel');
+  const tCredentialPanel = useTranslations('CredentialPanel');
   const types = useMemo(() => convertTypes(credential.type), [credential.type]);
 
   const [jsonModalOpen, setJsonModalOpen] = useState(false);
@@ -178,6 +180,38 @@ const FormattedPanel = ({ credential }: FormattedPanelProps) => {
               viewJsonText={t('view-json')}
               selectJsonData={selectJsonData}
             />
+            {Array.isArray(
+              (credential as unknown as { disclosures?: Disclosure[] })
+                .disclosures
+            ) &&
+              ((credential as unknown as { disclosures?: Disclosure[] })
+                .disclosures?.length ?? 0) > 0 && (
+                <div className="mt-4 flex w-full flex-col items-start space-y-2">
+                  <h2 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
+                    {tCredentialPanel('disclosures')}
+                  </h2>
+                  {(
+                    (credential as unknown as { disclosures?: Disclosure[] })
+                      .disclosures || []
+                  )
+                    .filter((d: Disclosure) => d.key !== 'id')
+                    .map((d: Disclosure) => (
+                      <div
+                        key={`disclosure-${d.key}`}
+                        className="flex w-full overflow-clip flex-col items-start space-y-0.5"
+                      >
+                        <div className="flex items-center space-x-2 w-full">
+                          <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
+                            {camelToTitleCase(d.key)}:
+                          </h2>
+                          <div className="text-md dark:text-navy-blue-300 truncate font-normal text-gray-700">
+                            {d.value}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
           </div>
           <div className="flex flex-1">
             <div className="flex flex-col space-y-8">

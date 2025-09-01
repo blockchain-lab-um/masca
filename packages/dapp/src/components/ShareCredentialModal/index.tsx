@@ -123,7 +123,14 @@ export const ShareCredentialModal = () => {
       VerifiablePresentation | SdJwtCredential[]
     >;
 
-    const isSdJwt = selectedProofFormat === 'sd-jwt' && didMethod === 'did:jwk';
+    const allCredentialsHaveEncoded = credentials.every(
+      (credential: any) => typeof (credential as any).encoded === 'string'
+    );
+
+    const isSdJwt =
+      selectedProofFormat === 'sd-jwt' &&
+      (didMethod === 'did:jwk' || didMethod === 'did:key:jwk_jcs-pub') &&
+      allCredentialsHaveEncoded;
     let vcs: { id: string; encodedVc: string }[] = [];
     if (isSdJwt) {
       // Preprocess credentials for creating SD-JWT presentation

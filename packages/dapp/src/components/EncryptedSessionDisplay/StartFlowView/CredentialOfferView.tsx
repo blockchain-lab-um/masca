@@ -76,7 +76,14 @@ export const CredentialOfferView = ({
       }, 200);
 
       // TODO: Handle multiple credentials
-      onCredentialRecieved(handleCredentialOfferResponse.data[0]);
+      const receivedCredential = handleCredentialOfferResponse.data[0];
+
+      // Extract the credential object for SD-JWT credentials
+      const credentialToDisplay = receivedCredential?.credential
+        ? receivedCredential.credential
+        : receivedCredential;
+
+      onCredentialRecieved(credentialToDisplay);
       changeRequest({
         ...request,
         finished: true,

@@ -72,6 +72,7 @@ export type AuthorizationResponse = Omit<
 
 type FormatKeysJwt = 'jwt' | 'jwt_vc' | 'jwt_vp';
 type FormatKeyLdp = 'ldp' | 'ldp_vc' | 'ldp_vp';
+type FormatKeysSdJwt = 'sd-jwt' | 'sd-jwt_vc';
 type JWTAlgorithm = 'ES256K' | 'EdDSA' | 'ES384';
 type LDPAlgorithm =
   | 'JsonWebSignature2020'
@@ -81,6 +82,7 @@ type LDPAlgorithm =
 
 type Format = Partial<
   | Record<FormatKeysJwt, { alg: JWTAlgorithm[] }>
+  | Record<FormatKeysSdJwt, { alg: JWTAlgorithm[] }>
   | Record<FormatKeyLdp, { proof_type: LDPAlgorithm[] }>
 >;
 
