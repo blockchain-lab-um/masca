@@ -683,18 +683,7 @@ class VeramoService {
       '@context': Array.isArray(vc['@context'])
         ? (vc['@context'] as string[])
         : [],
-      credentialSchema:
-        typeof vc.credentialSchema === 'object' && vc.credentialSchema !== null
-          ? {
-              id: (vc.credentialSchema as Record<string, unknown>)
-                ?.id as string,
-              type: (vc.credentialSchema as Record<string, unknown>)
-                ?.type as string,
-            }
-          : {
-              id: '',
-              type: '',
-            },
+      credentialSchema: vc.credentialSchema,
       credentialSubject:
         typeof vc.credentialSubject === 'object' &&
         vc.credentialSubject !== null
