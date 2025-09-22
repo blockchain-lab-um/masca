@@ -50,7 +50,7 @@ export const getDefaultEthConnectionConfig = (
     rpcResponseTimeout: 5000,
     waitReceiptCycleTime: 30000,
     waitBlockCycleTime: 3000,
-    chainId: 80001,
+    chainId: 80002,
   };
 };
 
