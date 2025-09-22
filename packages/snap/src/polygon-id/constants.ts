@@ -7,7 +7,7 @@ import {
 
 export const RHS_URL = 'https://rhs-staging.polygonid.me';
 
-export const POLYGON_MAINNET_RPC_URL = 'https://polygon.llamarpc.com';
+export const POLYGON_MAINNET_RPC_URL = 'https://polygon-rpc.com';
 export const POLYGON_AMOY_RPC_URL =
   'https://polygon-amoy.blockpi.network/v1/rpc/public';
 
