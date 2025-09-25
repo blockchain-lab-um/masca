@@ -43,7 +43,30 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       let data: string | null = null;
 
       try {
+        // Handle new PrivadoID flow with request_uri
         if (
+          decodedText.includes('wallet.privado.id#request_uri=') ||
+          decodedText.includes('iden3comm://?request_uri=')
+        ) {
+          // Extract the URL from the request_uri parameter
+          const urlMatch = decodedText.match(/request_uri=([^&]+)/);
+          if (urlMatch) {
+            const requestUrl = decodeURIComponent(urlMatch[1]);
+
+            // Fetch the actual credential offer/authorization request
+            const response = await fetch(requestUrl);
+            if (!response.ok) {
+              throw new Error(
+                `Failed to fetch request data: ${response.status}`
+              );
+            }
+
+            const requestData = await response.json();
+            data = JSON.stringify(requestData);
+          }
+        }
+        // Handle existing OpenID formats
+        else if (
           decodedText.startsWith('openid-credential-offer://') ||
           decodedText.startsWith('openid://') ||
           decodedText.startsWith('openid4vp://')
@@ -139,7 +162,28 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
     let data: string | null = null;
 
     try {
+      // Handle new PrivadoID flow with request_uri
       if (
+        decodedText.includes('wallet.privado.id#request_uri=') ||
+        decodedText.includes('iden3comm://?request_uri=')
+      ) {
+        // Extract the URL from the request_uri parameter
+        const urlMatch = decodedText.match(/request_uri=([^&]+)/);
+        if (urlMatch) {
+          const requestUrl = decodeURIComponent(urlMatch[1]);
+
+          // Fetch the actual credential offer/authorization request
+          const response = await fetch(requestUrl);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch request data: ${response.status}`);
+          }
+
+          const requestData = await response.json();
+          data = JSON.stringify(requestData);
+        }
+      }
+      // Handle existing OpenID formats
+      else if (
         decodedText.startsWith('openid-credential-offer://') ||
         decodedText.startsWith('openid://') ||
         decodedText.startsWith('openid4vp://')
