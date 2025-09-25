@@ -144,7 +144,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: t('error'),
+            title: e instanceof Error ? e.message : t('error'),
             type: 'error',
             loading: false,
             link: null,
@@ -247,7 +247,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: t('error'),
+          title: e instanceof Error ? e.message : t('error'),
           type: 'error',
           loading: false,
           link: null,
@@ -258,15 +258,32 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
 
   const handleUpload = async (file: File) => {
     try {
-      const scanner = new Html5Qrcode('reader', {
+      // Create a temporary hidden div for the scanner
+      const tempDiv = document.createElement('div');
+      tempDiv.id = 'temp-qr-reader';
+      tempDiv.style.display = 'none';
+      document.body.appendChild(tempDiv);
+
+      // Create scanner instance with the temporary element
+      const scanner = new Html5Qrcode('temp-qr-reader', {
         verbose: false,
       });
 
       if (!scanner) throw new Error("Scanner isn't initialized");
 
       const decodedText = await scanner.scanFile(file, false);
+
+      // Clean up the temporary element
+      document.body.removeChild(tempDiv);
+
       await onScanSuccessQRCode(decodedText, null);
     } catch (error) {
+      console.error('Upload QR code error:', error);
+      // Clean up the temporary element in case of error
+      const tempDiv = document.getElementById('temp-qr-reader');
+      if (tempDiv) {
+        document.body.removeChild(tempDiv);
+      }
       setTimeout(() => {
         useToastStore.setState({
           open: true,
