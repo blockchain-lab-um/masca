@@ -24,7 +24,7 @@ export const chainIdNetworkParamsMapping: Record<string, NetworkParams> = {
   },
   '0x13882': {
     chainId: '0x13882',
-    rpcUrls: ['https://polygon-amoy.blockpi.network/v1/rpc/public'],
+    rpcUrls: ['https://rpc-amoy.polygon.technology/'],
     chainName: 'Polygon Amoy',
     nativeCurrency: {
       name: 'Matic',
