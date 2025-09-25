@@ -120,7 +120,10 @@ export default function NetworkDropDownMenu({
         <div className="flex items-center justify-center">
           {selected && (
             <Image
-              src={items.find((item) => item.name === selected)?.logo ?? ''}
+              src={
+                items.find((item) => item.name === selected)?.logo ??
+                '/images/ethereum_logo.svg'
+              }
               alt={selected}
               style={{
                 width: '100%',
