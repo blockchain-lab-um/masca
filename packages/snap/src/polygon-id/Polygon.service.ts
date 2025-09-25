@@ -429,6 +429,11 @@ class PolygonService {
       ])
     );
 
+    resolvers.register(
+      CredentialStatusType.Iden3commRevocationStatusV1,
+      new RHSResolver(dataStorage.states)
+    );
+
     const credWallet = new CredentialWallet(dataStorage, resolvers);
     const wallet = new IdentityWallet(kms, dataStorage, credWallet);
 
