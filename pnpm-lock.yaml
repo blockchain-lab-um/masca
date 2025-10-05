@@ -327,7 +327,7 @@ importers:
   libs/oidc/client-plugin:
     dependencies:
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.1.0
+        specifier: 0.2.0-beta.0
         version: link:../types
       '@blockchain-lab-um/utils':
         specifier: 1.4.0
@@ -466,7 +466,7 @@ importers:
         specifier: 1.5.0
         version: link:../connector
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.1.0
+        specifier: 0.2.0-beta.0
         version: link:../../libs/oidc/types
       '@headlessui/react':
         specifier: ^2.0.3
@@ -814,10 +814,10 @@ importers:
         specifier: 1.4.0
         version: link:../types
       '@blockchain-lab-um/oidc-client-plugin':
-        specifier: 0.4.0
+        specifier: 0.5.0-beta.0
         version: link:../../libs/oidc/client-plugin
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.1.0
+        specifier: 0.2.0-beta.0
         version: link:../../libs/oidc/types
       '@blockchain-lab-um/utils':
         specifier: 1.4.0

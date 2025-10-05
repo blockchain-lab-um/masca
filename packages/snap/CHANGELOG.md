@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.5.0-beta.0
+
+### Minor Changes
+
+- [#673](https://github.com/blockchain-lab-um/masca/pull/673) [`753bd6b`](https://github.com/blockchain-lab-um/masca/commit/753bd6b7080819ca6617eda1b6e6c9423ed89d7f) Thanks [@pegi4](https://github.com/pegi4)! - SD-JWT improvements and support in OIDC flows
+
+### Patch Changes
+
+- Updated dependencies [[`753bd6b`](https://github.com/blockchain-lab-um/masca/commit/753bd6b7080819ca6617eda1b6e6c9423ed89d7f)]:
+  - @blockchain-lab-um/oidc-client-plugin@0.5.0-beta.0
+  - @blockchain-lab-um/oidc-types@0.2.0-beta.0
+
 ## 1.4.0
 
 ### Minor Changes
