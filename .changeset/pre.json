@@ -15,5 +15,7 @@
     "@blockchain-lab-um/masca": "1.4.0",
     "@blockchain-lab-um/masca-types": "1.4.0"
   },
-  "changesets": []
+  "changesets": [
+    "modern-rabbits-rhyme"
+  ]
 }
