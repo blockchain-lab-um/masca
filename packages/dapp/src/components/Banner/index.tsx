@@ -1,5 +1,3 @@
-import { Link } from '@nextui-org/react';
-
 export default function Banner() {
   return (
     <div className="bg-pink-200 text-center dark:bg-navy-blue-800">

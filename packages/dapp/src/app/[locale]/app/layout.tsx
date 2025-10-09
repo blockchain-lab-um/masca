@@ -1,5 +1,3 @@
-import clsx from 'clsx';
-
 import AppBottomBar from '@/components/AppBottomBar';
 import AppNavbar from '@/components/AppNavbar';
 import { SignInModal } from '@/components/SignInModal';
