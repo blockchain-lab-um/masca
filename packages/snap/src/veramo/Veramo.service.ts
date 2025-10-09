@@ -280,9 +280,14 @@ class VeramoService {
 
     credential.issuer = identifier.did;
 
+    const kid = `${identifier.did}#${identifier.did.split(':')[2]}`;
+
     const vc = await VeramoService.instance.createVerifiableCredential({
       credential: credential as CredentialPayload,
       proofFormat,
+      header: {
+        kid,
+      },
     });
 
     return vc;
