@@ -7,7 +7,7 @@ const contentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-inline' cdn.vercel-insights.com vercel.live accounts.google.com/gsi/client;
   child-src 'none';
-  img-src 'self' assets.vercel.com data:;
+  img-src 'self' assets.vercel.com data: blob:;
   style-src 'self' 'unsafe-inline';
   font-src 'self';
   connect-src *;
