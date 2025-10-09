@@ -1,5 +1,17 @@
 # @blockchain-lab-um/dapp
 
+## 1.6.0-beta.1
+
+### Minor Changes
+
+- [`c388cff`](https://github.com/blockchain-lab-um/masca/commit/c388cffbfb165b2b6c59902d892a7a1b13dddb3b) Thanks [@martines3000](https://github.com/martines3000)! - Update Polygon rpc urls and qrcode support
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @blockchain-lab-um/extended-verification@0.3.1-beta.0
+  - @blockchain-lab-um/masca-connector@1.5.1-beta.0
+
 ## 1.6.0-beta.0
 
 ### Minor Changes
