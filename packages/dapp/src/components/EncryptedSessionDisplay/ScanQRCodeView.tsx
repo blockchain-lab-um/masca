@@ -43,7 +43,30 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       let data: string | null = null;
 
       try {
+        // Handle new PrivadoID flow with request_uri
         if (
+          decodedText.includes('wallet.privado.id#request_uri=') ||
+          decodedText.includes('iden3comm://?request_uri=')
+        ) {
+          // Extract the URL from the request_uri parameter
+          const urlMatch = decodedText.match(/request_uri=([^&]+)/);
+          if (urlMatch) {
+            const requestUrl = decodeURIComponent(urlMatch[1]);
+
+            // Fetch the actual credential offer/authorization request
+            const response = await fetch(requestUrl);
+            if (!response.ok) {
+              throw new Error(
+                `Failed to fetch request data: ${response.status}`
+              );
+            }
+
+            const requestData = await response.json();
+            data = JSON.stringify(requestData);
+          }
+        }
+        // Handle existing OpenID formats
+        else if (
           decodedText.startsWith('openid-credential-offer://') ||
           decodedText.startsWith('openid://') ||
           decodedText.startsWith('openid4vp://')
@@ -121,7 +144,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: t('error'),
+            title: e instanceof Error ? e.message : t('error'),
             type: 'error',
             loading: false,
             link: null,
@@ -139,7 +162,28 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
     let data: string | null = null;
 
     try {
+      // Handle new PrivadoID flow with request_uri
       if (
+        decodedText.includes('wallet.privado.id#request_uri=') ||
+        decodedText.includes('iden3comm://?request_uri=')
+      ) {
+        // Extract the URL from the request_uri parameter
+        const urlMatch = decodedText.match(/request_uri=([^&]+)/);
+        if (urlMatch) {
+          const requestUrl = decodeURIComponent(urlMatch[1]);
+
+          // Fetch the actual credential offer/authorization request
+          const response = await fetch(requestUrl);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch request data: ${response.status}`);
+          }
+
+          const requestData = await response.json();
+          data = JSON.stringify(requestData);
+        }
+      }
+      // Handle existing OpenID formats
+      else if (
         decodedText.startsWith('openid-credential-offer://') ||
         decodedText.startsWith('openid://') ||
         decodedText.startsWith('openid4vp://')
@@ -203,7 +247,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: t('error'),
+          title: e instanceof Error ? e.message : t('error'),
           type: 'error',
           loading: false,
           link: null,
@@ -214,15 +258,32 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
 
   const handleUpload = async (file: File) => {
     try {
-      const scanner = new Html5Qrcode('reader', {
+      // Create a temporary hidden div for the scanner
+      const tempDiv = document.createElement('div');
+      tempDiv.id = 'temp-qr-reader';
+      tempDiv.style.display = 'none';
+      document.body.appendChild(tempDiv);
+
+      // Create scanner instance with the temporary element
+      const scanner = new Html5Qrcode('temp-qr-reader', {
         verbose: false,
       });
 
       if (!scanner) throw new Error("Scanner isn't initialized");
 
       const decodedText = await scanner.scanFile(file, false);
+
+      // Clean up the temporary element
+      document.body.removeChild(tempDiv);
+
       await onScanSuccessQRCode(decodedText, null);
     } catch (error) {
+      console.error('Upload QR code error:', error);
+      // Clean up the temporary element in case of error
+      const tempDiv = document.getElementById('temp-qr-reader');
+      if (tempDiv) {
+        document.body.removeChild(tempDiv);
+      }
       setTimeout(() => {
         useToastStore.setState({
           open: true,

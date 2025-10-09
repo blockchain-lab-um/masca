@@ -7,9 +7,8 @@ import {
 
 export const RHS_URL = 'https://rhs-staging.polygonid.me';
 
-export const POLYGON_MAINNET_RPC_URL = 'https://polygon.llamarpc.com';
-export const POLYGON_AMOY_RPC_URL =
-  'https://polygon-amoy.blockpi.network/v1/rpc/public';
+export const POLYGON_MAINNET_RPC_URL = 'https://polygon-rpc.com';
+export const POLYGON_AMOY_RPC_URL = 'https://rpc-amoy.polygon.technology/';
 
 export const CONTRACT_POLYGON_MAINNET =
   '0x624ce98D2d27b20b8f8d521723Df8fC4db71D79D';
@@ -50,7 +49,7 @@ export const getDefaultEthConnectionConfig = (
     rpcResponseTimeout: 5000,
     waitReceiptCycleTime: 30000,
     waitBlockCycleTime: 3000,
-    chainId: 80001,
+    chainId: 80002,
   };
 };
 
