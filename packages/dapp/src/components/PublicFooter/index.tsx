@@ -23,6 +23,16 @@ export default function PublicFooter({ setIsMenuOpen }: PublicFooterProps) {
           Privacy Policy
         </Link>
         <Link
+          href="/privacy-mobile"
+          onClick={() => {
+            if (setIsMenuOpen) {
+              setIsMenuOpen(false);
+            }
+          }}
+        >
+          Mobile Privacy Policy
+        </Link>
+        <Link
           href="/tos"
           onClick={() => {
             if (setIsMenuOpen) {
