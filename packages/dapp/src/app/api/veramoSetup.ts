@@ -36,6 +36,13 @@ import {
 } from 'ens-did-resolver';
 import { JsonRpcProvider } from 'ethers';
 import { getResolver as didEthrResolver } from 'ethr-did-resolver';
+import {
+  CheqdDIDProvider,
+  getResolver as didCheqdResolver,
+  DefaultRPCUrls,
+  DefaultResolverUrl,
+} from '@cheqd/did-provider-cheqd';
+import { CheqdNetwork } from '@cheqd/sdk';
 
 export type Agent = TAgent<
   IDIDManager &
@@ -90,6 +97,18 @@ export const getAgent = async (): Promise<Agent> => {
             defaultKms: 'local',
             chainId: '0x01',
           }),
+          'did:cheqd:mainnet': new CheqdDIDProvider({
+            defaultKms: 'local',
+            networkType: CheqdNetwork.Mainnet,
+            rpcUrl: DefaultRPCUrls.mainnet,
+            cosmosPayerSeed: process.env.FEE_PAYER_MNEMONIC || '',
+          }),
+          'did:cheqd:testnet': new CheqdDIDProvider({
+            defaultKms: 'local',
+            networkType: CheqdNetwork.Testnet,
+            rpcUrl: DefaultRPCUrls.testnet,
+            cosmosPayerSeed: process.env.FEE_PAYER_MNEMONIC || '',
+          }),
         },
       }),
       new KeyManager({
@@ -106,6 +125,7 @@ export const getAgent = async (): Promise<Agent> => {
           ...didEnsResolver({
             networks: networks as unknown as ProviderConfiguration[],
           }),
+          ...didCheqdResolver({ url: DefaultResolverUrl }),
         }),
       }),
     ],

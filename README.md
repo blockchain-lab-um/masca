@@ -37,7 +37,7 @@ Masca enables everyone to build their <b>decentralized and self-sovereign identi
 Masca is built agnostic, leaving the user to choose his preferred **blockchain, DID method, protocol, and data store.** Everything is configurable, just like selecting the network in MetaMask. Currently supported technologies:
 
 - **Blockchains:** EVM blockchains supported by integrated DID methods
-- **DID methods:** `did:ethr`, `did:key`, `did:key (EBSI)` `did:pkh`, `did:jwk`, `did:polygonid`, `did:iden3`
+- **DID methods:** `did:ethr`, `did:key`, `did:key (EBSI)` `did:pkh`, `did:jwk`, `did:polygonid`, `did:iden3`, `did:cheqd`
 - **Protocols**: OpenID Connect, Polygon ID
 - **Credentials and Presentations:** Create & Verify Credentials/Presentations
 - **Data stores:** MetaMask Snap state (local & encrypted), Ceramic Network
