@@ -16,6 +16,7 @@
     "@blockchain-lab-um/masca-types": "1.4.0"
   },
   "changesets": [
-    "modern-rabbits-rhyme"
+    "modern-rabbits-rhyme",
+    "six-knives-do"
   ]
 }

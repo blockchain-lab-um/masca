@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/extended-verification",
-  "version": "0.3.0",
+  "version": "0.3.1-beta.0",
   "private": false,
   "description": "",
   "keywords": [],
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/did-provider-key": "1.1.0",
-    "@blockchain-lab-um/masca-types": "1.4.0",
+    "@blockchain-lab-um/masca-types": "1.5.0-beta.0",
     "@blockchain-lab-um/utils": "1.4.0",
     "@cef-ebsi/ebsi-did-resolver": "^3.2.0",
     "@sd-jwt/crypto-nodejs": "^0.7.2",

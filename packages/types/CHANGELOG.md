@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.0-beta.0
+
+### Minor Changes
+
+- [`c388cff`](https://github.com/blockchain-lab-um/masca/commit/c388cffbfb165b2b6c59902d892a7a1b13dddb3b) Thanks [@martines3000](https://github.com/martines3000)! - Update Polygon rpc urls and qrcode support
+
 ## 1.4.0
 
 ### Minor Changes
